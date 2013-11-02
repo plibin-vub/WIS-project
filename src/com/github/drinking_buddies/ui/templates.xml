@@ -27,12 +27,12 @@
 		<a target="_blank" href="${find-bars-url}">${find-bars-text}</a>
 		<div class="div-row">
 			<table>
-			<tr>
-				<td>${tr:beer-form.tags}:</td> <td>${tags}</td>
-			</tr>
-			<tr>
-				<td></td> <td>${add-tag}</td>
-			</tr>
+				<tr>
+					<td>${tr:beer-form.tags}:</td> <td>${tags}</td>
+				</tr>
+				<tr>
+					<td></td> <td>${add-tag}</td>
+				</tr>
 			</table>
 		</div>
 	</message>
