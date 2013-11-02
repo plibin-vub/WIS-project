@@ -7,6 +7,7 @@ import com.github.drinking_buddies.ui.utils.ImageUtils;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
 import eu.webtoolkit.jwt.Signal1;
+import eu.webtoolkit.jwt.Utils;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WImage;
 import eu.webtoolkit.jwt.WLink;
@@ -53,6 +54,10 @@ public class BeerForm extends WContainerWidget {
         });
         main.bindWidget("add-to-favorites", addToFavorites);
         
+        //set the url and text, used in the "in which bars can I find beer-xxx" anchor
+        main.bindString("find-bars-url", Application.getInstance().resolveRelativeUrl("/find-bars-with-beer/" + beer.getName()));
+        main.bindString("find-bars-text", tr("beer-form.in-which-bar-can-i-find").arg(beer.getName()));
+               
         //add tagwidgets to the main template
         WContainerWidget tagContainer = new WContainerWidget();
         for (Tag t : tags) {

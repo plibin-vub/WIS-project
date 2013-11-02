@@ -24,6 +24,7 @@
 			<span>TODO: facebook share</span>
 			${add-to-favorites}
 		</div>
+		<a target="_blank" href="${find-bars-url}">${find-bars-text}</a>
 		<div class="div-row">
 			<table>
 			<tr>

@@ -8,4 +8,5 @@
 	<message id="beer-form.add-to-favorites">Add to favorites</message>
 	<message id="beer-form.tags">Tags</message>
 	<message id="beer-form.add-tag">Add tag</message>
+	<message id="beer-form.in-which-bar-can-i-find">In which bars can I find {1}</message>
 </messages>
