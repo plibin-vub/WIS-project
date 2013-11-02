@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messages>
+	<message id="app.title">Drinking Buddies</message>
+	
+	<message id="beer-form.brewed-by">Brewed by</message>
+	<message id="beer-form.likes">Likes</message>
+	<message id="beer-form.score">Score</message>
+	<message id="beer-form.add-to-favorites">Add to favorites</message>
+</messages>

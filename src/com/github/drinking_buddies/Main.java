@@ -13,6 +13,6 @@ public class Main extends WtServlet {
 
     @Override
     public WApplication createApplication(WEnvironment env) {
-        return new Application(env);
+        return new Application(env, this.getServletContext());
     }
 }

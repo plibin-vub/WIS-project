@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messages>
+	<message id="beer-form">
+		<div class="header">
+			<img src="${app.context}/pics/header.png" alt="Header image"></img>
+		</div>
+		<div class="div-row">
+			<table>
+				<tr>
+					<td>
+						<div>${beer}</div>
+						<div>${tr:beer-form.brewed-by}: ${brewery}</div>
+						<div>${tr:beer-form.likes}: ${likes}</div>
+						<div>${tr:beer-form.score}: ${score} / ${highest-score}</div>
+					</td>
+					<td>
+						${picture}
+					</td>
+				</tr>
+			</table>	
+		</div>
+		<div class="div-row">
+			<span>TODO: facebook like</span>
+			<span>TODO: facebook share</span>
+			${add-to-favorites}
+		</div>
+	</message>
+</messages>
