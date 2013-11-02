@@ -19,7 +19,7 @@
 
   <servlet-mapping>
     <servlet-name>DrinkingBuddies</servlet-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/db/*</url-pattern>
   </servlet-mapping>
 </web-app>
 
