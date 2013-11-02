@@ -6,4 +6,6 @@
 	<message id="beer-form.likes">Likes</message>
 	<message id="beer-form.score">Score</message>
 	<message id="beer-form.add-to-favorites">Add to favorites</message>
+	<message id="beer-form.tags">Tags</message>
+	<message id="beer-form.add-tag">Add tag</message>
 </messages>

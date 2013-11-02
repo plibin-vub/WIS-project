@@ -2,6 +2,7 @@ package com.github.drinking_buddies.ui;
 
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.entities.Beer;
+import com.github.drinking_buddies.entities.Tag;
 import com.github.drinking_buddies.ui.utils.ImageUtils;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
@@ -21,8 +22,8 @@ import eu.webtoolkit.jwt.WTemplate;
  */
 public class BeerForm extends WContainerWidget {
     private static final int highestScore = 5;
-    
-    public BeerForm(Beer beer) {
+  
+    public BeerForm(Beer beer, Iterable<Tag> tags) {
         //the main template for the beer form 
         //(a WTemplate constructor accepts the template text and its parent)
         WTemplate main = new WTemplate(tr("beer-form"), this);
@@ -51,5 +52,24 @@ public class BeerForm extends WContainerWidget {
             }
         });
         main.bindWidget("add-to-favorites", addToFavorites);
+        
+        //add tagwidgets to the main template
+        WContainerWidget tagContainer = new WContainerWidget();
+        for (Tag t : tags) {
+            new TagWidget(t.getText(), tagContainer);
+        }
+        main.bindWidget("tags", tagContainer);
+        
+        //add the "add tag" button to the main template
+        WPushButton addTag = new WPushButton(tr("beer-form.add-tag"));
+        //connect a listener to the button
+        addTag.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
+            public void trigger(WMouseEvent arg) {
+                //TODO
+                //show a form that allows user to choose an existing tag
+                //or add a new tag to the database
+            }
+        });
+        main.bindWidget("add-tag", addTag);
     }
 }

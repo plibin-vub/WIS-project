@@ -1,9 +1,13 @@
 package com.github.drinking_buddies;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletContext;
 
 import com.github.drinking_buddies.entities.Beer;
 import com.github.drinking_buddies.entities.Image;
+import com.github.drinking_buddies.entities.Tag;
 import com.github.drinking_buddies.ui.BeerForm;
 import com.github.drinking_buddies.ui.utils.EncodingUtils;
 
@@ -67,8 +71,12 @@ public class Application extends WApplication {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Beer b = new Beer("Westmalle tripple", "Westmalle klooster", 32, 4.5, i);
-                getRoot().addWidget(new BeerForm(b));
+                Beer b = new Beer("Westmalle tripple", "Westmalle kList<A>ter", 32, 4.5, i);
+                final List<Tag> tags = new ArrayList<Tag>();
+                tags.add(new Tag("belgian"));
+                tags.add(new Tag("9deg"));
+                tags.add(new Tag("fermented in bottles"));
+                getRoot().addWidget(new BeerForm(b, tags));
             } else {
                 //show the beer selection form
             }
