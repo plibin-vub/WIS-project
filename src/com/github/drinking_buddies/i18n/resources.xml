@@ -9,4 +9,13 @@
 	<message id="beer-form.tags">Tags</message>
 	<message id="beer-form.add-tag">Add tag</message>
 	<message id="beer-form.in-which-bar-can-i-find">In which bars can I find {1}</message>
+	
+	<message id="review.average-score">Score</message>
+	<message id="review.posted-by">Posted by</message>
+	<message id="review.color">Color</message>
+	<message id="review.smell">Smell</message>
+	<message id="review.taste">Taste</message>
+	<message id="review.feel">Feel</message>
+	<message id="review.expand/comment">Expand/Comment</message>
+	<message id="review.collapse">Collapse</message>
 </messages>

@@ -40,4 +40,26 @@
 	<message id="tag">
 		<div class="tag">${text}</div>
 	</message>
+	
+	<message id="review">
+		<div class="review">
+			<div class="div-row">
+				<div class="average-score">${tr:review.average-score}:${average-score}</div>
+				<div class="poster">${tr:review.posted-by}: ${poster}</div>
+			</div>
+			<div class="div-row">
+				<div class="score">${tr:review.color}:${color-score}</div>
+				<div class="score">${tr:review.smell}:${smell-score}</div>
+				<div class="score">${tr:review.taste}:${taste-score}</div>
+				<div class="score">${tr:review.feel}:${feel-score}</div>
+			</div>
+			<div class="div-row">${text}</div>
+			<div class="div-row">${control}</div>
+			<div class="div-row">${comments}</div>
+		</div>
+	</message>
+	
+	<message id=ellipsis>
+		<span>...</span>
+	</message>
 </messages>
