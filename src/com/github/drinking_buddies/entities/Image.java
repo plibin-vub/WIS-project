@@ -1,5 +1,10 @@
 package com.github.drinking_buddies.entities;
 
+/**
+ * An image data entity
+ * 
+ * @author plibin0
+ */
 public class Image {
     private byte[] data;
     private String mimetype;

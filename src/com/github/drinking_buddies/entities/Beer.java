@@ -1,5 +1,10 @@
 package com.github.drinking_buddies.entities;
 
+/**
+ * A beer data entity
+ * 
+ * @author plibin0
+ */
 public class Beer {
     private String name;
     private String brewery;
