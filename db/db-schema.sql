@@ -13,8 +13,8 @@ CREATE TABLE DrinkingBuddies.User(
 );
 
 CREATE TABLE DrinkingBuddies.Buddy (
-   Id_user 	INTEGER,
-   Id_buddy 	INTEGER,
+   id_user 	INTEGER,
+   id_buddy 	INTEGER,
    FOREIGN KEY(id_user) REFERENCES User(id),
    FOREIGN KEY(id_buddy) REFERENCES User(id)
 );
@@ -40,8 +40,8 @@ CREATE TABLE DrinkingBuddies.Address(
 );
 
 CREATE TABLE DrinkingBuddies.FavoriteBar (
-   Id_user 	INTEGER,
-   Id_bar 	INTEGER,
+   id_user 	INTEGER,
+   id_bar 	INTEGER,
    FOREIGN KEY(id_user) REFERENCES User(id),
    FOREIGN KEY(id_bar) REFERENCES Bar(id)
 );
