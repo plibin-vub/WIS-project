@@ -1,4 +1,4 @@
-CREATE TABLE DrinkingBuddies.User(
+CREATE TABLE User(
    id 			INTEGER 	PRIMARY KEY,
    name 		TEXT		NOT NULL,
    facebookname 	TEXT,
@@ -12,14 +12,14 @@ CREATE TABLE DrinkingBuddies.User(
    picture		BLOB
 );
 
-CREATE TABLE DrinkingBuddies.Buddy (
+CREATE TABLE Buddy (
    id_user 	INTEGER,
    id_buddy 	INTEGER,
    FOREIGN KEY(id_user) REFERENCES User(id),
    FOREIGN KEY(id_buddy) REFERENCES User(id)
 );
 
-CREATE TABLE DrinkingBuddies.Bar(
+CREATE TABLE Bar(
    id 		INTEGER 	PRIMARY KEY,
    name 	TEXT		NOT NULL,
    photo	BLOB,
@@ -30,7 +30,7 @@ CREATE TABLE DrinkingBuddies.Bar(
    FOREIGN KEY(id_address) REFERENCES Address(id)
 );
 
-CREATE TABLE DrinkingBuddies.Address(
+CREATE TABLE Address(
    id		INTEGER		PRIMARY KEY,
    street 	TEXT,
    number	TEXT,
@@ -39,34 +39,34 @@ CREATE TABLE DrinkingBuddies.Address(
    country 	TEXT
 );
 
-CREATE TABLE DrinkingBuddies.FavoriteBar (
+CREATE TABLE FavoriteBar (
    id_user 	INTEGER,
    id_bar 	INTEGER,
    FOREIGN KEY(id_user) REFERENCES User(id),
    FOREIGN KEY(id_bar) REFERENCES Bar(id)
 );
 
-CREATE TABLE DrinkingBuddies.Beer(
+CREATE TABLE Beer(
    id 			INTEGER 	PRIMARY KEY,
    name 		TEXT		NOT NULL,
    webservice_name	TEXT
 );
 
-CREATE TABLE DrinkingBuddies.FavoriteBeer (
+CREATE TABLE FavoriteBeer (
    id_user 	INTEGER,
    id_beer 	INTEGER,
    FOREIGN KEY(id_user) REFERENCES User(id),
    FOREIGN KEY(id_beer) REFERENCES Beer(id)
 );
 
-CREATE TABLE DrinkingBuddies.BeerBar (
+CREATE TABLE BeerBar (
    id_beer 	INTEGER,
    id_bar 	INTEGER,
    FOREIGN KEY(id_beer) REFERENCES Beer(id),
    FOREIGN KEY(id_bar) REFERENCES Bar(id)
 );
 
-CREATE TABLE DrinkingBuddies.Review (
+CREATE TABLE Review (
    id			INTEGER		PRIMARY KEY,
    id_beer 		INTEGER,
    id_user		INTEGER,
@@ -80,7 +80,7 @@ CREATE TABLE DrinkingBuddies.Review (
    FOREIGN KEY(id_user) REFERENCES User(id)
 );
 
-CREATE TABLE DrinkingBuddies.ReviewComment (
+CREATE TABLE ReviewComment (
    id		INTEGER		PRIMARY KEY,
    id_review 	INTEGER,
    id_user	INTEGER,
@@ -90,32 +90,32 @@ CREATE TABLE DrinkingBuddies.ReviewComment (
    FOREIGN KEY(id_user) REFERENCES User(id)
 );
 
-CREATE TABLE DrinkingBuddies.BeerTag (
+CREATE TABLE BeerTag (
    name		TEXT		PRIMARY KEY
 );
 
-CREATE TABLE DrinkingBuddies.Beer_BeerTag (
+CREATE TABLE Beer_BeerTag (
    beertag 	TEXT,
    id_beer 	INTEGER,
    FOREIGN KEY(beertag) REFERENCES BeerTag(name),
    FOREIGN KEY(id_beer) REFERENCES Beer(id)
 );
 
-CREATE TABLE DrinkingBuddies.BarComment (
+CREATE TABLE BarComment (
    id		INTEGER		PRIMARY KEY,
    id_user	INTEGER		NOT NULL,
    text		TEXT,
    timestamp	CHAR(16)
 );
 
-CREATE TABLE DrinkingBuddies.Bar_BarComment (
+CREATE TABLE Bar_BarComment (
    id_barcomment	INTEGER,
    id_bar 		INTEGER,
    FOREIGN KEY(id_barcomment) REFERENCES BarComment(id),
    FOREIGN KEY(id_bar) REFERENCES Bar(id)
 );
 
-CREATE TABLE DrinkingBuddies.BarScore (
+CREATE TABLE BarScore (
    Id		INTEGER		PRIMARY KEY,
    score	INTEGER,
    post_time	CHAR(16),
@@ -123,7 +123,7 @@ CREATE TABLE DrinkingBuddies.BarScore (
    FOREIGN KEY (user_id) REFERENCES User(id)
 );
 
-CREATE TABLE DrinkingBuddies.Bar_BarScore (
+CREATE TABLE Bar_BarScore (
    bar_id	INTEGER,
    barScore_id	INTEGER,
    FOREIGN KEY (bar_id) REFERENCES Bar(id),
