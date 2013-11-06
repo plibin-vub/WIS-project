@@ -24,7 +24,7 @@ CREATE TABLE Bar(
    name 	TEXT		NOT NULL,
    photo	BLOB,
    website 	TEXT,
-   id_address	INTEGER,
+   id_address	INTEGER		NOT NULL,
    location_x 	REAL,
    location_y 	REAL,
    FOREIGN KEY(id_address) REFERENCES Address(id)
