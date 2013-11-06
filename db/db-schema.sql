@@ -1,7 +1,7 @@
 CREATE TABLE User(
    id 			INTEGER 	PRIMARY KEY,
    name 		TEXT		NOT NULL,
-   facebookname 	TEXT,
+   facebook_name 	TEXT,
    email 		TEXT,
    city 		TEXT,
    country 		TEXT,
@@ -49,7 +49,7 @@ CREATE TABLE FavoriteBar (
 CREATE TABLE Beer(
    id 			INTEGER 	PRIMARY KEY,
    name 		TEXT		NOT NULL,
-   webservice_name	TEXT
+   webservice_name	TEXT		NOT NULL
 );
 
 CREATE TABLE FavoriteBeer (
@@ -59,7 +59,7 @@ CREATE TABLE FavoriteBeer (
    FOREIGN KEY(id_beer) REFERENCES Beer(id)
 );
 
-CREATE TABLE BeerBar (
+CREATE TABLE Beer_Bar (
    id_beer 	INTEGER,
    id_bar 	INTEGER,
    FOREIGN KEY(id_beer) REFERENCES Beer(id),
@@ -116,7 +116,7 @@ CREATE TABLE Bar_BarComment (
 );
 
 CREATE TABLE BarScore (
-   Id		INTEGER		PRIMARY KEY,
+   id		INTEGER		PRIMARY KEY,
    score	INTEGER,
    post_time	CHAR(16),
    user_id	INTEGER,
