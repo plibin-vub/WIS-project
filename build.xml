@@ -56,4 +56,17 @@
       <classes dir="${build.dir}"/>
     </war>
   </target>
+
+	<target name="generate-jooq-classes">
+		<java fork="true" classname="org.jooq.util.GenerationTool">
+			<arg value="/code-gen.xml"/>
+			<classpath>
+				<pathelement location="${lib.dir}/jooq/jooq-codegen-3.2.0.jar"/>
+				<pathelement location="${lib.dir}/jooq/jooq-meta-3.2.0.jar"/>
+				<pathelement location="${lib.dir}/jooq/jooq-3.2.0.jar"/>
+				<pathelement location="${lib.dir}/sqlite/sqlite-jdbc-3.7.2.jar"/>
+				<pathelement location="db/jooq/"/>
+			</classpath>
+		</java>
+	</target>
 </project>
