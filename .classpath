@@ -20,5 +20,9 @@
 	<classpathentry kind="lib" path="lib/jwt/vt-password/vt-crypt-2.1.4.jar"/>
 	<classpathentry kind="lib" path="lib/jwt/vt-password/vt-dictionary-3.0.jar"/>
 	<classpathentry kind="lib" path="lib/jwt/vt-password/vt-password-3.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/jooq/jooq-3.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/jooq/jooq-codegen-3.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/jooq/jooq-meta-3.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/sqlite/sqlite-jdbc-3.7.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
