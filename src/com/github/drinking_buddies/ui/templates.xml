@@ -67,4 +67,12 @@
 	<message id="ellipsis">
 		<span>...</span>
 	</message>
+	
+	<message id="add-tag-dialog">
+		<div class="dialog">
+			<div class="div-row">${type-combo}</div>
+			<div class="div-row">${variable-field}</div>
+			<div class="controls">${ok} ${cancel}</div>
+		</div>
+	</message>
 </messages>
