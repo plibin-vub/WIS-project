@@ -123,7 +123,7 @@ public class Application extends WApplication {
         return configuration;
     }
     
-    public Connection getDatabaseConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         Database db = configuration.getDatabase();
         
         try {
@@ -132,5 +132,18 @@ public class Application extends WApplication {
             throw new RuntimeException(e);
         }
         return DriverManager.getConnection(db.getJdbcUrl(), db.getUserName(), db.getPassword());
+    }
+    
+    public void closeConnection(Connection conn) {
+        try {
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public DSLContext createDSLContext(Connection conn) {
+        return DSL.using(conn, SQLDialect.SQLITE);
     }
 }
