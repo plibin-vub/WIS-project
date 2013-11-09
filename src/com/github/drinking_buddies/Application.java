@@ -71,7 +71,7 @@ public class Application extends WApplication {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Beer b = new Beer("Westmalle tripple", "Westmalle kList<A>ter", 32, 4.5, i);
+                Beer b = new Beer("Westmalle tripple", "Westmalle klooster", 32, 4.5, i);
                 final List<Tag> tags = new ArrayList<Tag>();
                 tags.add(new Tag("belgian"));
                 tags.add(new Tag("9deg"));
