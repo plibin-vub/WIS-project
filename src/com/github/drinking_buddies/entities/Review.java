@@ -5,16 +5,18 @@ import java.util.Date;
 public class Review {
     public static final int highestScore = 5;
     
-    private double colorScore;
-    private double smellScore;
-    private double tasteScore;
-    private double feelScore;
+    private int id;
+    private float colorScore;
+    private float smellScore;
+    private float tasteScore;
+    private float feelScore;
     private String text;
     private Poster poster;
     private Date postDate;
     
-    public Review(double colorScore, double smellScore, double tasteScore,
-            double feelScore, String text, Poster poster, Date postDate) {
+    public Review(int id, float colorScore, float smellScore, float tasteScore,
+            float feelScore, String text, Poster poster, Date postDate) {
+        this.id = id;
         this.colorScore = colorScore;
         this.smellScore = smellScore;
         this.tasteScore = tasteScore;
@@ -24,23 +26,27 @@ public class Review {
         this.postDate = postDate;
     }
     
-    public double getColorScore() {
+    public int getId() {
+        return id;
+    }
+    
+    public float getColorScore() {
         return colorScore;
     }
     
-    public double getSmellScore() {
+    public float getSmellScore() {
         return smellScore;
     }
     
-    public double getTasteScore() {
+    public float getTasteScore() {
         return tasteScore;
     }
     
-    public double getFeelScore() {
+    public float getFeelScore() {
         return feelScore;
     }
     
-    public double getAverageScore() {
+    public float getAverageScore() {
         return (colorScore + smellScore + tasteScore + feelScore) / 4;
     }
     

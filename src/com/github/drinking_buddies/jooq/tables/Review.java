@@ -11,7 +11,7 @@ package com.github.drinking_buddies.jooq.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Review extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jooq.tables.records.ReviewRecord> {
 
-	private static final long serialVersionUID = -1179077399;
+	private static final long serialVersionUID = -950416309;
 
 	/**
 	 * The singleton instance of <code>review</code>
@@ -44,22 +44,22 @@ public class Review extends org.jooq.impl.TableImpl<com.github.drinking_buddies.
 	/**
 	 * The column <code>review.visual_score</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.ReviewRecord, java.lang.Integer> VISUAL_SCORE = createField("visual_score", org.jooq.impl.SQLDataType.INTEGER, this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.ReviewRecord, java.lang.Float> VISUAL_SCORE = createField("visual_score", org.jooq.impl.SQLDataType.REAL, this);
 
 	/**
 	 * The column <code>review.smell_score</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.ReviewRecord, java.lang.Integer> SMELL_SCORE = createField("smell_score", org.jooq.impl.SQLDataType.INTEGER, this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.ReviewRecord, java.lang.Float> SMELL_SCORE = createField("smell_score", org.jooq.impl.SQLDataType.REAL, this);
 
 	/**
 	 * The column <code>review.taste_score</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.ReviewRecord, java.lang.Integer> TASTE_SCORE = createField("taste_score", org.jooq.impl.SQLDataType.INTEGER, this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.ReviewRecord, java.lang.Float> TASTE_SCORE = createField("taste_score", org.jooq.impl.SQLDataType.REAL, this);
 
 	/**
 	 * The column <code>review.feel_score</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.ReviewRecord, java.lang.Integer> FEEL_SCORE = createField("feel_score", org.jooq.impl.SQLDataType.INTEGER, this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.ReviewRecord, java.lang.Float> FEEL_SCORE = createField("feel_score", org.jooq.impl.SQLDataType.REAL, this);
 
 	/**
 	 * The column <code>review.text</code>. 

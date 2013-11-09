@@ -2,6 +2,7 @@ package com.github.drinking_buddies.ui;
 
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.entities.Beer;
+import com.github.drinking_buddies.entities.Review;
 import com.github.drinking_buddies.entities.Tag;
 import com.github.drinking_buddies.ui.utils.ImageUtils;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
@@ -84,8 +85,13 @@ public class BeerForm extends WContainerWidget {
         //connect a listener to the button
         addReview.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
             public void trigger(WMouseEvent arg) {
-                //TODO
-                //show a form that allows user to add a review
+                AddReviewDialog dialog = new AddReviewDialog(beer, BeerForm.this);
+                dialog.reviewAdded().addListener(BeerForm.this, new Signal1.Listener<Review>() {
+                    public void trigger(Review tag) {
+                        
+                    }
+                });
+                dialog.show();
             }
         });
         main.bindWidget("add-review", addReview);
