@@ -93,7 +93,7 @@ CREATE TABLE review_comment (
 
 CREATE TABLE beer_tag (
    id 				INTEGER 	PRIMARY KEY,
-   name				TEXT		
+   name				TEXT		UNIQUE	
 );
 
 CREATE TABLE beer2_beer_tag (
