@@ -3,12 +3,13 @@
 	<message id="app.title">Drinking Buddies</message>
 	
 	<message id="beer-form.brewed-by">Brewed by</message>
-	<message id="beer-form.likes">Likes</message>
+	<message id="beer-form.favored-by">Favored by</message>
 	<message id="beer-form.score">Score</message>
 	<message id="beer-form.add-to-favorites">Add to favorites</message>
 	<message id="beer-form.tags">Tags</message>
 	<message id="beer-form.add-tag">Add tag</message>
 	<message id="beer-form.in-which-bar-can-i-find">In which bars can I find {1}</message>
+	<message id="beer-form.reviews">Reviews</message>
 	
 	<message id="review.average-score">Score</message>
 	<message id="review.posted-by">Posted by</message>

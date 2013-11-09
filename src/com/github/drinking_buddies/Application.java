@@ -1,10 +1,25 @@
 package com.github.drinking_buddies;
 
+import static com.github.drinking_buddies.jooq.Tables.*;
+
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
 
+import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.Record1;
+import org.jooq.Result;
+import org.jooq.SQLDialect;
+import org.jooq.impl.DSL;
+
+import com.github.drinking_buddies.config.Configuration;
+import com.github.drinking_buddies.config.Database;
 import com.github.drinking_buddies.entities.Beer;
 import com.github.drinking_buddies.entities.Image;
 import com.github.drinking_buddies.entities.Tag;
@@ -12,6 +27,8 @@ import com.github.drinking_buddies.entities.User;
 import com.github.drinking_buddies.ui.BeerForm;
 import com.github.drinking_buddies.ui.UserForm;
 import com.github.drinking_buddies.ui.utils.EncodingUtils;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WApplication;
@@ -21,6 +38,7 @@ import eu.webtoolkit.jwt.WXmlLocalizedStrings;
 
 public class Application extends WApplication {
     private ServletContext servletContext;
+    private Configuration configuration;
     
     public Application(WEnvironment env, ServletContext servletContext) {
         super(env);
@@ -40,6 +58,13 @@ public class Application extends WApplication {
                 handleInternalPath(internalPath);
             }            
         });
+
+        XStream xstream = new XStream(new DomDriver()); 
+        xstream.alias("configuration", Configuration.class);
+        xstream.alias("database", Database.class);
+        //TODO: allow for the configuration of this file location
+        configuration = (Configuration) xstream.fromXML(new File("./drinking-buddies-config.xml"));
+        System.err.println(configuration.getDatabase().getJdbcUrl());
         
         handleInternalPath(getInternalPath());
     }
@@ -73,11 +98,59 @@ public class Application extends WApplication {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Beer b = new Beer("Westmalle tripple", "Westmalle kList<A>ter", 32, 4.5, i);
-                final List<Tag> tags = new ArrayList<Tag>();
-                tags.add(new Tag("belgian"));
-                tags.add(new Tag("9deg"));
-                tags.add(new Tag("fermented in bottles"));
+                
+                final String beerURL = parts[1];
+                
+                String beerName = null;
+                String beerWSName = null;
+                int favoredBy = 0;
+                List<Tag> tags = new ArrayList<Tag>();
+                
+                Connection conn = null;
+                try {
+                    conn = this.getConnection();
+                    DSLContext dsl = createDSLContext(conn);
+                    
+                    Integer id = null;
+                    
+                    Record r 
+                        = dsl
+                            .select(BEER.ID, BEER.NAME, BEER.WEBSERVICE_NAME)
+                            .from(BEER)
+                            .where(BEER.URL.eq(beerURL))
+                            .fetchOne();
+                    id = r.getValue(BEER.ID);
+                    beerName = r.getValue(BEER.NAME);
+                    beerWSName = r.getValue(BEER.WEBSERVICE_NAME);
+                    
+                    favoredBy
+                        = dsl
+                            .select()
+                            .from(FAVORITE_BEER)
+                            .where(FAVORITE_BEER.BEER_ID.equal(id))
+                            .fetchCount();
+                    
+                    Result<Record1<String>> results 
+                        = dsl
+                            .select(BEER_TAG.NAME)
+                            .from(BEER_TAG)
+                            .join(BEER2_BEER_TAG)
+                            .on(BEER_TAG.ID.equal(BEER2_BEER_TAG.BEER_TAG_ID))
+                            .where(BEER2_BEER_TAG.BEER_ID.equal(id))
+                            .orderBy(BEER_TAG.ID)
+                            .fetch();
+                 
+                    for (Record1<String> r1 : results) {
+                        tags.add(new Tag(r1.value1()));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                } finally {
+                    closeConnection(conn);
+                }
+                
+                Beer b = new Beer(beerName, "Westmalle klooster", favoredBy, 4.5, i);
                 getRoot().addWidget(new BeerForm(b, tags));
             } else {
                 //show the beer selection form
@@ -100,5 +173,33 @@ public class Application extends WApplication {
     
     public ServletContext getServletContext() {
         return servletContext;
+    }
+    
+    public Configuration getConfiguration() {
+        return configuration;
+    }
+    
+    public Connection getConnection() throws SQLException {
+        Database db = configuration.getDatabase();
+        
+        try {
+            Class.forName("org.sqlite.JDBC").newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return DriverManager.getConnection(db.getJdbcUrl(), db.getUserName(), db.getPassword());
+    }
+    
+    public void closeConnection(Connection conn) {
+        try {
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public DSLContext createDSLContext(Connection conn) {
+        return DSL.using(conn, SQLDialect.SQLITE);
     }
 }

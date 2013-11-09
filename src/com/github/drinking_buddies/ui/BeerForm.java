@@ -32,7 +32,7 @@ public class BeerForm extends WContainerWidget {
         //we bind to some of the template's variables
         main.bindString("beer", beer.getName());
         main.bindString("brewery", beer.getBrewery());
-        main.bindInt("likes", beer.getLikes());
+        main.bindInt("favored-by", beer.getFavoredBy());
         main.bindString("score", String.valueOf(beer.getScore()));
         main.bindInt("highest-score", highestScore);
         //we bind the beer's picture to the template
@@ -76,5 +76,16 @@ public class BeerForm extends WContainerWidget {
             }
         });
         main.bindWidget("add-tag", addTag);
+        
+        //add the "add review" button to the main template
+        WPushButton addReview = new WPushButton(tr("beer-form.add-review"));
+        //connect a listener to the button
+        addReview.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
+            public void trigger(WMouseEvent arg) {
+                //TODO
+                //show a form that allows user to add a review
+            }
+        });
+        main.bindWidget("add-review", addReview);
     }
 }

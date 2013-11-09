@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration>
+  <database>
+    <jdbcUrl>jdbc:sqlite:./DrinkingBuddies.db</jdbcUrl>
+    <userName></userName>
+    <password></password>
+  </database>
+</configuration>

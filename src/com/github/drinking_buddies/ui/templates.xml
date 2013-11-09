@@ -11,7 +11,7 @@
 					<td>
 						<div>${beer}</div>
 						<div>${tr:beer-form.brewed-by}: ${brewery}</div>
-						<div>${tr:beer-form.likes}: ${likes}</div>
+						<div>${tr:beer-form.favored-by}: ${favored-by}</div>
 						<div>${tr:beer-form.score}: ${score} / ${highest-score}</div>
 					</td>
 					<td>
@@ -35,6 +35,11 @@
 					<td></td> <td>${add-tag}</td>
 				</tr>
 			</table>
+		</div>
+		<div class="div-row">
+			<div>${tr:beer-form.reviews}:</div>
+			${add-review}
+			${reviews}
 		</div>
 	</message>
 	
