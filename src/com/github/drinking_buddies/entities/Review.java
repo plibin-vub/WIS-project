@@ -3,6 +3,8 @@ package com.github.drinking_buddies.entities;
 import java.util.Date;
 
 public class Review {
+    public static final int highestScore = 5;
+    
     private double colorScore;
     private double smellScore;
     private double tasteScore;

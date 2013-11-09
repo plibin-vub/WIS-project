@@ -21,8 +21,6 @@ import eu.webtoolkit.jwt.WTemplate;
  * these reviews can also be commented upon.
  */
 public class BeerForm extends WContainerWidget {
-    private static final int highestScore = 5;
-    
     private WContainerWidget tagContainer = new WContainerWidget();
   
     public BeerForm(final Beer beer, Iterable<Tag> tags) {
@@ -35,7 +33,7 @@ public class BeerForm extends WContainerWidget {
         main.bindString("brewery", beer.getBrewery());
         main.bindInt("favored-by", beer.getFavoredBy());
         main.bindString("score", String.valueOf(beer.getScore()));
-        main.bindInt("highest-score", highestScore);
+        main.bindInt("highest-score", Review.highestScore);
         //we bind the beer's picture to the template
         WImage picture = new WImage();
         {
