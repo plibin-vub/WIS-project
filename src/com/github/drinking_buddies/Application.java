@@ -97,7 +97,44 @@ public class Application extends WApplication {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Beer b = new Beer("Westmalle tripple", "Westmalle klooster", 32, 4.5, i);
+                
+                final String beerURL = parts[1];
+                
+                String beerName = null;
+                String beerWSName = null;
+                int favoredBy = 0;
+                
+                Connection conn = null;
+                try {
+                    conn = this.getConnection();
+                    DSLContext dsl = createDSLContext(conn);
+                    
+                    Integer id = null;
+                    
+                    Record r 
+                        = dsl
+                            .select(BEER.ID, BEER.NAME, BEER.WEBSERVICE_NAME)
+                            .from(BEER)
+                            .where(BEER.URL.eq(beerURL))
+                            .fetchOne();
+                    id = r.getValue(BEER.ID);
+                    beerName = r.getValue(BEER.NAME);
+                    beerWSName = r.getValue(BEER.WEBSERVICE_NAME);
+                    
+                    favoredBy
+                        = dsl
+                            .select()
+                            .from(FAVORITE_BEER)
+                            .where(FAVORITE_BEER.ID_BEER.equal(id))
+                            .fetchCount();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                } finally {
+                    closeConnection(conn);
+                }
+                
+                Beer b = new Beer(beerName, "Westmalle klooster", favoredBy, 4.5, i);
                 final List<Tag> tags = new ArrayList<Tag>();
                 tags.add(new Tag("belgian"));
                 tags.add(new Tag("9deg"));
