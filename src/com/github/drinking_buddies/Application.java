@@ -196,4 +196,13 @@ public class Application extends WApplication {
     public DSLContext createDSLContext(Connection conn) {
         return DSL.using(conn, SQLDialect.SQLITE);
     }
+
+    public void rollback(Connection conn) {
+        try {
+            conn.rollback();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 }
