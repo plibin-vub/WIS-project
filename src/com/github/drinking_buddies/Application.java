@@ -1,6 +1,9 @@
 package com.github.drinking_buddies;
 
-import static com.github.drinking_buddies.jooq.Tables.*;
+import static com.github.drinking_buddies.jooq.Tables.BEER;
+import static com.github.drinking_buddies.jooq.Tables.BEER2_BEER_TAG;
+import static com.github.drinking_buddies.jooq.Tables.BEER_TAG;
+import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BEER;
 
 import java.io.File;
 import java.sql.Connection;
@@ -14,6 +17,7 @@ import javax.servlet.ServletContext;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Record1;
+import org.jooq.Record2;
 import org.jooq.Result;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
@@ -99,17 +103,16 @@ public class Application extends WApplication {
                 
                 final String beerURL = parts[1];
                 
+                Integer id = null;
                 String beerName = null;
                 String beerWSName = null;
-                int favoredBy = 0;
+                Integer favoredBy = null;
                 List<Tag> tags = new ArrayList<Tag>();
                 
                 Connection conn = null;
                 try {
                     conn = this.getConnection();
                     DSLContext dsl = createDSLContext(conn);
-                    
-                    Integer id = null;
                     
                     Record r 
                         = dsl
@@ -128,9 +131,9 @@ public class Application extends WApplication {
                             .where(FAVORITE_BEER.BEER_ID.equal(id))
                             .fetchCount();
                     
-                    Result<Record1<String>> results 
+                    Result<Record2<Integer, String>> results 
                         = dsl
-                            .select(BEER_TAG.NAME)
+                            .select(BEER_TAG.ID, BEER_TAG.NAME)
                             .from(BEER_TAG)
                             .join(BEER2_BEER_TAG)
                             .on(BEER_TAG.ID.equal(BEER2_BEER_TAG.BEER_TAG_ID))
@@ -138,8 +141,8 @@ public class Application extends WApplication {
                             .orderBy(BEER_TAG.ID)
                             .fetch();
                  
-                    for (Record1<String> r1 : results) {
-                        tags.add(new Tag(r1.value1()));
+                    for (Record2<Integer, String> r2 : results) {
+                        tags.add(new Tag(r2.value1(), r2.value2()));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -148,7 +151,7 @@ public class Application extends WApplication {
                     closeConnection(conn);
                 }
                 
-                Beer b = new Beer(beerName, "Westmalle klooster", favoredBy, 4.5, i);
+                Beer b = new Beer(id, beerName, "Westmalle klooster", favoredBy, 4.5, i);
                 getRoot().addWidget(new BeerForm(b, tags));
             } else {
                 //show the beer selection form
