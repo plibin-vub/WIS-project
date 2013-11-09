@@ -181,7 +181,9 @@ public class Application extends WApplication {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return DriverManager.getConnection(db.getJdbcUrl(), db.getUserName(), db.getPassword());
+        Connection conn = DriverManager.getConnection(db.getJdbcUrl(), db.getUserName(), db.getPassword());
+        conn.setAutoCommit(false);
+        return conn;
     }
     
     public void closeConnection(Connection conn) {
