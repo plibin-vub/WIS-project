@@ -5,6 +5,7 @@ import java.util.Date;
 public class Review {
     public static final int highestScore = 5;
     
+    //TODO map all id's to Longs!
     private int id;
     private float colorScore;
     private float smellScore;
