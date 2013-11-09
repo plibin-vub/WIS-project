@@ -1,15 +1,23 @@
 package com.github.drinking_buddies;
 
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
 
+import com.github.drinking_buddies.config.Configuration;
+import com.github.drinking_buddies.config.Database;
 import com.github.drinking_buddies.entities.Beer;
 import com.github.drinking_buddies.entities.Image;
 import com.github.drinking_buddies.entities.Tag;
 import com.github.drinking_buddies.ui.BeerForm;
 import com.github.drinking_buddies.ui.utils.EncodingUtils;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WApplication;
@@ -19,6 +27,7 @@ import eu.webtoolkit.jwt.WXmlLocalizedStrings;
 
 public class Application extends WApplication {
     private ServletContext servletContext;
+    private Configuration configuration;
     
     public Application(WEnvironment env, ServletContext servletContext) {
         super(env);
@@ -40,6 +49,13 @@ public class Application extends WApplication {
         });
         
         handleInternalPath(getInternalPath());
+        
+        XStream xstream = new XStream(new DomDriver()); 
+        xstream.alias("configuration", Configuration.class);
+        xstream.alias("database", Database.class);
+        //TODO: allow for the configuration of this file location
+        configuration = (Configuration) xstream.fromXML(new File("./drinking-buddies-config.xml"));
+        System.err.println(configuration.getDatabase().getJdbcUrl());
     }
     
     //TODO remove
@@ -91,5 +107,20 @@ public class Application extends WApplication {
     
     public ServletContext getServletContext() {
         return servletContext;
+    }
+    
+    public Configuration getConfiguration() {
+        return configuration;
+    }
+    
+    public Connection getDatabaseConnection() throws SQLException {
+        Database db = configuration.getDatabase();
+        
+        try {
+            Class.forName("org.sqlite.JDBC").newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return DriverManager.getConnection(db.getJdbcUrl(), db.getUserName(), db.getPassword());
     }
 }
