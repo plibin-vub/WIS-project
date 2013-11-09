@@ -11,33 +11,33 @@ package com.github.drinking_buddies.jooq.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Beer2BarRecord extends org.jooq.impl.TableRecordImpl<com.github.drinking_buddies.jooq.tables.records.Beer2BarRecord> implements org.jooq.Record2<java.lang.Integer, java.lang.Integer> {
 
-	private static final long serialVersionUID = -2084035952;
+	private static final long serialVersionUID = -118445512;
 
 	/**
-	 * Setter for <code>beer2_bar.id_beer</code>. 
+	 * Setter for <code>beer2_bar.beer_id</code>. 
 	 */
-	public void setIdBeer(java.lang.Integer value) {
+	public void setBeerId(java.lang.Integer value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>beer2_bar.id_beer</code>. 
+	 * Getter for <code>beer2_bar.beer_id</code>. 
 	 */
-	public java.lang.Integer getIdBeer() {
+	public java.lang.Integer getBeerId() {
 		return (java.lang.Integer) getValue(0);
 	}
 
 	/**
-	 * Setter for <code>beer2_bar.id_bar</code>. 
+	 * Setter for <code>beer2_bar.bar_id</code>. 
 	 */
-	public void setIdBar(java.lang.Integer value) {
+	public void setBarId(java.lang.Integer value) {
 		setValue(1, value);
 	}
 
 	/**
-	 * Getter for <code>beer2_bar.id_bar</code>. 
+	 * Getter for <code>beer2_bar.bar_id</code>. 
 	 */
-	public java.lang.Integer getIdBar() {
+	public java.lang.Integer getBarId() {
 		return (java.lang.Integer) getValue(1);
 	}
 
@@ -66,7 +66,7 @@ public class Beer2BarRecord extends org.jooq.impl.TableRecordImpl<com.github.dri
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field1() {
-		return com.github.drinking_buddies.jooq.tables.Beer2Bar.BEER2_BAR.ID_BEER;
+		return com.github.drinking_buddies.jooq.tables.Beer2Bar.BEER2_BAR.BEER_ID;
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class Beer2BarRecord extends org.jooq.impl.TableRecordImpl<com.github.dri
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field2() {
-		return com.github.drinking_buddies.jooq.tables.Beer2Bar.BEER2_BAR.ID_BAR;
+		return com.github.drinking_buddies.jooq.tables.Beer2Bar.BEER2_BAR.BAR_ID;
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class Beer2BarRecord extends org.jooq.impl.TableRecordImpl<com.github.dri
 	 */
 	@Override
 	public java.lang.Integer value1() {
-		return getIdBeer();
+		return getBeerId();
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class Beer2BarRecord extends org.jooq.impl.TableRecordImpl<com.github.dri
 	 */
 	@Override
 	public java.lang.Integer value2() {
-		return getIdBar();
+		return getBarId();
 	}
 
 	// -------------------------------------------------------------------------
@@ -107,10 +107,10 @@ public class Beer2BarRecord extends org.jooq.impl.TableRecordImpl<com.github.dri
 	/**
 	 * Create a detached, initialised Beer2BarRecord
 	 */
-	public Beer2BarRecord(java.lang.Integer idBeer, java.lang.Integer idBar) {
+	public Beer2BarRecord(java.lang.Integer beerId, java.lang.Integer barId) {
 		super(com.github.drinking_buddies.jooq.tables.Beer2Bar.BEER2_BAR);
 
-		setValue(0, idBeer);
-		setValue(1, idBar);
+		setValue(0, beerId);
+		setValue(1, barId);
 	}
 }

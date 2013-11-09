@@ -11,33 +11,33 @@ package com.github.drinking_buddies.jooq.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FavoriteBarRecord extends org.jooq.impl.TableRecordImpl<com.github.drinking_buddies.jooq.tables.records.FavoriteBarRecord> implements org.jooq.Record2<java.lang.Integer, java.lang.Integer> {
 
-	private static final long serialVersionUID = -666512626;
+	private static final long serialVersionUID = 110103088;
 
 	/**
-	 * Setter for <code>favorite_bar.id_user</code>. 
+	 * Setter for <code>favorite_bar.user_id</code>. 
 	 */
-	public void setIdUser(java.lang.Integer value) {
+	public void setUserId(java.lang.Integer value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>favorite_bar.id_user</code>. 
+	 * Getter for <code>favorite_bar.user_id</code>. 
 	 */
-	public java.lang.Integer getIdUser() {
+	public java.lang.Integer getUserId() {
 		return (java.lang.Integer) getValue(0);
 	}
 
 	/**
-	 * Setter for <code>favorite_bar.id_bar</code>. 
+	 * Setter for <code>favorite_bar.bar_id</code>. 
 	 */
-	public void setIdBar(java.lang.Integer value) {
+	public void setBarId(java.lang.Integer value) {
 		setValue(1, value);
 	}
 
 	/**
-	 * Getter for <code>favorite_bar.id_bar</code>. 
+	 * Getter for <code>favorite_bar.bar_id</code>. 
 	 */
-	public java.lang.Integer getIdBar() {
+	public java.lang.Integer getBarId() {
 		return (java.lang.Integer) getValue(1);
 	}
 
@@ -66,7 +66,7 @@ public class FavoriteBarRecord extends org.jooq.impl.TableRecordImpl<com.github.
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field1() {
-		return com.github.drinking_buddies.jooq.tables.FavoriteBar.FAVORITE_BAR.ID_USER;
+		return com.github.drinking_buddies.jooq.tables.FavoriteBar.FAVORITE_BAR.USER_ID;
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class FavoriteBarRecord extends org.jooq.impl.TableRecordImpl<com.github.
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field2() {
-		return com.github.drinking_buddies.jooq.tables.FavoriteBar.FAVORITE_BAR.ID_BAR;
+		return com.github.drinking_buddies.jooq.tables.FavoriteBar.FAVORITE_BAR.BAR_ID;
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class FavoriteBarRecord extends org.jooq.impl.TableRecordImpl<com.github.
 	 */
 	@Override
 	public java.lang.Integer value1() {
-		return getIdUser();
+		return getUserId();
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class FavoriteBarRecord extends org.jooq.impl.TableRecordImpl<com.github.
 	 */
 	@Override
 	public java.lang.Integer value2() {
-		return getIdBar();
+		return getBarId();
 	}
 
 	// -------------------------------------------------------------------------
@@ -107,10 +107,10 @@ public class FavoriteBarRecord extends org.jooq.impl.TableRecordImpl<com.github.
 	/**
 	 * Create a detached, initialised FavoriteBarRecord
 	 */
-	public FavoriteBarRecord(java.lang.Integer idUser, java.lang.Integer idBar) {
+	public FavoriteBarRecord(java.lang.Integer userId, java.lang.Integer barId) {
 		super(com.github.drinking_buddies.jooq.tables.FavoriteBar.FAVORITE_BAR);
 
-		setValue(0, idUser);
-		setValue(1, idBar);
+		setValue(0, userId);
+		setValue(1, barId);
 	}
 }

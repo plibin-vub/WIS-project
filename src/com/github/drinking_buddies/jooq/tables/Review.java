@@ -11,7 +11,7 @@ package com.github.drinking_buddies.jooq.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Review extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jooq.tables.records.ReviewRecord> {
 
-	private static final long serialVersionUID = 272653267;
+	private static final long serialVersionUID = -1179077399;
 
 	/**
 	 * The singleton instance of <code>review</code>
@@ -32,14 +32,14 @@ public class Review extends org.jooq.impl.TableImpl<com.github.drinking_buddies.
 	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.ReviewRecord, java.lang.Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER, this);
 
 	/**
-	 * The column <code>review.id_beer</code>. 
+	 * The column <code>review.beer_id</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.ReviewRecord, java.lang.Integer> ID_BEER = createField("id_beer", org.jooq.impl.SQLDataType.INTEGER, this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.ReviewRecord, java.lang.Integer> BEER_ID = createField("beer_id", org.jooq.impl.SQLDataType.INTEGER, this);
 
 	/**
-	 * The column <code>review.id_user</code>. 
+	 * The column <code>review.user_id</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.ReviewRecord, java.lang.Integer> ID_USER = createField("id_user", org.jooq.impl.SQLDataType.INTEGER, this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.ReviewRecord, java.lang.Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER, this);
 
 	/**
 	 * The column <code>review.visual_score</code>. 

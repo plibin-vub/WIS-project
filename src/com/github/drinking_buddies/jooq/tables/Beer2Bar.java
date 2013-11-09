@@ -11,7 +11,7 @@ package com.github.drinking_buddies.jooq.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Beer2Bar extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jooq.tables.records.Beer2BarRecord> {
 
-	private static final long serialVersionUID = 809898507;
+	private static final long serialVersionUID = -723091511;
 
 	/**
 	 * The singleton instance of <code>beer2_bar</code>
@@ -27,14 +27,14 @@ public class Beer2Bar extends org.jooq.impl.TableImpl<com.github.drinking_buddie
 	}
 
 	/**
-	 * The column <code>beer2_bar.id_beer</code>. 
+	 * The column <code>beer2_bar.beer_id</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.Beer2BarRecord, java.lang.Integer> ID_BEER = createField("id_beer", org.jooq.impl.SQLDataType.INTEGER, this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.Beer2BarRecord, java.lang.Integer> BEER_ID = createField("beer_id", org.jooq.impl.SQLDataType.INTEGER, this);
 
 	/**
-	 * The column <code>beer2_bar.id_bar</code>. 
+	 * The column <code>beer2_bar.bar_id</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.Beer2BarRecord, java.lang.Integer> ID_BAR = createField("id_bar", org.jooq.impl.SQLDataType.INTEGER, this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.Beer2BarRecord, java.lang.Integer> BAR_ID = createField("bar_id", org.jooq.impl.SQLDataType.INTEGER, this);
 
 	/**
 	 * Create a <code>beer2_bar</code> table reference

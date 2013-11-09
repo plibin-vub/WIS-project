@@ -11,33 +11,33 @@ package com.github.drinking_buddies.jooq.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Bar2BarCommentRecord extends org.jooq.impl.TableRecordImpl<com.github.drinking_buddies.jooq.tables.records.Bar2BarCommentRecord> implements org.jooq.Record2<java.lang.Integer, java.lang.Integer> {
 
-	private static final long serialVersionUID = 546647830;
+	private static final long serialVersionUID = 645823359;
 
 	/**
-	 * Setter for <code>bar2_bar_comment.id_barcomment</code>. 
+	 * Setter for <code>bar2_bar_comment.bar_comment_id</code>. 
 	 */
-	public void setIdBarcomment(java.lang.Integer value) {
+	public void setBarCommentId(java.lang.Integer value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>bar2_bar_comment.id_barcomment</code>. 
+	 * Getter for <code>bar2_bar_comment.bar_comment_id</code>. 
 	 */
-	public java.lang.Integer getIdBarcomment() {
+	public java.lang.Integer getBarCommentId() {
 		return (java.lang.Integer) getValue(0);
 	}
 
 	/**
-	 * Setter for <code>bar2_bar_comment.id_bar</code>. 
+	 * Setter for <code>bar2_bar_comment.bar_id</code>. 
 	 */
-	public void setIdBar(java.lang.Integer value) {
+	public void setBarId(java.lang.Integer value) {
 		setValue(1, value);
 	}
 
 	/**
-	 * Getter for <code>bar2_bar_comment.id_bar</code>. 
+	 * Getter for <code>bar2_bar_comment.bar_id</code>. 
 	 */
-	public java.lang.Integer getIdBar() {
+	public java.lang.Integer getBarId() {
 		return (java.lang.Integer) getValue(1);
 	}
 
@@ -66,7 +66,7 @@ public class Bar2BarCommentRecord extends org.jooq.impl.TableRecordImpl<com.gith
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field1() {
-		return com.github.drinking_buddies.jooq.tables.Bar2BarComment.BAR2_BAR_COMMENT.ID_BARCOMMENT;
+		return com.github.drinking_buddies.jooq.tables.Bar2BarComment.BAR2_BAR_COMMENT.BAR_COMMENT_ID;
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class Bar2BarCommentRecord extends org.jooq.impl.TableRecordImpl<com.gith
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field2() {
-		return com.github.drinking_buddies.jooq.tables.Bar2BarComment.BAR2_BAR_COMMENT.ID_BAR;
+		return com.github.drinking_buddies.jooq.tables.Bar2BarComment.BAR2_BAR_COMMENT.BAR_ID;
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class Bar2BarCommentRecord extends org.jooq.impl.TableRecordImpl<com.gith
 	 */
 	@Override
 	public java.lang.Integer value1() {
-		return getIdBarcomment();
+		return getBarCommentId();
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class Bar2BarCommentRecord extends org.jooq.impl.TableRecordImpl<com.gith
 	 */
 	@Override
 	public java.lang.Integer value2() {
-		return getIdBar();
+		return getBarId();
 	}
 
 	// -------------------------------------------------------------------------
@@ -107,10 +107,10 @@ public class Bar2BarCommentRecord extends org.jooq.impl.TableRecordImpl<com.gith
 	/**
 	 * Create a detached, initialised Bar2BarCommentRecord
 	 */
-	public Bar2BarCommentRecord(java.lang.Integer idBarcomment, java.lang.Integer idBar) {
+	public Bar2BarCommentRecord(java.lang.Integer barCommentId, java.lang.Integer barId) {
 		super(com.github.drinking_buddies.jooq.tables.Bar2BarComment.BAR2_BAR_COMMENT);
 
-		setValue(0, idBarcomment);
-		setValue(1, idBar);
+		setValue(0, barCommentId);
+		setValue(1, barId);
 	}
 }

@@ -11,7 +11,7 @@ package com.github.drinking_buddies.jooq.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FavoriteBar extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jooq.tables.records.FavoriteBarRecord> {
 
-	private static final long serialVersionUID = 1449218613;
+	private static final long serialVersionUID = 1180522941;
 
 	/**
 	 * The singleton instance of <code>favorite_bar</code>
@@ -27,14 +27,14 @@ public class FavoriteBar extends org.jooq.impl.TableImpl<com.github.drinking_bud
 	}
 
 	/**
-	 * The column <code>favorite_bar.id_user</code>. 
+	 * The column <code>favorite_bar.user_id</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.FavoriteBarRecord, java.lang.Integer> ID_USER = createField("id_user", org.jooq.impl.SQLDataType.INTEGER, this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.FavoriteBarRecord, java.lang.Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER, this);
 
 	/**
-	 * The column <code>favorite_bar.id_bar</code>. 
+	 * The column <code>favorite_bar.bar_id</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.FavoriteBarRecord, java.lang.Integer> ID_BAR = createField("id_bar", org.jooq.impl.SQLDataType.INTEGER, this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.FavoriteBarRecord, java.lang.Integer> BAR_ID = createField("bar_id", org.jooq.impl.SQLDataType.INTEGER, this);
 
 	/**
 	 * Create a <code>favorite_bar</code> table reference

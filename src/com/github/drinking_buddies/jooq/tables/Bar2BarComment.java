@@ -11,7 +11,7 @@ package com.github.drinking_buddies.jooq.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Bar2BarComment extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jooq.tables.records.Bar2BarCommentRecord> {
 
-	private static final long serialVersionUID = 1791411969;
+	private static final long serialVersionUID = 239918247;
 
 	/**
 	 * The singleton instance of <code>bar2_bar_comment</code>
@@ -27,14 +27,14 @@ public class Bar2BarComment extends org.jooq.impl.TableImpl<com.github.drinking_
 	}
 
 	/**
-	 * The column <code>bar2_bar_comment.id_barcomment</code>. 
+	 * The column <code>bar2_bar_comment.bar_comment_id</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.Bar2BarCommentRecord, java.lang.Integer> ID_BARCOMMENT = createField("id_barcomment", org.jooq.impl.SQLDataType.INTEGER, this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.Bar2BarCommentRecord, java.lang.Integer> BAR_COMMENT_ID = createField("bar_comment_id", org.jooq.impl.SQLDataType.INTEGER, this);
 
 	/**
-	 * The column <code>bar2_bar_comment.id_bar</code>. 
+	 * The column <code>bar2_bar_comment.bar_id</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.Bar2BarCommentRecord, java.lang.Integer> ID_BAR = createField("id_bar", org.jooq.impl.SQLDataType.INTEGER, this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.Bar2BarCommentRecord, java.lang.Integer> BAR_ID = createField("bar_id", org.jooq.impl.SQLDataType.INTEGER, this);
 
 	/**
 	 * Create a <code>bar2_bar_comment</code> table reference
@@ -55,7 +55,7 @@ public class Bar2BarComment extends org.jooq.impl.TableImpl<com.github.drinking_
 	 */
 	@Override
 	public java.util.List<org.jooq.ForeignKey<com.github.drinking_buddies.jooq.tables.records.Bar2BarCommentRecord, ?>> getReferences() {
-		return java.util.Arrays.<org.jooq.ForeignKey<com.github.drinking_buddies.jooq.tables.records.Bar2BarCommentRecord, ?>>asList(com.github.drinking_buddies.jooq.Keys.FK_BAR2_BAR_COMMENT_BAR_1);
+		return java.util.Arrays.<org.jooq.ForeignKey<com.github.drinking_buddies.jooq.tables.records.Bar2BarCommentRecord, ?>>asList(com.github.drinking_buddies.jooq.Keys.FK_BAR2_BAR_COMMENT_BAR_COMMENT_1, com.github.drinking_buddies.jooq.Keys.FK_BAR2_BAR_COMMENT_BAR_1);
 	}
 
 	/**

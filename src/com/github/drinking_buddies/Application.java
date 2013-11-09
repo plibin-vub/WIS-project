@@ -125,7 +125,7 @@ public class Application extends WApplication {
                         = dsl
                             .select()
                             .from(FAVORITE_BEER)
-                            .where(FAVORITE_BEER.ID_BEER.equal(id))
+                            .where(FAVORITE_BEER.BEER_ID.equal(id))
                             .fetchCount();
                 } catch (Exception e) {
                     e.printStackTrace();

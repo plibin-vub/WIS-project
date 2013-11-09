@@ -11,7 +11,7 @@ package com.github.drinking_buddies.jooq.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BeerTag extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jooq.tables.records.BeerTagRecord> {
 
-	private static final long serialVersionUID = -313742131;
+	private static final long serialVersionUID = 486436003;
 
 	/**
 	 * The singleton instance of <code>beer_tag</code>
@@ -25,6 +25,11 @@ public class BeerTag extends org.jooq.impl.TableImpl<com.github.drinking_buddies
 	public java.lang.Class<com.github.drinking_buddies.jooq.tables.records.BeerTagRecord> getRecordType() {
 		return com.github.drinking_buddies.jooq.tables.records.BeerTagRecord.class;
 	}
+
+	/**
+	 * The column <code>beer_tag.id</code>. 
+	 */
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.BeerTagRecord, java.lang.Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER, this);
 
 	/**
 	 * The column <code>beer_tag.name</code>. 

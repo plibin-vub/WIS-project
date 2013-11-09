@@ -11,7 +11,7 @@ package com.github.drinking_buddies.jooq.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BarComment extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jooq.tables.records.BarCommentRecord> {
 
-	private static final long serialVersionUID = 2079218596;
+	private static final long serialVersionUID = 2116662596;
 
 	/**
 	 * The singleton instance of <code>bar_comment</code>
@@ -32,9 +32,9 @@ public class BarComment extends org.jooq.impl.TableImpl<com.github.drinking_budd
 	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.BarCommentRecord, java.lang.Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER, this);
 
 	/**
-	 * The column <code>bar_comment.id_user</code>. 
+	 * The column <code>bar_comment.user_id</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.BarCommentRecord, java.lang.Integer> ID_USER = createField("id_user", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.BarCommentRecord, java.lang.Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this);
 
 	/**
 	 * The column <code>bar_comment.text</code>. 

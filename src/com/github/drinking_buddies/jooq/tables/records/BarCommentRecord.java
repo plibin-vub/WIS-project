@@ -11,7 +11,7 @@ package com.github.drinking_buddies.jooq.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BarCommentRecord extends org.jooq.impl.UpdatableRecordImpl<com.github.drinking_buddies.jooq.tables.records.BarCommentRecord> implements org.jooq.Record4<java.lang.Integer, java.lang.Integer, java.lang.String, java.lang.String> {
 
-	private static final long serialVersionUID = 46514639;
+	private static final long serialVersionUID = 76164655;
 
 	/**
 	 * Setter for <code>bar_comment.id</code>. 
@@ -28,16 +28,16 @@ public class BarCommentRecord extends org.jooq.impl.UpdatableRecordImpl<com.gith
 	}
 
 	/**
-	 * Setter for <code>bar_comment.id_user</code>. 
+	 * Setter for <code>bar_comment.user_id</code>. 
 	 */
-	public void setIdUser(java.lang.Integer value) {
+	public void setUserId(java.lang.Integer value) {
 		setValue(1, value);
 	}
 
 	/**
-	 * Getter for <code>bar_comment.id_user</code>. 
+	 * Getter for <code>bar_comment.user_id</code>. 
 	 */
-	public java.lang.Integer getIdUser() {
+	public java.lang.Integer getUserId() {
 		return (java.lang.Integer) getValue(1);
 	}
 
@@ -114,7 +114,7 @@ public class BarCommentRecord extends org.jooq.impl.UpdatableRecordImpl<com.gith
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field2() {
-		return com.github.drinking_buddies.jooq.tables.BarComment.BAR_COMMENT.ID_USER;
+		return com.github.drinking_buddies.jooq.tables.BarComment.BAR_COMMENT.USER_ID;
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class BarCommentRecord extends org.jooq.impl.UpdatableRecordImpl<com.gith
 	 */
 	@Override
 	public java.lang.Integer value2() {
-		return getIdUser();
+		return getUserId();
 	}
 
 	/**
@@ -179,11 +179,11 @@ public class BarCommentRecord extends org.jooq.impl.UpdatableRecordImpl<com.gith
 	/**
 	 * Create a detached, initialised BarCommentRecord
 	 */
-	public BarCommentRecord(java.lang.Integer id, java.lang.Integer idUser, java.lang.String text, java.lang.String timestamp) {
+	public BarCommentRecord(java.lang.Integer id, java.lang.Integer userId, java.lang.String text, java.lang.String timestamp) {
 		super(com.github.drinking_buddies.jooq.tables.BarComment.BAR_COMMENT);
 
 		setValue(0, id);
-		setValue(1, idUser);
+		setValue(1, userId);
 		setValue(2, text);
 		setValue(3, timestamp);
 	}

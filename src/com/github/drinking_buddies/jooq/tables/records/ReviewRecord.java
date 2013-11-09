@@ -11,7 +11,7 @@ package com.github.drinking_buddies.jooq.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ReviewRecord extends org.jooq.impl.UpdatableRecordImpl<com.github.drinking_buddies.jooq.tables.records.ReviewRecord> implements org.jooq.Record9<java.lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.String, java.lang.String> {
 
-	private static final long serialVersionUID = 162512961;
+	private static final long serialVersionUID = 148590891;
 
 	/**
 	 * Setter for <code>review.id</code>. 
@@ -28,30 +28,30 @@ public class ReviewRecord extends org.jooq.impl.UpdatableRecordImpl<com.github.d
 	}
 
 	/**
-	 * Setter for <code>review.id_beer</code>. 
+	 * Setter for <code>review.beer_id</code>. 
 	 */
-	public void setIdBeer(java.lang.Integer value) {
+	public void setBeerId(java.lang.Integer value) {
 		setValue(1, value);
 	}
 
 	/**
-	 * Getter for <code>review.id_beer</code>. 
+	 * Getter for <code>review.beer_id</code>. 
 	 */
-	public java.lang.Integer getIdBeer() {
+	public java.lang.Integer getBeerId() {
 		return (java.lang.Integer) getValue(1);
 	}
 
 	/**
-	 * Setter for <code>review.id_user</code>. 
+	 * Setter for <code>review.user_id</code>. 
 	 */
-	public void setIdUser(java.lang.Integer value) {
+	public void setUserId(java.lang.Integer value) {
 		setValue(2, value);
 	}
 
 	/**
-	 * Getter for <code>review.id_user</code>. 
+	 * Getter for <code>review.user_id</code>. 
 	 */
-	public java.lang.Integer getIdUser() {
+	public java.lang.Integer getUserId() {
 		return (java.lang.Integer) getValue(2);
 	}
 
@@ -184,7 +184,7 @@ public class ReviewRecord extends org.jooq.impl.UpdatableRecordImpl<com.github.d
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field2() {
-		return com.github.drinking_buddies.jooq.tables.Review.REVIEW.ID_BEER;
+		return com.github.drinking_buddies.jooq.tables.Review.REVIEW.BEER_ID;
 	}
 
 	/**
@@ -192,7 +192,7 @@ public class ReviewRecord extends org.jooq.impl.UpdatableRecordImpl<com.github.d
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field3() {
-		return com.github.drinking_buddies.jooq.tables.Review.REVIEW.ID_USER;
+		return com.github.drinking_buddies.jooq.tables.Review.REVIEW.USER_ID;
 	}
 
 	/**
@@ -256,7 +256,7 @@ public class ReviewRecord extends org.jooq.impl.UpdatableRecordImpl<com.github.d
 	 */
 	@Override
 	public java.lang.Integer value2() {
-		return getIdBeer();
+		return getBeerId();
 	}
 
 	/**
@@ -264,7 +264,7 @@ public class ReviewRecord extends org.jooq.impl.UpdatableRecordImpl<com.github.d
 	 */
 	@Override
 	public java.lang.Integer value3() {
-		return getIdUser();
+		return getUserId();
 	}
 
 	/**
@@ -329,12 +329,12 @@ public class ReviewRecord extends org.jooq.impl.UpdatableRecordImpl<com.github.d
 	/**
 	 * Create a detached, initialised ReviewRecord
 	 */
-	public ReviewRecord(java.lang.Integer id, java.lang.Integer idBeer, java.lang.Integer idUser, java.lang.Integer visualScore, java.lang.Integer smellScore, java.lang.Integer tasteScore, java.lang.Integer feelScore, java.lang.String text, java.lang.String postTime) {
+	public ReviewRecord(java.lang.Integer id, java.lang.Integer beerId, java.lang.Integer userId, java.lang.Integer visualScore, java.lang.Integer smellScore, java.lang.Integer tasteScore, java.lang.Integer feelScore, java.lang.String text, java.lang.String postTime) {
 		super(com.github.drinking_buddies.jooq.tables.Review.REVIEW);
 
 		setValue(0, id);
-		setValue(1, idBeer);
-		setValue(2, idUser);
+		setValue(1, beerId);
+		setValue(2, userId);
 		setValue(3, visualScore);
 		setValue(4, smellScore);
 		setValue(5, tasteScore);

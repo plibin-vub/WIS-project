@@ -11,7 +11,7 @@ package com.github.drinking_buddies.jooq.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Bar2BarScore extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jooq.tables.records.Bar2BarScoreRecord> {
 
-	private static final long serialVersionUID = -1147106377;
+	private static final long serialVersionUID = -646505434;
 
 	/**
 	 * The singleton instance of <code>bar2_bar_score</code>
@@ -55,7 +55,7 @@ public class Bar2BarScore extends org.jooq.impl.TableImpl<com.github.drinking_bu
 	 */
 	@Override
 	public java.util.List<org.jooq.ForeignKey<com.github.drinking_buddies.jooq.tables.records.Bar2BarScoreRecord, ?>> getReferences() {
-		return java.util.Arrays.<org.jooq.ForeignKey<com.github.drinking_buddies.jooq.tables.records.Bar2BarScoreRecord, ?>>asList(com.github.drinking_buddies.jooq.Keys.FK_BAR2_BAR_SCORE_BAR_1);
+		return java.util.Arrays.<org.jooq.ForeignKey<com.github.drinking_buddies.jooq.tables.records.Bar2BarScoreRecord, ?>>asList(com.github.drinking_buddies.jooq.Keys.FK_BAR2_BAR_SCORE_BAR_1, com.github.drinking_buddies.jooq.Keys.FK_BAR2_BAR_SCORE_BAR_SCORE_1);
 	}
 
 	/**

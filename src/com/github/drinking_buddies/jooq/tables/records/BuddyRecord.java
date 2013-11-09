@@ -11,33 +11,33 @@ package com.github.drinking_buddies.jooq.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BuddyRecord extends org.jooq.impl.TableRecordImpl<com.github.drinking_buddies.jooq.tables.records.BuddyRecord> implements org.jooq.Record2<java.lang.Integer, java.lang.Integer> {
 
-	private static final long serialVersionUID = -35851396;
+	private static final long serialVersionUID = 2063526908;
 
 	/**
-	 * Setter for <code>buddy.id_user</code>. 
+	 * Setter for <code>buddy.user_id</code>. 
 	 */
-	public void setIdUser(java.lang.Integer value) {
+	public void setUserId(java.lang.Integer value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>buddy.id_user</code>. 
+	 * Getter for <code>buddy.user_id</code>. 
 	 */
-	public java.lang.Integer getIdUser() {
+	public java.lang.Integer getUserId() {
 		return (java.lang.Integer) getValue(0);
 	}
 
 	/**
-	 * Setter for <code>buddy.id_buddy</code>. 
+	 * Setter for <code>buddy.buddy_id</code>. 
 	 */
-	public void setIdBuddy(java.lang.Integer value) {
+	public void setBuddyId(java.lang.Integer value) {
 		setValue(1, value);
 	}
 
 	/**
-	 * Getter for <code>buddy.id_buddy</code>. 
+	 * Getter for <code>buddy.buddy_id</code>. 
 	 */
-	public java.lang.Integer getIdBuddy() {
+	public java.lang.Integer getBuddyId() {
 		return (java.lang.Integer) getValue(1);
 	}
 
@@ -66,7 +66,7 @@ public class BuddyRecord extends org.jooq.impl.TableRecordImpl<com.github.drinki
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field1() {
-		return com.github.drinking_buddies.jooq.tables.Buddy.BUDDY.ID_USER;
+		return com.github.drinking_buddies.jooq.tables.Buddy.BUDDY.USER_ID;
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class BuddyRecord extends org.jooq.impl.TableRecordImpl<com.github.drinki
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field2() {
-		return com.github.drinking_buddies.jooq.tables.Buddy.BUDDY.ID_BUDDY;
+		return com.github.drinking_buddies.jooq.tables.Buddy.BUDDY.BUDDY_ID;
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class BuddyRecord extends org.jooq.impl.TableRecordImpl<com.github.drinki
 	 */
 	@Override
 	public java.lang.Integer value1() {
-		return getIdUser();
+		return getUserId();
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class BuddyRecord extends org.jooq.impl.TableRecordImpl<com.github.drinki
 	 */
 	@Override
 	public java.lang.Integer value2() {
-		return getIdBuddy();
+		return getBuddyId();
 	}
 
 	// -------------------------------------------------------------------------
@@ -107,10 +107,10 @@ public class BuddyRecord extends org.jooq.impl.TableRecordImpl<com.github.drinki
 	/**
 	 * Create a detached, initialised BuddyRecord
 	 */
-	public BuddyRecord(java.lang.Integer idUser, java.lang.Integer idBuddy) {
+	public BuddyRecord(java.lang.Integer userId, java.lang.Integer buddyId) {
 		super(com.github.drinking_buddies.jooq.tables.Buddy.BUDDY);
 
-		setValue(0, idUser);
-		setValue(1, idBuddy);
+		setValue(0, userId);
+		setValue(1, buddyId);
 	}
 }

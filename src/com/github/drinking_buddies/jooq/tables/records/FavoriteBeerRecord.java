@@ -11,33 +11,33 @@ package com.github.drinking_buddies.jooq.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FavoriteBeerRecord extends org.jooq.impl.TableRecordImpl<com.github.drinking_buddies.jooq.tables.records.FavoriteBeerRecord> implements org.jooq.Record2<java.lang.Integer, java.lang.Integer> {
 
-	private static final long serialVersionUID = -1513016016;
+	private static final long serialVersionUID = -1400717714;
 
 	/**
-	 * Setter for <code>favorite_beer.id_user</code>. 
+	 * Setter for <code>favorite_beer.user_id</code>. 
 	 */
-	public void setIdUser(java.lang.Integer value) {
+	public void setUserId(java.lang.Integer value) {
 		setValue(0, value);
 	}
 
 	/**
-	 * Getter for <code>favorite_beer.id_user</code>. 
+	 * Getter for <code>favorite_beer.user_id</code>. 
 	 */
-	public java.lang.Integer getIdUser() {
+	public java.lang.Integer getUserId() {
 		return (java.lang.Integer) getValue(0);
 	}
 
 	/**
-	 * Setter for <code>favorite_beer.id_beer</code>. 
+	 * Setter for <code>favorite_beer.beer_id</code>. 
 	 */
-	public void setIdBeer(java.lang.Integer value) {
+	public void setBeerId(java.lang.Integer value) {
 		setValue(1, value);
 	}
 
 	/**
-	 * Getter for <code>favorite_beer.id_beer</code>. 
+	 * Getter for <code>favorite_beer.beer_id</code>. 
 	 */
-	public java.lang.Integer getIdBeer() {
+	public java.lang.Integer getBeerId() {
 		return (java.lang.Integer) getValue(1);
 	}
 
@@ -66,7 +66,7 @@ public class FavoriteBeerRecord extends org.jooq.impl.TableRecordImpl<com.github
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field1() {
-		return com.github.drinking_buddies.jooq.tables.FavoriteBeer.FAVORITE_BEER.ID_USER;
+		return com.github.drinking_buddies.jooq.tables.FavoriteBeer.FAVORITE_BEER.USER_ID;
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class FavoriteBeerRecord extends org.jooq.impl.TableRecordImpl<com.github
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field2() {
-		return com.github.drinking_buddies.jooq.tables.FavoriteBeer.FAVORITE_BEER.ID_BEER;
+		return com.github.drinking_buddies.jooq.tables.FavoriteBeer.FAVORITE_BEER.BEER_ID;
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class FavoriteBeerRecord extends org.jooq.impl.TableRecordImpl<com.github
 	 */
 	@Override
 	public java.lang.Integer value1() {
-		return getIdUser();
+		return getUserId();
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class FavoriteBeerRecord extends org.jooq.impl.TableRecordImpl<com.github
 	 */
 	@Override
 	public java.lang.Integer value2() {
-		return getIdBeer();
+		return getBeerId();
 	}
 
 	// -------------------------------------------------------------------------
@@ -107,10 +107,10 @@ public class FavoriteBeerRecord extends org.jooq.impl.TableRecordImpl<com.github
 	/**
 	 * Create a detached, initialised FavoriteBeerRecord
 	 */
-	public FavoriteBeerRecord(java.lang.Integer idUser, java.lang.Integer idBeer) {
+	public FavoriteBeerRecord(java.lang.Integer userId, java.lang.Integer beerId) {
 		super(com.github.drinking_buddies.jooq.tables.FavoriteBeer.FAVORITE_BEER);
 
-		setValue(0, idUser);
-		setValue(1, idBeer);
+		setValue(0, userId);
+		setValue(1, beerId);
 	}
 }

@@ -11,7 +11,7 @@ package com.github.drinking_buddies.jooq.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ReviewCommentRecord extends org.jooq.impl.UpdatableRecordImpl<com.github.drinking_buddies.jooq.tables.records.ReviewCommentRecord> implements org.jooq.Record5<java.lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.String, java.lang.String> {
 
-	private static final long serialVersionUID = -165285330;
+	private static final long serialVersionUID = -943109836;
 
 	/**
 	 * Setter for <code>review_comment.id</code>. 
@@ -28,30 +28,30 @@ public class ReviewCommentRecord extends org.jooq.impl.UpdatableRecordImpl<com.g
 	}
 
 	/**
-	 * Setter for <code>review_comment.id_review</code>. 
+	 * Setter for <code>review_comment.review_id</code>. 
 	 */
-	public void setIdReview(java.lang.Integer value) {
+	public void setReviewId(java.lang.Integer value) {
 		setValue(1, value);
 	}
 
 	/**
-	 * Getter for <code>review_comment.id_review</code>. 
+	 * Getter for <code>review_comment.review_id</code>. 
 	 */
-	public java.lang.Integer getIdReview() {
+	public java.lang.Integer getReviewId() {
 		return (java.lang.Integer) getValue(1);
 	}
 
 	/**
-	 * Setter for <code>review_comment.id_user</code>. 
+	 * Setter for <code>review_comment.user_id</code>. 
 	 */
-	public void setIdUser(java.lang.Integer value) {
+	public void setUserId(java.lang.Integer value) {
 		setValue(2, value);
 	}
 
 	/**
-	 * Getter for <code>review_comment.id_user</code>. 
+	 * Getter for <code>review_comment.user_id</code>. 
 	 */
-	public java.lang.Integer getIdUser() {
+	public java.lang.Integer getUserId() {
 		return (java.lang.Integer) getValue(2);
 	}
 
@@ -128,7 +128,7 @@ public class ReviewCommentRecord extends org.jooq.impl.UpdatableRecordImpl<com.g
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field2() {
-		return com.github.drinking_buddies.jooq.tables.ReviewComment.REVIEW_COMMENT.ID_REVIEW;
+		return com.github.drinking_buddies.jooq.tables.ReviewComment.REVIEW_COMMENT.REVIEW_ID;
 	}
 
 	/**
@@ -136,7 +136,7 @@ public class ReviewCommentRecord extends org.jooq.impl.UpdatableRecordImpl<com.g
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field3() {
-		return com.github.drinking_buddies.jooq.tables.ReviewComment.REVIEW_COMMENT.ID_USER;
+		return com.github.drinking_buddies.jooq.tables.ReviewComment.REVIEW_COMMENT.USER_ID;
 	}
 
 	/**
@@ -168,7 +168,7 @@ public class ReviewCommentRecord extends org.jooq.impl.UpdatableRecordImpl<com.g
 	 */
 	@Override
 	public java.lang.Integer value2() {
-		return getIdReview();
+		return getReviewId();
 	}
 
 	/**
@@ -176,7 +176,7 @@ public class ReviewCommentRecord extends org.jooq.impl.UpdatableRecordImpl<com.g
 	 */
 	@Override
 	public java.lang.Integer value3() {
-		return getIdUser();
+		return getUserId();
 	}
 
 	/**
@@ -209,12 +209,12 @@ public class ReviewCommentRecord extends org.jooq.impl.UpdatableRecordImpl<com.g
 	/**
 	 * Create a detached, initialised ReviewCommentRecord
 	 */
-	public ReviewCommentRecord(java.lang.Integer id, java.lang.Integer idReview, java.lang.Integer idUser, java.lang.String text, java.lang.String postTime) {
+	public ReviewCommentRecord(java.lang.Integer id, java.lang.Integer reviewId, java.lang.Integer userId, java.lang.String text, java.lang.String postTime) {
 		super(com.github.drinking_buddies.jooq.tables.ReviewComment.REVIEW_COMMENT);
 
 		setValue(0, id);
-		setValue(1, idReview);
-		setValue(2, idUser);
+		setValue(1, reviewId);
+		setValue(2, userId);
 		setValue(3, text);
 		setValue(4, postTime);
 	}

@@ -11,7 +11,7 @@ package com.github.drinking_buddies.jooq.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Buddy extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jooq.tables.records.BuddyRecord> {
 
-	private static final long serialVersionUID = -738903620;
+	private static final long serialVersionUID = -1615128082;
 
 	/**
 	 * The singleton instance of <code>buddy</code>
@@ -27,14 +27,14 @@ public class Buddy extends org.jooq.impl.TableImpl<com.github.drinking_buddies.j
 	}
 
 	/**
-	 * The column <code>buddy.id_user</code>. 
+	 * The column <code>buddy.user_id</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.BuddyRecord, java.lang.Integer> ID_USER = createField("id_user", org.jooq.impl.SQLDataType.INTEGER, this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.BuddyRecord, java.lang.Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER, this);
 
 	/**
-	 * The column <code>buddy.id_buddy</code>. 
+	 * The column <code>buddy.buddy_id</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.BuddyRecord, java.lang.Integer> ID_BUDDY = createField("id_buddy", org.jooq.impl.SQLDataType.INTEGER, this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.BuddyRecord, java.lang.Integer> BUDDY_ID = createField("buddy_id", org.jooq.impl.SQLDataType.INTEGER, this);
 
 	/**
 	 * Create a <code>buddy</code> table reference

@@ -11,7 +11,7 @@ package com.github.drinking_buddies.jooq.tables.records;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BarRecord extends org.jooq.impl.UpdatableRecordImpl<com.github.drinking_buddies.jooq.tables.records.BarRecord> implements org.jooq.Record7<java.lang.Integer, java.lang.String, byte[], java.lang.String, java.lang.Integer, java.lang.Float, java.lang.Float> {
 
-	private static final long serialVersionUID = -21488136;
+	private static final long serialVersionUID = -1091180308;
 
 	/**
 	 * Setter for <code>bar.id</code>. 
@@ -70,16 +70,16 @@ public class BarRecord extends org.jooq.impl.UpdatableRecordImpl<com.github.drin
 	}
 
 	/**
-	 * Setter for <code>bar.id_address</code>. 
+	 * Setter for <code>bar.address_id</code>. 
 	 */
-	public void setIdAddress(java.lang.Integer value) {
+	public void setAddressId(java.lang.Integer value) {
 		setValue(4, value);
 	}
 
 	/**
-	 * Getter for <code>bar.id_address</code>. 
+	 * Getter for <code>bar.address_id</code>. 
 	 */
-	public java.lang.Integer getIdAddress() {
+	public java.lang.Integer getAddressId() {
 		return (java.lang.Integer) getValue(4);
 	}
 
@@ -180,7 +180,7 @@ public class BarRecord extends org.jooq.impl.UpdatableRecordImpl<com.github.drin
 	 */
 	@Override
 	public org.jooq.Field<java.lang.Integer> field5() {
-		return com.github.drinking_buddies.jooq.tables.Bar.BAR.ID_ADDRESS;
+		return com.github.drinking_buddies.jooq.tables.Bar.BAR.ADDRESS_ID;
 	}
 
 	/**
@@ -236,7 +236,7 @@ public class BarRecord extends org.jooq.impl.UpdatableRecordImpl<com.github.drin
 	 */
 	@Override
 	public java.lang.Integer value5() {
-		return getIdAddress();
+		return getAddressId();
 	}
 
 	/**
@@ -269,14 +269,14 @@ public class BarRecord extends org.jooq.impl.UpdatableRecordImpl<com.github.drin
 	/**
 	 * Create a detached, initialised BarRecord
 	 */
-	public BarRecord(java.lang.Integer id, java.lang.String name, byte[] photo, java.lang.String website, java.lang.Integer idAddress, java.lang.Float locationX, java.lang.Float locationY) {
+	public BarRecord(java.lang.Integer id, java.lang.String name, byte[] photo, java.lang.String website, java.lang.Integer addressId, java.lang.Float locationX, java.lang.Float locationY) {
 		super(com.github.drinking_buddies.jooq.tables.Bar.BAR);
 
 		setValue(0, id);
 		setValue(1, name);
 		setValue(2, photo);
 		setValue(3, website);
-		setValue(4, idAddress);
+		setValue(4, addressId);
 		setValue(5, locationX);
 		setValue(6, locationY);
 	}

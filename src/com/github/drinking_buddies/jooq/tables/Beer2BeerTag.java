@@ -11,7 +11,7 @@ package com.github.drinking_buddies.jooq.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Beer2BeerTag extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jooq.tables.records.Beer2BeerTagRecord> {
 
-	private static final long serialVersionUID = 329312601;
+	private static final long serialVersionUID = 1867459668;
 
 	/**
 	 * The singleton instance of <code>beer2_beer_tag</code>
@@ -27,14 +27,14 @@ public class Beer2BeerTag extends org.jooq.impl.TableImpl<com.github.drinking_bu
 	}
 
 	/**
-	 * The column <code>beer2_beer_tag.beertag</code>. 
+	 * The column <code>beer2_beer_tag.beer_tag_id</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.Beer2BeerTagRecord, java.lang.Object> BEERTAG = createField("beertag", org.jooq.impl.DefaultDataType.getDefaultDataType("TEXT_"), this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.Beer2BeerTagRecord, java.lang.Integer> BEER_TAG_ID = createField("beer_tag_id", org.jooq.impl.SQLDataType.INTEGER, this);
 
 	/**
-	 * The column <code>beer2_beer_tag.id_beer</code>. 
+	 * The column <code>beer2_beer_tag.beer_id</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.Beer2BeerTagRecord, java.lang.Integer> ID_BEER = createField("id_beer", org.jooq.impl.SQLDataType.INTEGER, this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.Beer2BeerTagRecord, java.lang.Integer> BEER_ID = createField("beer_id", org.jooq.impl.SQLDataType.INTEGER, this);
 
 	/**
 	 * Create a <code>beer2_beer_tag</code> table reference
@@ -55,7 +55,7 @@ public class Beer2BeerTag extends org.jooq.impl.TableImpl<com.github.drinking_bu
 	 */
 	@Override
 	public java.util.List<org.jooq.ForeignKey<com.github.drinking_buddies.jooq.tables.records.Beer2BeerTagRecord, ?>> getReferences() {
-		return java.util.Arrays.<org.jooq.ForeignKey<com.github.drinking_buddies.jooq.tables.records.Beer2BeerTagRecord, ?>>asList(com.github.drinking_buddies.jooq.Keys.FK_BEER2_BEER_TAG_BEER_1);
+		return java.util.Arrays.<org.jooq.ForeignKey<com.github.drinking_buddies.jooq.tables.records.Beer2BeerTagRecord, ?>>asList(com.github.drinking_buddies.jooq.Keys.FK_BEER2_BEER_TAG_BEER_TAG_1, com.github.drinking_buddies.jooq.Keys.FK_BEER2_BEER_TAG_BEER_1);
 	}
 
 	/**
