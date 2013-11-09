@@ -25,14 +25,5 @@
 	<classpathentry kind="lib" path="lib/jooq/jooq-meta-3.2.0.jar"/>
 	<classpathentry kind="lib" path="lib/sqlite/sqlite-jdbc-3.7.2.jar"/>
 	<classpathentry kind="lib" path="lib/xstream/xstream-1.4.5.jar"/>
-	<classpathentry kind="lib" path="lib/httpClient/commons-codec-1.6.jar"/>
-	<classpathentry kind="lib" path="lib/httpClient/commons-logging-1.1.3.jar"/>
-	<classpathentry kind="lib" path="lib/httpClient/fluent-hc-4.3.1.jar"/>
-	<classpathentry kind="lib" path="lib/httpClient/httpclient-4.3.1.jar"/>
-	<classpathentry kind="lib" path="lib/httpClient/httpclient-cache-4.3.1.jar"/>
-	<classpathentry kind="lib" path="lib/httpClient/httpcore-4.3.jar"/>
-	<classpathentry kind="lib" path="lib/httpClient/httpmime-4.3.1.jar"/>
-	<classpathentry kind="lib" path="lib/gson/gson-2.2.4-javadoc.jar"/>
-	<classpathentry kind="lib" path="lib/gson/gson-2.2.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
