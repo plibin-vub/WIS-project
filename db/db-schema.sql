@@ -1,4 +1,4 @@
-CREATE TABLE User(
+CREATE TABLE user(
    id 			INTEGER 	PRIMARY KEY,
    name 		TEXT		NOT NULL,
    facebook_name 	TEXT,
@@ -12,14 +12,14 @@ CREATE TABLE User(
    picture		BLOB
 );
 
-CREATE TABLE Buddy (
+CREATE TABLE buddy(
    id_user 	INTEGER,
    id_buddy 	INTEGER,
    FOREIGN KEY(id_user) REFERENCES User(id),
    FOREIGN KEY(id_buddy) REFERENCES User(id)
 );
 
-CREATE TABLE Bar(
+CREATE TABLE bar(
    id 		INTEGER 	PRIMARY KEY,
    name 	TEXT		NOT NULL,
    photo	BLOB,
@@ -30,7 +30,7 @@ CREATE TABLE Bar(
    FOREIGN KEY(id_address) REFERENCES Address(id)
 );
 
-CREATE TABLE Address(
+CREATE TABLE address(
    id		INTEGER		PRIMARY KEY,
    street 	TEXT,
    number	TEXT,
@@ -39,48 +39,48 @@ CREATE TABLE Address(
    country 	TEXT
 );
 
-CREATE TABLE FavoriteBar (
+CREATE TABLE favorite_bar(
    id_user 	INTEGER,
    id_bar 	INTEGER,
    FOREIGN KEY(id_user) REFERENCES User(id),
    FOREIGN KEY(id_bar) REFERENCES Bar(id)
 );
 
-CREATE TABLE Beer(
+CREATE TABLE beer(
    id 			INTEGER 	PRIMARY KEY,
    name 		TEXT		NOT NULL,
    webservice_name	TEXT		NOT NULL
 );
 
-CREATE TABLE FavoriteBeer (
+CREATE TABLE favorite_beer (
    id_user 	INTEGER,
    id_beer 	INTEGER,
    FOREIGN KEY(id_user) REFERENCES User(id),
    FOREIGN KEY(id_beer) REFERENCES Beer(id)
 );
 
-CREATE TABLE Beer_Bar (
+CREATE TABLE beer2_bar (
    id_beer 	INTEGER,
    id_bar 	INTEGER,
    FOREIGN KEY(id_beer) REFERENCES Beer(id),
    FOREIGN KEY(id_bar) REFERENCES Bar(id)
 );
 
-CREATE TABLE Review (
+CREATE TABLE review (
    id			INTEGER		PRIMARY KEY,
    id_beer 		INTEGER,
    id_user		INTEGER,
    visual_score		INTEGER,
    smell_score		INTEGER,
    taste_score		INTEGER,
-   afetertaste_score	INTEGER,
+   feel_score		INTEGER,
    text			TEXT,
    post_time		CHAR(16),
    FOREIGN KEY(id_beer) REFERENCES Beer(id),
    FOREIGN KEY(id_user) REFERENCES User(id)
 );
 
-CREATE TABLE ReviewComment (
+CREATE TABLE review_comment (
    id		INTEGER		PRIMARY KEY,
    id_review 	INTEGER,
    id_user	INTEGER,
@@ -90,32 +90,32 @@ CREATE TABLE ReviewComment (
    FOREIGN KEY(id_user) REFERENCES User(id)
 );
 
-CREATE TABLE BeerTag (
+CREATE TABLE beer_tag (
    name		TEXT		PRIMARY KEY
 );
 
-CREATE TABLE Beer_BeerTag (
-   beertag 	TEXT,
+CREATE TABLE beer2_beer_tag (
+   beertag 	TEXT_,
    id_beer 	INTEGER,
    FOREIGN KEY(beertag) REFERENCES BeerTag(name),
    FOREIGN KEY(id_beer) REFERENCES Beer(id)
 );
 
-CREATE TABLE BarComment (
+CREATE TABLE bar_comment (
    id		INTEGER		PRIMARY KEY,
    id_user	INTEGER		NOT NULL,
    text		TEXT,
    timestamp	CHAR(16)
 );
 
-CREATE TABLE Bar_BarComment (
+CREATE TABLE bar2_bar_comment (
    id_barcomment	INTEGER,
    id_bar 		INTEGER,
    FOREIGN KEY(id_barcomment) REFERENCES BarComment(id),
    FOREIGN KEY(id_bar) REFERENCES Bar(id)
 );
 
-CREATE TABLE BarScore (
+CREATE TABLE bar_score (
    id		INTEGER		PRIMARY KEY,
    score	INTEGER,
    post_time	CHAR(16),
@@ -123,9 +123,9 @@ CREATE TABLE BarScore (
    FOREIGN KEY (user_id) REFERENCES User(id)
 );
 
-CREATE TABLE Bar_BarScore (
+CREATE TABLE bar2_bar_score (
    bar_id	INTEGER,
-   barScore_id	INTEGER,
+   bar_score_id	INTEGER,
    FOREIGN KEY (bar_id) REFERENCES Bar(id),
-   FOREIGN KEY (barScore_id) REFERENCES BarScore(id)
+   FOREIGN KEY (bar_score_id) REFERENCES BarScore(id)
 );
