@@ -1,5 +1,8 @@
 package com.github.drinking_buddies;
 
+import static com.github.drinking_buddies.jooq.Tables.*;
+import static org.jooq.impl.DSL.count;
+
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,11 +12,18 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
+import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.Result;
+import org.jooq.SQLDialect;
+import org.jooq.impl.DSL;
+
 import com.github.drinking_buddies.config.Configuration;
 import com.github.drinking_buddies.config.Database;
 import com.github.drinking_buddies.entities.Beer;
 import com.github.drinking_buddies.entities.Image;
 import com.github.drinking_buddies.entities.Tag;
+import com.github.drinking_buddies.jooq.Tables;
 import com.github.drinking_buddies.ui.BeerForm;
 import com.github.drinking_buddies.ui.utils.EncodingUtils;
 import com.thoughtworks.xstream.XStream;
@@ -47,15 +57,15 @@ public class Application extends WApplication {
                 handleInternalPath(internalPath);
             }            
         });
-        
-        handleInternalPath(getInternalPath());
-        
+
         XStream xstream = new XStream(new DomDriver()); 
         xstream.alias("configuration", Configuration.class);
         xstream.alias("database", Database.class);
         //TODO: allow for the configuration of this file location
         configuration = (Configuration) xstream.fromXML(new File("./drinking-buddies-config.xml"));
         System.err.println(configuration.getDatabase().getJdbcUrl());
+        
+        handleInternalPath(getInternalPath());
     }
     
     //TODO remove
