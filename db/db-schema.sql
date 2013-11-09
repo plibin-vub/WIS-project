@@ -48,6 +48,7 @@ CREATE TABLE favorite_bar(
 
 CREATE TABLE beer(
    id 			INTEGER 	PRIMARY KEY,
+   url			TEXT		NOT NULL,
    name 		TEXT		NOT NULL,
    webservice_name	TEXT		NOT NULL
 );

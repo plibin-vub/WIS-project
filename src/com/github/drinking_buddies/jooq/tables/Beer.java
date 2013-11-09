@@ -11,7 +11,7 @@ package com.github.drinking_buddies.jooq.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Beer extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jooq.tables.records.BeerRecord> {
 
-	private static final long serialVersionUID = 720195381;
+	private static final long serialVersionUID = -2049742280;
 
 	/**
 	 * The singleton instance of <code>beer</code>
@@ -30,6 +30,11 @@ public class Beer extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jo
 	 * The column <code>beer.id</code>. 
 	 */
 	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.BeerRecord, java.lang.Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER, this);
+
+	/**
+	 * The column <code>beer.url</code>. 
+	 */
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.BeerRecord, java.lang.String> URL = createField("url", org.jooq.impl.SQLDataType.CLOB.nullable(false), this);
 
 	/**
 	 * The column <code>beer.name</code>. 
