@@ -4,6 +4,7 @@
 		<div class="header">
 			<img src="${app.context}/pics/header.png" alt="Header image"></img>
 		</div>
+		
 		<div class="div-row">
 			<table>
 				<tr>
@@ -61,5 +62,9 @@
 	
 	<message id="ellipsis">
 		<span>...</span>
+	</message>
+	
+	<message id="user-form">
+		<div>${user}</div>
 	</message>
 </messages>

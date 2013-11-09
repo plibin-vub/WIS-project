@@ -8,7 +8,9 @@ import javax.servlet.ServletContext;
 import com.github.drinking_buddies.entities.Beer;
 import com.github.drinking_buddies.entities.Image;
 import com.github.drinking_buddies.entities.Tag;
+import com.github.drinking_buddies.entities.User;
 import com.github.drinking_buddies.ui.BeerForm;
+import com.github.drinking_buddies.ui.UserForm;
 import com.github.drinking_buddies.ui.utils.EncodingUtils;
 
 import eu.webtoolkit.jwt.Signal1;
@@ -80,6 +82,13 @@ public class Application extends WApplication {
             } else {
                 //show the beer selection form
             }
+        } else {
+            //show 404
+        }
+        if ("users".equals(parts[0])) {
+           
+            User u = new User("Pieter Paul Pereboom");
+            getRoot().addWidget(new UserForm(u));
         } else {
             //show 404
         }
