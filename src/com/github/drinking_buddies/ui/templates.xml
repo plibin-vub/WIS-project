@@ -10,7 +10,7 @@
 					<td>
 						<div>${beer}</div>
 						<div>${tr:beer-form.brewed-by}: ${brewery}</div>
-						<div>${tr:beer-form.likes}: ${likes}</div>
+						<div>${tr:beer-form.favored-by}: ${favored-by}</div>
 						<div>${tr:beer-form.score}: ${score} / ${highest-score}</div>
 					</td>
 					<td>

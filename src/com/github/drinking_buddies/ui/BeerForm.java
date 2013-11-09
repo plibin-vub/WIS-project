@@ -32,7 +32,7 @@ public class BeerForm extends WContainerWidget {
         //we bind to some of the template's variables
         main.bindString("beer", beer.getName());
         main.bindString("brewery", beer.getBrewery());
-        main.bindInt("likes", beer.getLikes());
+        main.bindInt("favored-by", beer.getFavoredBy());
         main.bindString("score", String.valueOf(beer.getScore()));
         main.bindInt("highest-score", highestScore);
         //we bind the beer's picture to the template

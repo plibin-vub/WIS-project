@@ -3,7 +3,7 @@
 	<message id="app.title">Drinking Buddies</message>
 	
 	<message id="beer-form.brewed-by">Brewed by</message>
-	<message id="beer-form.likes">Likes</message>
+	<message id="beer-form.favored-by">Favored by</message>
 	<message id="beer-form.score">Score</message>
 	<message id="beer-form.add-to-favorites">Add to favorites</message>
 	<message id="beer-form.tags">Tags</message>

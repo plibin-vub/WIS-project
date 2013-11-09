@@ -8,14 +8,14 @@ package com.github.drinking_buddies.entities;
 public class Beer {
     private String name;
     private String brewery;
-    private int likes;
+    private int favoredBy;
     private double score;
     private Image picture;
     
-    public Beer(String name, String brewery, int likes, double score, Image picture) {
+    public Beer(String name, String brewery, int favoredBy, double score, Image picture) {
         this.name = name;
         this.brewery = brewery;
-        this.likes = likes;
+        this.favoredBy = favoredBy;
         this.score = score;
         this.picture = picture;
     }
@@ -28,8 +28,8 @@ public class Beer {
         return brewery;
     }
     
-    public int getLikes() {
-        return likes;
+    public int getFavoredBy() {
+        return favoredBy;
     }
     
     public double getScore() {
