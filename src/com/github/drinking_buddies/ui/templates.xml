@@ -35,6 +35,11 @@
 				</tr>
 			</table>
 		</div>
+		<div class="div-row">
+			<div>${tr:beer-form.reviews}:</div>
+			${add-review}
+			${reviews}
+		</div>
 	</message>
 	
 	<message id="tag">

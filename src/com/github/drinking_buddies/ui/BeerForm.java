@@ -76,5 +76,16 @@ public class BeerForm extends WContainerWidget {
             }
         });
         main.bindWidget("add-tag", addTag);
+        
+        //add the "add review" button to the main template
+        WPushButton addReview = new WPushButton(tr("beer-form.add-review"));
+        //connect a listener to the button
+        addReview.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
+            public void trigger(WMouseEvent arg) {
+                //TODO
+                //show a form that allows user to add a review
+            }
+        });
+        main.bindWidget("add-review", addReview);
     }
 }
