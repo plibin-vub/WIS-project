@@ -1,7 +1,6 @@
 package com.github.drinking_buddies;
 
 import static com.github.drinking_buddies.jooq.Tables.*;
-import static org.jooq.impl.DSL.count;
 
 import java.io.File;
 import java.sql.Connection;
@@ -14,6 +13,7 @@ import javax.servlet.ServletContext;
 
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.jooq.Record1;
 import org.jooq.Result;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
@@ -23,7 +23,6 @@ import com.github.drinking_buddies.config.Database;
 import com.github.drinking_buddies.entities.Beer;
 import com.github.drinking_buddies.entities.Image;
 import com.github.drinking_buddies.entities.Tag;
-import com.github.drinking_buddies.jooq.Tables;
 import com.github.drinking_buddies.ui.BeerForm;
 import com.github.drinking_buddies.ui.utils.EncodingUtils;
 import com.thoughtworks.xstream.XStream;
@@ -103,6 +102,7 @@ public class Application extends WApplication {
                 String beerName = null;
                 String beerWSName = null;
                 int favoredBy = 0;
+                List<Tag> tags = new ArrayList<Tag>();
                 
                 Connection conn = null;
                 try {
@@ -127,6 +127,20 @@ public class Application extends WApplication {
                             .from(FAVORITE_BEER)
                             .where(FAVORITE_BEER.BEER_ID.equal(id))
                             .fetchCount();
+                    
+                    Result<Record1<String>> results 
+                        = dsl
+                            .select(BEER_TAG.NAME)
+                            .from(BEER_TAG)
+                            .join(BEER2_BEER_TAG)
+                            .on(BEER_TAG.ID.equal(BEER2_BEER_TAG.BEER_TAG_ID))
+                            .where(BEER2_BEER_TAG.BEER_ID.equal(id))
+                            .orderBy(BEER_TAG.ID)
+                            .fetch();
+                 
+                    for (Record1<String> r1 : results) {
+                        tags.add(new Tag(r1.value1()));
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     throw new RuntimeException(e);
@@ -135,10 +149,6 @@ public class Application extends WApplication {
                 }
                 
                 Beer b = new Beer(beerName, "Westmalle klooster", favoredBy, 4.5, i);
-                final List<Tag> tags = new ArrayList<Tag>();
-                tags.add(new Tag("belgian"));
-                tags.add(new Tag("9deg"));
-                tags.add(new Tag("fermented in bottles"));
                 getRoot().addWidget(new BeerForm(b, tags));
             } else {
                 //show the beer selection form
