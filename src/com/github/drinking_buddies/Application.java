@@ -4,6 +4,7 @@ import static com.github.drinking_buddies.jooq.Tables.BEER;
 import static com.github.drinking_buddies.jooq.Tables.BEER2_BEER_TAG;
 import static com.github.drinking_buddies.jooq.Tables.BEER_TAG;
 import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BEER;
+import static com.github.drinking_buddies.jooq.Tables.USER;
 
 import java.io.File;
 import java.sql.Connection;
@@ -163,7 +164,31 @@ public class Application extends WApplication {
         }
         if ("users".equals(parts[0])) {
            
-            User u = new User("Pieter Paul Pereboom");
+            String userName = null;
+            String birthdate = null;
+                 
+                 Connection conn = null;
+                 try {
+                     conn = this.getConnection();
+                     DSLContext dsl = createDSLContext(conn);
+                     
+                     Record r 
+                         = dsl
+                             .select(USER.NAME, USER.BIRTHDATE)
+                             .from(USER)
+                             .where(USER.ID.eq(1))
+                             .fetchOne();
+                     userName = r.getValue(USER.NAME);
+                     birthdate = r.getValue(USER.BIRTHDATE);
+                     }
+                  catch (Exception e) {
+                     e.printStackTrace();
+                     throw new RuntimeException(e);
+                 } finally {
+                     closeConnection(conn);
+                 }
+
+            User u = new User(userName, birthdate);
             getRoot().addWidget(new UserForm(u));
         } else {
             //show 404

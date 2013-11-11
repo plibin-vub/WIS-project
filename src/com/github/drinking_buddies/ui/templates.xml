@@ -69,7 +69,7 @@
 		<span>...</span>
 	</message>
 	
-=======
+
 	<message id="add-tag-dialog">
 		<div class="dialog">
 			<div class="div-row">${type-combo}</div>
@@ -92,9 +92,10 @@
 			</div>
 			<div class="controls">${ok} ${cancel}</div>
 		</div>
->>>>>>> origin/HEAD
-	<<<<<<< HEAD
+	</message>
+
 	<message id="user-form">
 		<div class="name">${user}</div>
+		<div class="birthdate">${birthdate}</div>
 	</message>
 </messages>

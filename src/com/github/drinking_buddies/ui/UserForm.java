@@ -19,7 +19,7 @@ public class UserForm extends WContainerWidget {
         TemplateUtils.configureDefault(Application.getInstance(), main);
         //we bind to some of the template's variables
         main.bindString("user", user.getName());
-
+        main.bindString("birthdate", user.getBirthdate());
 
         }
     }
