@@ -95,6 +95,6 @@
 >>>>>>> origin/HEAD
 	<<<<<<< HEAD
 	<message id="user-form">
-		<div>${user}</div>
+		<div class="name">${user}</div>
 	</message>
 </messages>
