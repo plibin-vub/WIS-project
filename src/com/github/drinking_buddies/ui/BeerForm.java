@@ -2,12 +2,12 @@ package com.github.drinking_buddies.ui;
 
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.entities.Beer;
+import com.github.drinking_buddies.entities.Review;
 import com.github.drinking_buddies.entities.Tag;
 import com.github.drinking_buddies.ui.utils.ImageUtils;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
 import eu.webtoolkit.jwt.Signal1;
-import eu.webtoolkit.jwt.Utils;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WImage;
 import eu.webtoolkit.jwt.WLink;
@@ -22,9 +22,9 @@ import eu.webtoolkit.jwt.WTemplate;
  * these reviews can also be commented upon.
  */
 public class BeerForm extends WContainerWidget {
-    private static final int highestScore = 5;
+    private WContainerWidget tagContainer = new WContainerWidget();
   
-    public BeerForm(Beer beer, Iterable<Tag> tags) {
+    public BeerForm(final Beer beer, Iterable<Tag> tags) {
         //the main template for the beer form 
         //(a WTemplate constructor accepts the template text and its parent)
         WTemplate main = new WTemplate(tr("beer-form"), this);
@@ -34,7 +34,7 @@ public class BeerForm extends WContainerWidget {
         main.bindString("brewery", beer.getBrewery());
         main.bindInt("favored-by", beer.getFavoredBy());
         main.bindString("score", String.valueOf(beer.getScore()));
-        main.bindInt("highest-score", highestScore);
+        main.bindInt("highest-score", Review.highestScore);
         //we bind the beer's picture to the template
         WImage picture = new WImage();
         {
@@ -59,9 +59,8 @@ public class BeerForm extends WContainerWidget {
         main.bindString("find-bars-text", tr("beer-form.in-which-bar-can-i-find").arg(beer.getName()));
                
         //add tagwidgets to the main template
-        WContainerWidget tagContainer = new WContainerWidget();
         for (Tag t : tags) {
-            new TagWidget(t.getText(), tagContainer);
+            addTagWidget(t);
         }
         main.bindWidget("tags", tagContainer);
         
@@ -70,9 +69,13 @@ public class BeerForm extends WContainerWidget {
         //connect a listener to the button
         addTag.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
             public void trigger(WMouseEvent arg) {
-                //TODO
-                //show a form that allows user to choose an existing tag
-                //or add a new tag to the database
+                AddTagDialog dialog = new AddTagDialog(beer, BeerForm.this);
+                dialog.tagAdded().addListener(BeerForm.this, new Signal1.Listener<Tag>() {
+                    public void trigger(Tag tag) {
+                        tagAdded(tag);
+                    }
+                });
+                dialog.show();
             }
         });
         main.bindWidget("add-tag", addTag);
@@ -82,10 +85,23 @@ public class BeerForm extends WContainerWidget {
         //connect a listener to the button
         addReview.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
             public void trigger(WMouseEvent arg) {
-                //TODO
-                //show a form that allows user to add a review
+                AddReviewDialog dialog = new AddReviewDialog(beer, BeerForm.this);
+                dialog.reviewAdded().addListener(BeerForm.this, new Signal1.Listener<Review>() {
+                    public void trigger(Review tag) {
+                        
+                    }
+                });
+                dialog.show();
             }
         });
         main.bindWidget("add-review", addReview);
+    }
+    
+    private void addTagWidget(Tag tag) {
+        new TagWidget(tag.getText(), tagContainer);
+    }
+
+    public void tagAdded(Tag tag) {
+        addTagWidget(tag);
     }
 }

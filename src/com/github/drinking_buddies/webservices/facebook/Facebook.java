@@ -3,8 +3,7 @@ package com.github.drinking_buddies.webservices.facebook;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-
-import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.client.utils.URIUtils;
 
 import com.github.drinking_buddies.webservices.rest.RestRequest;
 import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
@@ -24,12 +23,7 @@ public class Facebook {
 	public List<Friend> getFriends() throws RestException{
 		URI url;
 		try {
-			url = new URIBuilder()
-					.setScheme("https")
-			        .setHost(HOST)
-			        .setPath(FRIENDS_PATH)
-			        .setParameter("access_token", token)
-			        .build();
+		    url = URIUtils.createURI("http", HOST, 80, FRIENDS_PATH, "access_token="+token, null);
 		} catch (URISyntaxException e) {
 			throw new IllegalArgumentException("token is not valid",e);
 		}
@@ -49,12 +43,7 @@ public class Facebook {
 	public Person getUser(String id) throws RestException{
 		URI url;
 		try {
-			url = new URIBuilder()
-				.setScheme("https")
-				.setHost(HOST)
-				.setPath("/"+id)
-				.setParameter("access_token", token)
-				.build();
+		    url = URIUtils.createURI("http", HOST, 80, "/"+id, "access_token="+token, null);
 		} catch (URISyntaxException e) {
 			throw new IllegalArgumentException("Id or token is not valid",e);
 		}

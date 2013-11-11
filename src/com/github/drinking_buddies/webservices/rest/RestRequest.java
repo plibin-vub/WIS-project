@@ -4,11 +4,8 @@ import java.io.IOException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
@@ -17,9 +14,9 @@ import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 public class RestRequest {
 	
 	public static String makeRequest(String url) throws RestException {
-		CloseableHttpClient  httpClient =null;
+		DefaultHttpClient  httpClient =null;
 		try{
-			httpClient= HttpClients.createDefault();
+			httpClient=  new DefaultHttpClient();
 			HttpGet getRequest = new HttpGet(url);
 			getRequest.addHeader("accept", "application/json");
 			HttpResponse response = httpClient.execute(getRequest);
@@ -35,11 +32,7 @@ public class RestRequest {
 		}
 		finally{
 			if(httpClient!=null){
-				try {
-					httpClient.close();
-				} catch (IOException e) {
-					//TODO check how to handle
-				}
+				httpClient.getConnectionManager().shutdown();;
 			}
 		}
 	}

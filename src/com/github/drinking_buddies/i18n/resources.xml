@@ -10,6 +10,23 @@
 	<message id="beer-form.add-tag">Add tag</message>
 	<message id="beer-form.in-which-bar-can-i-find">In which bars can I find {1}</message>
 	<message id="beer-form.reviews">Reviews</message>
+	<message id="beer-form.add-review">Add review</message>
+	
+	<message id="add-tag-dialog.title">Add a tag to "{1}"</message>
+	<message id="add-tag-dialog.add-new">Add a new tag</message>
+	<message id="add-tag-dialog.provide-new-tag-name">Provide a new tag name</message>
+	<message id="add-tag-dialog.select-existing">Select an existing tag</message>
+	<message id="add-tag-dialog.ok">OK</message>
+	<message id="add-tag-dialog.cancel">Cancel</message>
+	
+	<message id="add-review-dialog.title">Add a review for "{1}"</message>
+	<message id="add-review-dialog.color">Color</message>
+	<message id="add-review-dialog.smell">Smell</message>
+	<message id="add-review-dialog.taste">Taste</message>
+	<message id="add-review-dialog.feel">Feel</message>
+	<message id="add-review-dialog.text">Text</message>
+	<message id="add-review-dialog.ok">OK</message>
+	<message id="add-review-dialog.cancel">Cancel</message>
 	
 	<message id="review.average-score">Score</message>
 	<message id="review.posted-by">Posted by</message>

@@ -3,7 +3,7 @@ package com.github.drinking_buddies.webservices.brewerydb;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.client.utils.URIUtils;
 
 import com.github.drinking_buddies.webservices.rest.RestRequest;
 import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
@@ -19,17 +19,11 @@ public class BreweryDb {
 	
 	public Beer getBeer(String id) throws RestException{
 		URI url;
-		try {
-			url = new URIBuilder()
-					.setScheme("http")
-			        .setHost(HOST)
-			        .setPath(BEERS_PATH)
-			        .setParameter("key", API_KEY)
-			        .setParameter("ids", id)
-			        .build();
-		} catch (URISyntaxException e) {
-			throw new IllegalArgumentException("Id is not valid",e);
-		}
+        try {
+            url = URIUtils.createURI("http", HOST, 80, BEERS_PATH, "key="+API_KEY+"&ids="+id, null);
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException("id is not valid",e);
+        }
 		System.out.println(url.toString());
 		String jsonBeer=RestRequest.makeRequest(url.toString());
 		Gson gson = new Gson();

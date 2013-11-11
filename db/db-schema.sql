@@ -71,10 +71,10 @@ CREATE TABLE review (
    id				INTEGER		PRIMARY KEY,
    beer_id 			INTEGER,
    user_id			INTEGER,
-   visual_score		INTEGER,
-   smell_score		INTEGER,
-   taste_score		INTEGER,
-   feel_score		INTEGER,
+   visual_score			real,
+   smell_score			real,
+   taste_score			real,
+   feel_score			real,
    text				TEXT,
    post_time		CHAR(16),
    FOREIGN KEY(beer_id) REFERENCES beer(id),
@@ -93,7 +93,7 @@ CREATE TABLE review_comment (
 
 CREATE TABLE beer_tag (
    id 				INTEGER 	PRIMARY KEY,
-   name				TEXT		
+   name				TEXT		UNIQUE	
 );
 
 CREATE TABLE beer2_beer_tag (

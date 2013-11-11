@@ -69,6 +69,31 @@
 		<span>...</span>
 	</message>
 	
+=======
+	<message id="add-tag-dialog">
+		<div class="dialog">
+			<div class="div-row">${type-combo}</div>
+			<div class="div-row">${variable-field}</div>
+			<div class="controls">${ok} ${cancel}</div>
+		</div>
+	</message>
+	
+	<message id="add-review-dialog">
+		<div class="dialog">
+			<div class="div-row scores">
+				<div class="score">${tr:add-review-dialog.color}:${color}</div>
+				<div class="score">${tr:add-review-dialog.smell}:${smell}</div>
+				<div class="score">${tr:add-review-dialog.taste}:${taste}</div>
+				<div class="score">${tr:add-review-dialog.feel}:${feel}</div>
+			</div>
+			<div class="div-row">
+				${tr:add-review-dialog.text}:
+				${text}
+			</div>
+			<div class="controls">${ok} ${cancel}</div>
+		</div>
+>>>>>>> origin/HEAD
+	<<<<<<< HEAD
 	<message id="user-form">
 		<div>${user}</div>
 	</message>
