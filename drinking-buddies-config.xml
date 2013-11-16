@@ -5,4 +5,12 @@
     <userName></userName>
     <password></password>
   </database>
+  
+  <wt>
+  	<authProperties>
+  		<property name="facebook-oauth2-redirect-endpoint" value="http://localhost:8080/db/"/>
+        <property name="facebook-oauth2-app-id" value="765254193491370"/>
+        <property name="facebook-oauth2-app-secret" value="c49eb927c26e29343be69fe18b567f3f"/>
+  	</authProperties>
+  </wt>
 </configuration>

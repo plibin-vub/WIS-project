@@ -2,6 +2,8 @@
 <messages>
 	<message id="app.title">Drinking Buddies</message>
 	
+	<message id="start-form.login">Login</message>
+	
 	<message id="beer-form.brewed-by">Brewed by</message>
 	<message id="beer-form.favored-by">Favored by</message>
 	<message id="beer-form.score">Score</message>

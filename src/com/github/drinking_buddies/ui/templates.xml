@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <messages>
+	<message id="start-form">
+		<div class="header">
+			<img src="${app.context}/pics/header.png" alt="Header image"></img>
+		</div>
+		
+		<div class="div-row">
+		</div>
+		<div class="div-row login">
+			${login}
+		</div>
+	</message>
+	
 	<message id="beer-form">
 		<div class="header">
 			<img src="${app.context}/pics/header.png" alt="Header image"></img>

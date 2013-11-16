@@ -6,7 +6,6 @@ import static com.github.drinking_buddies.jooq.Tables.BEER_TAG;
 import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BEER;
 import static com.github.drinking_buddies.jooq.Tables.USER;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -17,7 +16,6 @@ import javax.servlet.ServletContext;
 
 import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.jooq.Record1;
 import org.jooq.Record2;
 import org.jooq.Result;
 import org.jooq.SQLDialect;
@@ -30,20 +28,21 @@ import com.github.drinking_buddies.entities.Image;
 import com.github.drinking_buddies.entities.Tag;
 import com.github.drinking_buddies.entities.User;
 import com.github.drinking_buddies.ui.BeerForm;
+import com.github.drinking_buddies.ui.StartForm;
 import com.github.drinking_buddies.ui.UserForm;
 import com.github.drinking_buddies.ui.utils.EncodingUtils;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WEnvironment;
-import eu.webtoolkit.jwt.WText;
 import eu.webtoolkit.jwt.WXmlLocalizedStrings;
+import eu.webtoolkit.jwt.auth.Identity;
 
 public class Application extends WApplication {
     private ServletContext servletContext;
     private Configuration configuration;
+    
+    private User loggedInUser;
     
     public Application(WEnvironment env, ServletContext servletContext) {
         super(env);
@@ -64,13 +63,8 @@ public class Application extends WApplication {
             }            
         });
 
-        XStream xstream = new XStream(new DomDriver()); 
-        xstream.alias("configuration", Configuration.class);
-        xstream.alias("database", Database.class);
-        //TODO: allow for the configuration of this file location
-        configuration = (Configuration) xstream.fromXML(new File("./drinking-buddies-config.xml"));
-        System.err.println(configuration.getDatabase().getJdbcUrl());
-        
+        configuration = Main.loadConfiguration();
+
         handleInternalPath(getInternalPath());
     }
     
@@ -90,8 +84,8 @@ public class Application extends WApplication {
         
         getRoot().clear();
         
-        if (parts.length == 0) {
-            getRoot().addWidget(new WText("Tata: the drinking buddies main page!"));
+        if ("".equals(parts[0])) {
+            getRoot().addWidget(new StartForm());
             return;
         }
             
@@ -240,5 +234,13 @@ public class Application extends WApplication {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
+    
+    public User getLoggedInUser() {
+        return loggedInUser;
+    }
+    
+    public void login(User user) {
+        loggedInUser = user;
     }
 }
