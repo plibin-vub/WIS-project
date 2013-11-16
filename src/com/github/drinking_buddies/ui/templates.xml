@@ -6,6 +6,22 @@
 		</div>
 		
 		<div class="div-row">
+			<table>
+				<tr>
+					<td>
+						<div class="search">
+							${beer-search-text}
+							${beer-search-button}
+						</div>
+					</td>
+					<td>
+						<div class="search">
+							${bar-search-text}
+							${bar-search-button}
+						</div>
+					</td>
+				</tr>
+			</table>
 		</div>
 		<div class="div-row login">
 			${login}

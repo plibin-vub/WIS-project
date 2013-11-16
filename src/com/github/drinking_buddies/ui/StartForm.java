@@ -2,11 +2,15 @@ package com.github.drinking_buddies.ui;
 
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.Main;
+import com.github.drinking_buddies.ui.autocompletion.AutocompletePopup;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
+import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WAnchor;
 import eu.webtoolkit.jwt.WContainerWidget;
+import eu.webtoolkit.jwt.WLineEdit;
+import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WTemplate;
 import eu.webtoolkit.jwt.auth.FacebookService;
 import eu.webtoolkit.jwt.auth.Identity;
@@ -33,6 +37,12 @@ public class StartForm extends WContainerWidget {
             }
         });
         process.connectStartAuthenticate(login.clicked());
+        
+        final WLineEdit beerSearch = new WLineEdit();
+        final AutocompletePopup beerPopup = new AutocompletePopup(new BeerAutocompleteDatabaseModel(10), beerSearch, main);
+        main.bindWidget("beer-search-text", beerSearch);
+        WPushButton beerSearchButton = new WPushButton(tr("start-form.search-beer"));
+        main.bindWidget("beer-search-button", beerSearchButton);
     }
     
     private void authenticated(Identity id) {
