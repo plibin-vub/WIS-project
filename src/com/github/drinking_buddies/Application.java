@@ -37,7 +37,6 @@ import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WBootstrapTheme;
 import eu.webtoolkit.jwt.WEnvironment;
 import eu.webtoolkit.jwt.WXmlLocalizedStrings;
-import eu.webtoolkit.jwt.auth.Identity;
 
 public class Application extends WApplication {
     private ServletContext servletContext;
