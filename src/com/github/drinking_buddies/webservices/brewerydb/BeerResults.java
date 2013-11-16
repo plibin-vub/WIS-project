@@ -7,14 +7,14 @@ import java.util.List;
 public class BeerResults {
 
 	
-	private Number currentPage;
+	private int currentPage;
    	private List<Beer> data;
-   	private Number numberOfPages;
+   	private int numberOfPages;
    	private String status;
-	public Number getCurrentPage() {
+	public int getCurrentPage() {
 		return currentPage;
 	}
-	public void setCurrentPage(Number currentPage) {
+	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
 	}
 	public List<Beer> getData() {
@@ -23,10 +23,10 @@ public class BeerResults {
 	public void setData(List<Beer> data) {
 		this.data = data;
 	}
-	public Number getNumberOfPages() {
+	public int getNumberOfPages() {
 		return numberOfPages;
 	}
-	public void setNumberOfPages(Number numberOfPages) {
+	public void setNumberOfPages(int numberOfPages) {
 		this.numberOfPages = numberOfPages;
 	}
 	public String getStatus() {
