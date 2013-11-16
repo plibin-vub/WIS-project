@@ -26,7 +26,8 @@ public class AutocompletePopup extends WSuggestionPopup {
                 if (filter == null || !filter.equals(f)) {
                     filter = f;
                     model.filter(f);
-                    filter(f);
+                    if (model.getRowCount() > 0)
+                        filter(f);
                 }
             }
         });
@@ -46,10 +47,10 @@ public class AutocompletePopup extends WSuggestionPopup {
         Options o = new Options();
         o.highlightBeginTag = "<b>";
         o.highlightEndTag = "</b>";
-        o.listSeparator = '\0';
-        o.whitespace = " \\n";
-        o.wordSeparators = " ";
+        o.listSeparator = 0;
         o.appendReplacedText = "";
+        o.whitespace = "";
+        o.wordSeparators = "";
         o.wordStartRegexp = "";
         return o;
     }
