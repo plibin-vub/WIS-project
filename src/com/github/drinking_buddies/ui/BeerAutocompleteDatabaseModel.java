@@ -17,5 +17,7 @@ public class BeerAutocompleteDatabaseModel extends AutocompleteDatabaseModel {
             if (ss.startsWith(s))
                 list.add(ss);
         }
+        if (list.size() == 1)
+            list.clear();
     }
 }
