@@ -34,6 +34,7 @@ import com.github.drinking_buddies.ui.utils.EncodingUtils;
 
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WApplication;
+import eu.webtoolkit.jwt.WBootstrapTheme;
 import eu.webtoolkit.jwt.WEnvironment;
 import eu.webtoolkit.jwt.WXmlLocalizedStrings;
 import eu.webtoolkit.jwt.auth.Identity;
@@ -48,6 +49,8 @@ public class Application extends WApplication {
         super(env);
         
         this.servletContext = servletContext;
+        
+        setTheme(new WBootstrapTheme());
         
         WXmlLocalizedStrings resources = new WXmlLocalizedStrings();
         resources.use("/com/github/drinking_buddies/ui/templates");
