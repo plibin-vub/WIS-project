@@ -40,4 +40,12 @@
 	<message id="review.feel">Feel</message>
 	<message id="review.expand/comment">Expand/Comment</message>
 	<message id="review.collapse">Collapse</message>
+	
+	<message id="comments.all-comments">All comments</message>
+	
+	<message id="add-comment.leave-a-new-comment">Leave a new comment!</message>
+	<message id="add-comment.cancel">Cancel</message>
+	<message id="add-comment.post">Post</message>
+	
+	<message id="comment.posted-by">Posted by</message>
 </messages>

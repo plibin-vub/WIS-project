@@ -162,4 +162,32 @@
 		<div class="first-name">${first-name}</div>
 		<div class="last-name">${last-name}</div>
 	</message>
+	
+	<message id="comments-widget">
+		<span>${tr:comments.all-comments} (${number})</span>
+		${add-comment}
+		${comments}
+	</message>
+	
+	<message id="add-comment-widget">
+		<div class="div-row">
+			<img src="${poster-img}"/>
+			<div>
+				${text}
+				<break/>
+				${cancel} ${post}
+			</div>
+		</div>
+	</message>
+	
+	<message id="comment-widget">
+		<div class="div-row">
+			<img src="${poster-img}"/>
+			<div>
+				<span>${tr:comment.posted-by}:${poster-name}</span> <span>${posted-x-time-ago}</span>
+				<break/>
+				${text}
+			</div>
+		</div>
+	</message>
 </messages>

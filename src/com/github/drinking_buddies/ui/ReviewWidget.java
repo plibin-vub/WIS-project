@@ -1,9 +1,14 @@
 package com.github.drinking_buddies.ui;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.entities.Comment;
 import com.github.drinking_buddies.entities.Review;
+import com.github.drinking_buddies.entities.User;
+import com.github.drinking_buddies.ui.comments.ReviewCommentsWidget;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
 import eu.webtoolkit.jwt.Signal1;
@@ -30,6 +35,8 @@ public class ReviewWidget extends WTemplate {
         this.bindString("smell-score", formatScore(review.getSmellScore()));
         this.bindString("taste-score", formatScore(review.getTasteScore()));
         this.bindString("feel-score", formatScore(review.getFeelScore()));
+        
+        collapse();
     }
 
     public ReviewWidget(Review review) {
@@ -45,7 +52,12 @@ public class ReviewWidget extends WTemplate {
                 collapse();
             }
         });
-        //TODO show comments here
+        this.bindWidget("control", control);
+        
+        User user = Application.getInstance().getLoggedInUser();
+        List<Comment> comments = new ArrayList<Comment>();
+        //TODO fetch comments
+        this.bindWidget("comments", new ReviewCommentsWidget(comments, user));
     }
     
     private void collapse() {
@@ -60,6 +72,8 @@ public class ReviewWidget extends WTemplate {
                 expand();
             }
         });
+        this.bindWidget("control", control);
+        this.bindWidget("comments", null);
     }
     
     private void showEllipsis(boolean show) {
