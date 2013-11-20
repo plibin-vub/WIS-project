@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <messages>
+	<message id="start-form">
+		<div class="header">
+			<img src="${app.context}/pics/header.png" alt="Header image"></img>
+		</div>
+		
+		<div class="div-row">
+			<table>
+				<tr>
+					<td>
+						<div class="search">
+							${beer-search-text}
+							${beer-search-button}
+						</div>
+					</td>
+					<td>
+						<div class="search">
+							${bar-search-text}
+							${bar-search-button}
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="div-row login">
+			${login}
+		</div>
+	</message>
+	
 	<message id="beer-form">
 		<div class="header">
 			<img src="${app.context}/pics/header.png" alt="Header image"></img>
@@ -95,9 +123,10 @@
 	</message>
 
 	<message id="user-form">
-		<div class="name">${user}</div>
-		<div class="birthdate">${birthdate}</div>
+		<div class="first-name">${first-name}</div>
+		<div class="last-name">${last-name}</div>
 	</message>
+	
 	
 	<message id="bar-form">
 		<div class="header">
@@ -164,5 +193,4 @@
 			<div class="controls">${ok} ${cancel}</div>
 		</div>
 	</message>
-	
 </messages>

@@ -48,8 +48,8 @@ public class Application extends WApplication {
     private ServletContext servletContext;
     private Configuration configuration;
     
-    private User loggedInUser;
-    
+    private Integer loggedInUserId;
+
     
     public Application(WEnvironment env, ServletContext servletContext) {
         super(env);
@@ -167,8 +167,8 @@ public class Application extends WApplication {
         }
         if ("users".equals(parts[0])) {
            
-            String userName = null;
-            String birthdate = null;
+            String firstName = null;
+            String lastName = null;
                  
                  Connection conn = null;
                  try {
@@ -177,12 +177,12 @@ public class Application extends WApplication {
                      
                      Record r 
                          = dsl
-                             .select(USER.NAME, USER.BIRTHDATE)
+                             .select(USER.FIRST_NAME)
                              .from(USER)
                              .where(USER.ID.eq(1))
                              .fetchOne();
-                     userName = r.getValue(USER.NAME);
-                     birthdate = r.getValue(USER.BIRTHDATE);
+                     firstName = r.getValue(USER.FIRST_NAME);
+                     lastName = r.getValue(USER.LAST_NAME);
                      }
                   catch (Exception e) {
                      e.printStackTrace();
@@ -191,7 +191,7 @@ public class Application extends WApplication {
                      closeConnection(conn);
                  }
 
-            User u = new User(userName, birthdate);
+            User u = new User(firstName, lastName);
             getRoot().addWidget(new UserForm(u));
         } else {
             //show 404
@@ -299,11 +299,11 @@ public class Application extends WApplication {
         }
     }
     
-    public User getLoggedInUser() {
-        return loggedInUser;
+    public Integer getLoggedInUserId() {
+        return loggedInUserId;
     }
     
-    public void login(User user) {
-        loggedInUser = user;
+    public void login(Integer userId) {
+        loggedInUserId = userId;
     }
 }
