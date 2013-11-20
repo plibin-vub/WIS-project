@@ -8,17 +8,15 @@ public class User {
     private int id;
     private String firstName;
     private String lastName;
+    private String oAuthName;
+    private String oAuthProvider;
     
     public User(Record r) {
         id = r.getValue(USER.ID);
         firstName = r.getValue(USER.FIRST_NAME);
         lastName = r.getValue(USER.LAST_NAME);
-    }
-    
-    public User (int id, String firstName, String lastName) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        oAuthName = r.getValue(USER.OAUTH_NAME);
+        oAuthProvider = r.getValue(USER.OAUTH_PROVIDER);
     }
 
     public String getFirstName() {
@@ -31,5 +29,17 @@ public class User {
     
     public int getId() {
         return id;
+    }
+    
+    public String getSmallImageUrl() {
+        if ("facebook".equals(oAuthProvider))
+            return "http://graph.facebook.com/" + firstName + "." + lastName + "/picture";
+        return null;
+    }
+    
+    public String getLargeImageUrl() {
+        if ("facebook".equals(oAuthProvider))
+            return "http://graph.facebook.com/" + firstName + "." + lastName + "/picture?type=large";
+        return null;
     }
 }
