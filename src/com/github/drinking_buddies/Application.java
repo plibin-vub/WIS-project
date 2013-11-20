@@ -42,7 +42,7 @@ public class Application extends WApplication {
     private ServletContext servletContext;
     private Configuration configuration;
     
-    private User loggedInUser;
+    private Integer loggedInUserId;
     
     public Application(WEnvironment env, ServletContext servletContext) {
         super(env);
@@ -238,11 +238,11 @@ public class Application extends WApplication {
         }
     }
     
-    public User getLoggedInUser() {
-        return loggedInUser;
+    public Integer getLoggedInUserId() {
+        return loggedInUserId;
     }
     
-    public void login(User user) {
-        loggedInUser = user;
+    public void login(Integer userId) {
+        loggedInUserId = userId;
     }
 }

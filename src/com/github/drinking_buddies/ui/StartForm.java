@@ -7,9 +7,11 @@ import java.sql.SQLException;
 
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.jooq.Result;
 
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.Main;
+import com.github.drinking_buddies.jooq.tables.records.UserRecord;
 import com.github.drinking_buddies.ui.autocompletion.AutocompletePopup;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 import com.github.drinking_buddies.webservices.facebook.Facebook;
@@ -77,8 +79,7 @@ public class StartForm extends WContainerWidget {
         
         if (r == null) {
            //new user, add him/her to the database
-           String facebookId = "";
-           Person p = new Facebook(facebookId).getUser("me");
+           Person p = new Facebook(token.getValue()).getUser("me");
            
            dsl
                .insertInto(USER,
@@ -89,9 +90,21 @@ public class StartForm extends WContainerWidget {
                 .values(id.getId(),
                         id.getProvider(),
                         p.getFirst_name(),
-                        p.getLast_name());
+                        p.getLast_name())
+                .execute();
+           
+            r = dsl
+                    .select()
+                    .from(USER)
+                    .where(USER.OAUTH_NAME.eq(id.getId()))
+                    .and(USER.OAUTH_PROVIDER.eq(id.getProvider()))
+                    .fetchOne();
+        }
+        
+        if (r != null) {
+            app.login(r.getValue(USER.ID));
         } else {
-            
-        }   
+            throw new RuntimeException("Error occured when logging in!");
+        }
     }
 }
