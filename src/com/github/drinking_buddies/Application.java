@@ -5,6 +5,9 @@ import static com.github.drinking_buddies.jooq.Tables.BEER2_BEER_TAG;
 import static com.github.drinking_buddies.jooq.Tables.BEER_TAG;
 import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BEER;
 import static com.github.drinking_buddies.jooq.Tables.USER;
+import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BAR;
+import static com.github.drinking_buddies.jooq.Tables.ADDRESS;
+import static com.github.drinking_buddies.jooq.Tables.BAR;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,10 +26,13 @@ import org.jooq.impl.DSL;
 
 import com.github.drinking_buddies.config.Configuration;
 import com.github.drinking_buddies.config.Database;
+import com.github.drinking_buddies.entities.Address;
+import com.github.drinking_buddies.entities.Bar;
 import com.github.drinking_buddies.entities.Beer;
 import com.github.drinking_buddies.entities.Image;
 import com.github.drinking_buddies.entities.Tag;
 import com.github.drinking_buddies.entities.User;
+import com.github.drinking_buddies.ui.BarForm;
 import com.github.drinking_buddies.ui.BeerForm;
 import com.github.drinking_buddies.ui.StartForm;
 import com.github.drinking_buddies.ui.UserForm;
@@ -43,6 +49,7 @@ public class Application extends WApplication {
     private Configuration configuration;
     
     private User loggedInUser;
+    
     
     public Application(WEnvironment env, ServletContext servletContext) {
         super(env);
@@ -145,7 +152,7 @@ public class Application extends WApplication {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    throw new RuntimeException(e);
+//                    throw new RuntimeException(e);
                 } finally {
                     closeConnection(conn);
                 }
@@ -189,8 +196,62 @@ public class Application extends WApplication {
         } else {
             //show 404
         }
+      if ("bars".equals(parts[0])) {
+           final String barURL = parts[1];
+            Bar bar=null;
+                 
+                 Connection conn = null;
+                 try {
+                     conn = this.getConnection();
+                     DSLContext dsl = createDSLContext(conn);
+                     
+                     Record r 
+                         = dsl
+                             .select(BAR.ID,BAR.NAME,BAR.WEBSITE,BAR.PHOTO,ADDRESS.ID,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY)
+                             .from(BAR,ADDRESS)
+                             .where(BAR.ID.eq(Integer.parseInt(barURL)))
+                             .and(ADDRESS.ID.eq(BAR.ADDRESS_ID))
+                             .fetchOne();
+                     if(r==null){
+                         show404();
+                         return;
+                     }
+                     int id=r.getValue(BAR.ID);
+                     int favoredBy
+                     = dsl
+                         .select()
+                         .from(FAVORITE_BAR)
+                         .where(FAVORITE_BAR.BAR_ID.equal(id))
+                         .fetchCount();
+                     double score=0;
+                     Address address=new Address(r.getValue(ADDRESS.ID), r.getValue(ADDRESS.STREET), r.getValue(ADDRESS.NUMBER)
+                             , r.getValue(ADDRESS.ZIPCODE), r.getValue(ADDRESS.CITY), r.getValue(ADDRESS.COUNTRY));
+                     Image barPhoto = null; //TODO
+                     bar = new Bar(id,r.getValue(BAR.NAME),favoredBy, score, r.getValue(BAR.WEBSITE),barPhoto, address) ;
+                     }
+                  catch (Exception e) {
+                     e.printStackTrace();
+                     throw new RuntimeException(e);
+                 } finally {
+                     closeConnection(conn);
+                 }
+
+//            Address address=new Address(5, "TestStraat", "10"
+//                  , "2800","Mechelen", "Belgie");
+//            Image barPhoto = null; //TODO
+//            bar = new Bar(1,"TestBar",5, 6, "www.google.com",barPhoto, address) ;
+            getRoot().addWidget(new BarForm(bar));
+        } else {
+            show404();
+        }
     }
     
+    
+    private void show404() {
+        // TODO Auto-generated method stub
+        
+    }
+
     public static Application getInstance() {
         return (Application)WApplication.getInstance();
     }

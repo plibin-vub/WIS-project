@@ -1,33 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <messages>
-	<message id="start-form">
-		<div class="header">
-			<img src="${app.context}/pics/header.png" alt="Header image"></img>
-		</div>
-		
-		<div class="div-row">
-			<table>
-				<tr>
-					<td>
-						<div class="search">
-							${beer-search-text}
-							${beer-search-button}
-						</div>
-					</td>
-					<td>
-						<div class="search">
-							${bar-search-text}
-							${bar-search-button}
-						</div>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<div class="div-row login">
-			${login}
-		</div>
-	</message>
-	
 	<message id="beer-form">
 		<div class="header">
 			<img src="${app.context}/pics/header.png" alt="Header image"></img>
@@ -126,4 +98,71 @@
 		<div class="name">${user}</div>
 		<div class="birthdate">${birthdate}</div>
 	</message>
+	
+	<message id="bar-form">
+		<div class="header">
+			<img src="${app.context}/pics/header.png" alt="Header image"></img>
+		</div>
+		<div>
+			<table>
+				<tr>
+					<td>
+						${picture}
+					</td>
+					<td>
+						<div>${bar}</div>
+						<div>${tr:bar-form.website}: ${website}</div>
+						<div>${tr:bar-form.address}: ${address1}</div>
+						<div> ${address2}</div>
+						<div> ${address3}</div>
+						<div>${tr:bar-form.favored-by}: ${favored-by}</div>
+						<div>${score-chart}</div>
+						<div>${tr:bar-form.score}: ${score} / 10</div>
+					</td>
+					<td>
+						<div>${tr:bar-form.beerlist-tile}</div>
+						<table>
+							<tr></tr>
+						</table>	
+					</td>
+				</tr>
+			</table>	
+		</div>
+		<div class="div-row">
+			<span>TODO: facebook like</span>
+			<span>TODO: facebook share</span>
+			${add-to-favorites}
+		</div>
+	</message>
+	
+	
+	<message id="new-bar-form">
+		<div class="header">
+			<img src="${app.context}/pics/header.png" alt="Header image"></img>
+		</div>
+		
+		<div>
+			<table>
+				<tr>
+					
+					<td>
+						<div>${tr:new-bar-form.website}${bar}</div>
+						<div>${tr:new-bar-form.website}: ${website}</div>
+						<div>${tr:bar-form.street}: ${street} ${tr:bar-form.number}: ${number} </div>
+						<div>${tr:bar-form.zipcode}: ${zipcode} ${tr:bar-form.city}: ${city}</div>
+						<div> ${tr:bar-form.country}: ${country}</div>
+						<div>${tr:new-bar-form.score}: ${score} /10</div>
+					</td>
+					<td>
+						<div>${tr:new-bar-form.beerlist-tile}</div>
+						<table>
+							<tr></tr>
+						</table>	
+					</td>
+				</tr>
+			</table>	
+			<div class="controls">${ok} ${cancel}</div>
+		</div>
+	</message>
+	
 </messages>
