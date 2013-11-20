@@ -7,16 +7,12 @@ import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.entities.Beer;
 import com.github.drinking_buddies.entities.Review;
 import com.github.drinking_buddies.entities.Tag;
-import com.github.drinking_buddies.ui.utils.ImageUtils;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WContainerWidget;
-import eu.webtoolkit.jwt.WImage;
-import eu.webtoolkit.jwt.WLink;
 import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WPushButton;
-import eu.webtoolkit.jwt.WResource;
 import eu.webtoolkit.jwt.WTemplate;
 
 /**
