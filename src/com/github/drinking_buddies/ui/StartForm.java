@@ -77,34 +77,38 @@ public class StartForm extends WContainerWidget {
                 .and(USER.OAUTH_PROVIDER.eq(id.getProvider()))
                 .fetchOne();
         
-        if (r == null) {
-           //new user, add him/her to the database
-           Person p = new Facebook(token.getValue()).getUser("me");
-           
-           dsl
-               .insertInto(USER,
-                           USER.OAUTH_NAME,
-                           USER.OAUTH_PROVIDER,
-                           USER.FIRST_NAME,
-                           USER.LAST_NAME)
-                .values(id.getId(),
-                        id.getProvider(),
-                        p.getFirst_name(),
-                        p.getLast_name())
-                .execute();
-           
-            r = dsl
-                    .select()
-                    .from(USER)
-                    .where(USER.OAUTH_NAME.eq(id.getId()))
-                    .and(USER.OAUTH_PROVIDER.eq(id.getProvider()))
-                    .fetchOne();
-        }
-        
-        if (r != null) {
-            app.login(r.getValue(USER.ID));
-        } else {
-            throw new RuntimeException("Error occured when logging in!");
+        try {
+            if (r == null) {
+               //new user, add him/her to the database
+               Person p = new Facebook(token.getValue()).getUser("me");
+               
+               dsl
+                   .insertInto(USER,
+                               USER.OAUTH_NAME,
+                               USER.OAUTH_PROVIDER,
+                               USER.FIRST_NAME,
+                               USER.LAST_NAME)
+                    .values(id.getId(),
+                            id.getProvider(),
+                            p.getFirst_name(),
+                            p.getLast_name())
+                    .execute();
+               
+                r = dsl
+                        .select()
+                        .from(USER)
+                        .where(USER.OAUTH_NAME.eq(id.getId()))
+                        .and(USER.OAUTH_PROVIDER.eq(id.getProvider()))
+                        .fetchOne();
+            }
+            
+            if (r != null) {
+                app.login(r.getValue(USER.ID));
+            } else {
+                throw new RuntimeException("Error occured when logging in!");
+            }
+        } finally {
+            conn.commit();
         }
     }
 }
