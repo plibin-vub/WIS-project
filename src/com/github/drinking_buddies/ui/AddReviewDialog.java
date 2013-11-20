@@ -80,6 +80,7 @@ public class AddReviewDialog extends WDialog {
         WDoubleValidator v = new WDoubleValidator();
         v.setBottom(0);
         v.setTop(Review.highestScore);
+        v.setMandatory(true);
         return v;
     }
     
