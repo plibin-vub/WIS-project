@@ -7,11 +7,10 @@ import java.sql.SQLException;
 
 import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.jooq.Result;
 
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.Main;
-import com.github.drinking_buddies.jooq.tables.records.UserRecord;
+import com.github.drinking_buddies.entities.User;
 import com.github.drinking_buddies.ui.autocompletion.AutocompletePopup;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 import com.github.drinking_buddies.webservices.facebook.Facebook;
@@ -103,7 +102,7 @@ public class StartForm extends WContainerWidget {
             }
             
             if (r != null) {
-                app.login(r.getValue(USER.ID));
+                app.login(new User(r));
             } else {
                 throw new RuntimeException("Error occured when logging in!");
             }

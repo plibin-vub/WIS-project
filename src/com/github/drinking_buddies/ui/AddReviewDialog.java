@@ -125,7 +125,7 @@ public class AddReviewDialog extends WDialog {
                                     REVIEW.TEXT,
                                     REVIEW.POST_TIME,
                                     REVIEW.USER_ID)
-                        .values(beer.getId(), color, smell, taste, feel, text, DateUtils.javaDateToSqliteFormat(new Date()), app.getLoggedInUserId())
+                        .values(beer.getId(), color, smell, taste, feel, text, DateUtils.javaDateToSqliteFormat(new Date()), app.getLoggedInUser().getId())
                         .returning().fetchOne();
             
             Record ur 

@@ -46,7 +46,7 @@ public class Application extends WApplication {
     private ServletContext servletContext;
     private Configuration configuration;
     
-    private Integer loggedInUserId;
+    private User loggedInUser;
     
     public Application(WEnvironment env, ServletContext servletContext) {
         super(env);
@@ -209,8 +209,8 @@ public class Application extends WApplication {
                      closeConnection(conn);
                  }
 
-            User u = new User(id, firstName, lastName);
-            getRoot().addWidget(new UserForm(u));
+            //User u = new User(r);
+            //getRoot().addWidget(new UserForm(u));
         } else {
             //show 404
         }
@@ -263,11 +263,11 @@ public class Application extends WApplication {
         }
     }
     
-    public Integer getLoggedInUserId() {
-        return loggedInUserId;
+    public User getLoggedInUser() {
+        return loggedInUser;
     }
     
-    public void login(Integer userId) {
-        loggedInUserId = userId;
+    public void login(User user) {
+        loggedInUser = user;
     }
 }
