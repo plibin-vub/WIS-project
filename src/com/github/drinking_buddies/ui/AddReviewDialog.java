@@ -112,7 +112,6 @@ public class AddReviewDialog extends WDialog {
         try {
             conn = app.getConnection();
             
-            //TODO save poster and posttime
             DSLContext dsl = app.createDSLContext(conn);
             ReviewRecord rr 
                     = dsl
