@@ -1,5 +1,7 @@
 package com.github.drinking_buddies.ui;
 
+import java.util.List;
+
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.entities.Beer;
 import com.github.drinking_buddies.entities.Review;
@@ -22,18 +24,24 @@ import eu.webtoolkit.jwt.WTemplate;
  * these reviews can also be commented upon.
  */
 public class BeerForm extends WContainerWidget {
+    private WTemplate main;
+    
     private WContainerWidget tagContainer = new WContainerWidget();
+    private WContainerWidget reviewContainer = new WContainerWidget();
+    
+    private List<Review> reviews;
   
-    public BeerForm(final Beer beer, Iterable<Tag> tags) {
+    public BeerForm(final Beer beer, List<Tag> tags, List<Review> reviews) {
+        this.reviews = reviews;
+        
         //the main template for the beer form 
         //(a WTemplate constructor accepts the template text and its parent)
-        WTemplate main = new WTemplate(tr("beer-form"), this);
+        main = new WTemplate(tr("beer-form"), this);
         TemplateUtils.configureDefault(Application.getInstance(), main);
         //we bind to some of the template's variables
         main.bindString("beer", beer.getName());
         main.bindString("brewery", beer.getBrewery());
         main.bindInt("favored-by", beer.getFavoredBy());
-        main.bindString("score", String.valueOf(beer.getScore()));
         main.bindInt("highest-score", Review.highestScore);
         //we bind the beer's picture to the template
         WImage picture = new WImage();
@@ -80,6 +88,11 @@ public class BeerForm extends WContainerWidget {
         });
         main.bindWidget("add-tag", addTag);
         
+        for (Review r : reviews) {
+            addReviewWidget(r);
+        }
+        main.bindWidget("reviews", reviewContainer);
+        
         //add the "add review" button to the main template
         WPushButton addReview = new WPushButton(tr("beer-form.add-review"));
         //connect a listener to the button
@@ -87,21 +100,45 @@ public class BeerForm extends WContainerWidget {
             public void trigger(WMouseEvent arg) {
                 AddReviewDialog dialog = new AddReviewDialog(beer, BeerForm.this);
                 dialog.reviewAdded().addListener(BeerForm.this, new Signal1.Listener<Review>() {
-                    public void trigger(Review tag) {
-                        
+                    public void trigger(Review review) {
+                        reviewAdded(review);
                     }
                 });
                 dialog.show();
             }
         });
         main.bindWidget("add-review", addReview);
+        
+        updateReviewScore();
     }
     
     private void addTagWidget(Tag tag) {
         new TagWidget(tag.getText(), tagContainer);
     }
+    
+    private void addReviewWidget(Review review) {
+        new ReviewWidget(review, reviewContainer);
+    }
 
     public void tagAdded(Tag tag) {
         addTagWidget(tag);
+    }
+    
+    public void reviewAdded(Review review) {
+        addReviewWidget(review);
+        reviews.add(review);
+        updateReviewScore();
+    }
+    
+    private double calculateScore() {
+        double total = 0;
+        for (Review r : reviews) {
+            total += r.getAverageScore();
+        }
+        return total/reviews.size();
+    }
+    
+    private void updateReviewScore() {
+        main.bindString("score", String.valueOf(calculateScore()));
     }
 }
