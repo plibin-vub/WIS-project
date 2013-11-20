@@ -1,9 +1,24 @@
 package com.github.drinking_buddies.ui;
 
+import static com.github.drinking_buddies.jooq.Tables.REVIEW_COMMENT;
+import static com.github.drinking_buddies.jooq.Tables.USER;
+
+import java.sql.Connection;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.Result;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.entities.Comment;
 import com.github.drinking_buddies.entities.Review;
+import com.github.drinking_buddies.entities.User;
+import com.github.drinking_buddies.ui.comments.ReviewCommentsWidget;
+import com.github.drinking_buddies.ui.utils.DateUtils;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
 import eu.webtoolkit.jwt.Signal1;
@@ -30,6 +45,8 @@ public class ReviewWidget extends WTemplate {
         this.bindString("smell-score", formatScore(review.getSmellScore()));
         this.bindString("taste-score", formatScore(review.getTasteScore()));
         this.bindString("feel-score", formatScore(review.getFeelScore()));
+        
+        collapse();
     }
 
     public ReviewWidget(Review review) {
@@ -45,7 +62,47 @@ public class ReviewWidget extends WTemplate {
                 collapse();
             }
         });
-        //TODO show comments here
+        this.bindWidget("control", control);
+        
+        User user = Application.getInstance().getLoggedInUser();
+        List<Comment> comments = new ArrayList<Comment>();
+        fetchComments(this.review, comments);        
+        this.bindWidget("comments", new ReviewCommentsWidget(review, comments, user));
+    }
+    
+    private void fetchComments(Review review, List<Comment> comments) {
+        Application app = Application.getInstance();
+        Connection conn = null;
+        try {
+            conn = app.getConnection();
+            DSLContext dsl = app.createDSLContext(conn);
+            
+            Result<Record> results 
+                = dsl
+                    .select()
+                    .from(REVIEW_COMMENT)
+                    .where(REVIEW_COMMENT.REVIEW_ID.equal(review.getId()))
+                    .orderBy(REVIEW_COMMENT.POST_TIME, REVIEW_COMMENT.ID)
+                    .fetch();
+            
+            for (Record r : results) {
+                String text = r.getValue(REVIEW_COMMENT.TEXT);
+                Date postDate = DateUtils.sqliteDateToJavaDate(r.getValue(REVIEW_COMMENT.POST_TIME));
+                
+                Record userRecord
+                = dsl
+                    .select()
+                    .from(USER)
+                    .where(USER.ID.eq(r.getValue(REVIEW_COMMENT.USER_ID)))
+                    .fetchOne();   
+                User poster = new User(userRecord);
+                
+                comments.add(new Comment(text, poster, postDate));
+            }
+            conn.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     private void collapse() {
@@ -60,6 +117,8 @@ public class ReviewWidget extends WTemplate {
                 expand();
             }
         });
+        this.bindWidget("control", control);
+        this.bindWidget("comments", null);
     }
     
     private void showEllipsis(boolean show) {

@@ -6,6 +6,7 @@
 	<message id="start-form.search-beer">Search beer</message>
 	
 	<message id="beer-form.brewed-by">Brewed by</message>
+	<message id="beer-form.alcohol">Alcohol</message>
 	<message id="beer-form.favored-by">Favored by</message>
 	<message id="beer-form.score">Score</message>
 	<message id="beer-form.add-to-favorites">Add to favorites</message>
@@ -14,6 +15,9 @@
 	<message id="beer-form.in-which-bar-can-i-find">In which bars can I find {1}</message>
 	<message id="beer-form.reviews">Reviews</message>
 	<message id="beer-form.add-review">Add review</message>
+	<message id="beer-form.add-to-favorites.status">Status</message>
+	<message id="beer-form.add-to-favorites.added">We added "{1}" to your favorites!</message>
+	<message id="beer-form.add-to-favorites.not-added">We did not add "{1}" to your favorites again!<br/>It already belongs to your list of favorite beers.</message>
 	
 	<message id="add-tag-dialog.title">Add a tag to "{1}"</message>
 	<message id="add-tag-dialog.add-new">Add a new tag</message>
@@ -39,4 +43,12 @@
 	<message id="review.feel">Feel</message>
 	<message id="review.expand/comment">Expand/Comment</message>
 	<message id="review.collapse">Collapse</message>
+	
+	<message id="comments.all-comments">All comments</message>
+	
+	<message id="add-comment.leave-a-new-comment">Leave a new comment!</message>
+	<message id="add-comment.cancel">Cancel</message>
+	<message id="add-comment.post">Post</message>
+	
+	<message id="comment.posted-by">Posted by</message>
 </messages>

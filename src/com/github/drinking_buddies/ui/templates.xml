@@ -39,11 +39,12 @@
 					<td>
 						<div>${beer}</div>
 						<div>${tr:beer-form.brewed-by}: ${brewery}</div>
+						<div>${tr:beer-form.alcohol}: ${alcohol} °</div>
 						<div>${tr:beer-form.favored-by}: ${favored-by}</div>
 						<div>${tr:beer-form.score}: ${score} / ${highest-score}</div>
 					</td>
 					<td>
-						${picture}
+						<img src="${picture-url}" />
 					</td>
 				</tr>
 			</table>	
@@ -107,24 +108,87 @@
 	</message>
 	
 	<message id="add-review-dialog">
-		<div class="dialog">
-			<div class="div-row scores">
-				<div class="score">${tr:add-review-dialog.color}:${color}</div>
-				<div class="score">${tr:add-review-dialog.smell}:${smell}</div>
-				<div class="score">${tr:add-review-dialog.taste}:${taste}</div>
-				<div class="score">${tr:add-review-dialog.feel}:${feel}</div>
-			</div>
-			<div class="div-row">
-				${tr:add-review-dialog.text}:
-				${text}
-			</div>
-			<div class="controls">${ok} ${cancel}</div>
-		</div>
+			  <span class="control-group">
+			    <label class="control-label" for="${id:color}">
+			      ${tr:add-review-dialog.color}
+			    </label>
+			    <span class="controls">
+			      ${color}
+			    </span>
+			  </span>
+			  
+			  <span class="control-group">
+			    <label class="control-label" for="${id:smell}">
+			      ${tr:add-review-dialog.smell}
+			    </label>
+			    <span class="controls">
+			      ${smell}
+			    </span>
+			  </span>
+			    
+			  <span class="control-group">
+			    <label class="control-label" for="${id:taste}">
+			      ${tr:add-review-dialog.taste}
+			    </label>
+			    <span class="controls">
+			      ${taste}
+			    </span>	
+			  </span>  
+			  
+			  <span class="control-group">
+			    <label class="control-label" for="${id:feel}">
+			      ${tr:add-review-dialog.feel}
+			    </label>
+			    <span class="controls">
+			      ${feel}
+			    </span>
+			  </span>
+			  
+			  <span class="control-group">
+			    <label class="control-label" for="${id:text}">
+			      ${tr:add-review-dialog.text}
+			    </label>
+			    <span class="controls">
+			      ${text}
+			    </span>
+			  </span>
+			
+			<div class="form-actions">
+				<div class="controls">${ok} ${cancel}</div>
+			</div>		
 	</message>
 
 	<message id="user-form">
 		<div class="first-name">${first-name}</div>
 		<div class="last-name">${last-name}</div>
+	</message>
+	
+	<message id="comments-widget">
+		<span>${tr:comments.all-comments} (${number})</span>
+		${add-comment}
+		${comments}
+	</message>
+	
+	<message id="add-comment-widget">
+		<div class="div-row">
+			<img src="${poster-img}"/>
+			<div>
+				${text}
+				<break/>
+				${cancel} ${post}
+			</div>
+		</div>
+	</message>
+	
+	<message id="comment-widget">
+		<div class="div-row">
+			<img src="${poster-img}"/>
+			<div>
+				<span>${tr:comment.posted-by}:${poster-name}</span> <span>${posted-x-time-ago}</span>
+				<break/>
+				${text}
+			</div>
+		</div>
 	</message>
 	
 	

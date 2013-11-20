@@ -1,22 +1,31 @@
 package com.github.drinking_buddies.ui;
 
+import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BEER;
+
+import java.sql.Connection;
+import java.text.DecimalFormat;
+import java.util.EnumSet;
 import java.util.List;
+
+import org.jooq.DSLContext;
 
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.entities.Beer;
 import com.github.drinking_buddies.entities.Review;
 import com.github.drinking_buddies.entities.Tag;
-import com.github.drinking_buddies.ui.utils.ImageUtils;
+import com.github.drinking_buddies.entities.User;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
+import eu.webtoolkit.jwt.Icon;
 import eu.webtoolkit.jwt.Signal1;
+import eu.webtoolkit.jwt.StandardButton;
 import eu.webtoolkit.jwt.WContainerWidget;
-import eu.webtoolkit.jwt.WImage;
-import eu.webtoolkit.jwt.WLink;
+import eu.webtoolkit.jwt.WMessageBox;
 import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WPushButton;
-import eu.webtoolkit.jwt.WResource;
+import eu.webtoolkit.jwt.WString;
 import eu.webtoolkit.jwt.WTemplate;
+import eu.webtoolkit.jwt.WDialog.DialogCode;
 
 /**
  * The beer form UI component.
@@ -41,23 +50,41 @@ public class BeerForm extends WContainerWidget {
         //we bind to some of the template's variables
         main.bindString("beer", beer.getName());
         main.bindString("brewery", beer.getBrewery());
+        main.bindString("alcohol", beer.getAlcohol()+"");
         main.bindInt("favored-by", beer.getFavoredBy());
         main.bindInt("highest-score", Review.highestScore);
-        //we bind the beer's picture to the template
-        WImage picture = new WImage();
-        {
-            WResource r = ImageUtils.createResource(beer.getPicture().getData(), beer.getPicture().getMimetype());
-            picture.setImageLink(new WLink(r));
-        }
-        main.bindWidget("picture", picture);
+        //we bind the beer's picture url to the template
+        main.bindString("picture-url", beer.getPictureUrl());
         
         //add the "add to favorites" button to the template
         WPushButton addToFavorites = new WPushButton(tr("beer-form.add-to-favorites"));
         //connect a listener to the button
         addToFavorites.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
             public void trigger(WMouseEvent arg) {
-                //TODO
-                //add to favorites + show a message that we did!
+                boolean added = addToFavorites(beer);
+                
+                String prefix = "beer-form.add-to-favorites.";
+                WString status = tr(prefix + "status");
+                
+                final WMessageBox mb;
+                if (added) {
+                    mb = new WMessageBox(status, 
+                            tr(prefix + "added").arg(beer.getName()), 
+                            Icon.Information,
+                            EnumSet.of(StandardButton.Ok));
+                } else {
+                   mb = new WMessageBox(status, 
+                            tr(prefix+"not-added").arg(beer.getName()),
+                            Icon.Warning,
+                            EnumSet.of(StandardButton.Ok));
+                }
+                mb.setModal(true);
+                mb.buttonClicked().addListener(BeerForm.this, new Signal1.Listener<StandardButton>() {
+                    public void trigger(StandardButton sb) {
+                        mb.done(DialogCode.Accepted);
+                    }
+                });
+                mb.show();
             }
         });
         main.bindWidget("add-to-favorites", addToFavorites);
@@ -138,7 +165,49 @@ public class BeerForm extends WContainerWidget {
         return total/reviews.size();
     }
     
+    private static final DecimalFormat formatter = new DecimalFormat("#.0"); 
+    private String formatScore(double score) {
+        return formatter.format(score);
+    }
+    
     private void updateReviewScore() {
-        main.bindString("score", String.valueOf(calculateScore()));
+        main.bindString("score", formatScore(calculateScore()));
+    }
+    
+    private boolean addToFavorites(Beer beer) {
+        Application app = Application.getInstance();
+        Connection conn = null;
+        try {
+            conn = app.getConnection();
+            
+            User user = app.getLoggedInUser();
+            
+            DSLContext dsl = app.createDSLContext(conn);
+            long count =
+                    dsl
+                        .select()
+                        .from(FAVORITE_BEER)
+                        .where(FAVORITE_BEER.USER_ID.equal(user.getId()))
+                        .and(FAVORITE_BEER.BEER_ID.equal(beer.getId()))
+                        .fetchCount();
+            
+            if (count > 0) {
+                //did not add the beer to the user's favorites,
+                //since it already is a favorite
+                return false;
+            } else {
+                dsl
+                    .insertInto(FAVORITE_BEER,
+                                FAVORITE_BEER.BEER_ID,
+                                FAVORITE_BEER.USER_ID)
+                    .values(beer.getId(),
+                            user.getId())
+                    .execute();
+                conn.commit();
+                return true;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
