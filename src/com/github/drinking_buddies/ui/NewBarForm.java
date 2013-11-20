@@ -6,8 +6,13 @@ import static com.github.drinking_buddies.jooq.Tables.BAR;
 import java.sql.Connection;
 
 import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.Record1;
+import org.jooq.Result;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.jooq.tables.records.AddressRecord;
+import com.github.drinking_buddies.jooq.tables.records.ReviewRecord;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
 import eu.webtoolkit.jwt.Signal1;
@@ -51,7 +56,8 @@ public class NewBarForm extends WDialog {
                 saveBar(street.getText(), number.getText(), zipcode.getText(),
                         city.getText(), country.getText(), name.getText(),
                         website.getText());
-                
+                Application app = Application.getInstance();
+                //app.redirect(url);
             }
         });
     }
@@ -63,14 +69,18 @@ public class NewBarForm extends WDialog {
         try {
             conn = app.getConnection();
             DSLContext dsl = app.createDSLContext(conn);
-            Integer addressId = dsl.select(ADDRESS.ID).from(ADDRESS).orderBy(ADDRESS.ID.desc()).fetchAny().value1();
-            dsl.insertInto(ADDRESS, ADDRESS.ID, ADDRESS.STREET, ADDRESS.NUMBER,
+            String url=name.toLowerCase().replace(" ", "_");
+            Result<Record1<Integer>> r = dsl.select(BAR.ID).from(BAR).where(BAR.URL.eq(url)).fetch();
+            if(r.size()!=0){
+               url=url+(r.size()+1);
+            }
+            AddressRecord rr=dsl.insertInto(ADDRESS, ADDRESS.STREET, ADDRESS.NUMBER,
                     ADDRESS.ZIPCODE, ADDRESS.CITY, ADDRESS.COUNTRY)
-                    .values(addressId, street, number, zipcode, city, country)
-                    .execute();
-            int barId = dsl.select(BAR.ID).from(BAR).orderBy(BAR.ID.desc()).fetchAny().value1();
-            dsl.insertInto(BAR, BAR.ID, BAR.ADDRESS_ID, BAR.NAME, BAR.WEBSITE)
-                    .values(barId, addressId, name, website).execute();
+                    .values( street, number, zipcode, city, country).returning()
+                    .fetchOne();
+            
+            dsl.insertInto(BAR, BAR.ADDRESS_ID, BAR.NAME, BAR.WEBSITE,BAR.URL)
+                    .values(rr.getId(), name, website,url).execute();
             conn.commit();
         } catch (Exception e) {
             app.rollback(conn);

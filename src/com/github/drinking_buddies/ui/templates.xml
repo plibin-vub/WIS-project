@@ -129,6 +129,7 @@
 	
 	
 	<message id="bar-form">
+	
 		<div class="header">
 			<img src="${app.context}/pics/header.png" alt="Header image"></img>
 		</div>
@@ -146,7 +147,7 @@
 						<div> ${address3}</div>
 						<div>${tr:bar-form.favored-by}: ${favored-by}</div>
 						<div>${score-chart}</div>
-						<div>${tr:bar-form.score}: ${score} / 10</div>
+						<div>${tr:bar-form.score}: ${score} / 10 ${change-score}</div>
 					</td>
 					<td>
 						<div>${tr:bar-form.beerlist-tile}</div>
@@ -158,16 +159,16 @@
 			</table>	
 		</div>
 		<div class="div-row">
-			<span>TODO: facebook like</span>
+		    <span>TODO: facebook like</span>
 			<span>TODO: facebook share</span>
-			${add-to-favorites}
+			<div class="controls">${add-to-favorites}</div>
 		</div>
 	</message>
 	
 	
 	<message id="new-bar-form">
 		<div class="header">
-			<img src="${app.context}/pics/header.png" alt="Header image"></img>
+			${tr:new-bar-form.title}
 		</div>
 		
 		<div>
@@ -175,7 +176,7 @@
 				<tr>
 					
 					<td>
-						<div>${tr:new-bar-form.website}${bar}</div>
+						<div>${tr:new-bar-form.name}: ${bar}</div>
 						<div>${tr:new-bar-form.website}: ${website}</div>
 						<div>${tr:bar-form.street}: ${street} ${tr:bar-form.number}: ${number} </div>
 						<div>${tr:bar-form.zipcode}: ${zipcode} ${tr:bar-form.city}: ${city}</div>

@@ -1,21 +1,48 @@
 package com.github.drinking_buddies.ui;
 
+
+
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.Record1;
+import org.jooq.Record2;
+import org.jooq.Result;
+import org.jooq.util.derby.sys.Sys;
+
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.entities.Bar;
+import com.github.drinking_buddies.entities.Review;
+import com.github.drinking_buddies.jooq.tables.records.BarScoreRecord;
+import com.github.drinking_buddies.ui.utils.DateUtils;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
+import eu.webtoolkit.jwt.Signal1;
+import eu.webtoolkit.jwt.WAbstractItemModel;
 import eu.webtoolkit.jwt.WContainerWidget;
+import eu.webtoolkit.jwt.WDoubleSpinBox;
 import eu.webtoolkit.jwt.WLength;
+import eu.webtoolkit.jwt.WMouseEvent;
+import eu.webtoolkit.jwt.WObject;
+import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WStandardItemModel;
 import eu.webtoolkit.jwt.WString;
+import eu.webtoolkit.jwt.WTableView;
 import eu.webtoolkit.jwt.WTemplate;
 import eu.webtoolkit.jwt.chart.ChartType;
 import eu.webtoolkit.jwt.chart.SeriesType;
 import eu.webtoolkit.jwt.chart.WCartesianChart;
 import eu.webtoolkit.jwt.chart.WDataSeries;
+import static com.github.drinking_buddies.jooq.Tables.BAR2_BAR_SCORE;
+import static com.github.drinking_buddies.jooq.Tables.BAR_SCORE;
 
 public class BarForm extends WContainerWidget {
-    public BarForm(Bar bar) {
+    public BarForm(final Bar bar) {
         // the main template for the user form
         // (a WTemplate constructor accepts the template text and its parent)
         WTemplate main = new WTemplate(tr("bar-form"), this);
@@ -32,28 +59,99 @@ public class BarForm extends WContainerWidget {
         String addressLine3 = bar.getAddress().getCountry();
         main.bindString("address3", addressLine3);
         main.bindString("favored-by", String.valueOf(bar.getFavoredBy()));
-        main.bindString("score", String.valueOf(bar.getScore()));
+        main.bindString("url", "aa1");
+        final WDoubleSpinBox sb = new WDoubleSpinBox();
+        sb.setRange(0, 10);
+        sb.setValue(bar.getScore());
+        sb.setSingleStep(1);
+        main.bindWidget("score", sb);
+        final WCartesianChart chart = getChart(bar.getId());
+        main.bindWidget("score-chart", chart);
+        WPushButton changeScore = new WPushButton(tr("bar-form.change-score"));
+        main.bindWidget("change-score", changeScore);
+        changeScore.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
+            public void trigger(WMouseEvent arg) {
+                setScore(sb.getValue(),bar.getId());
+                getModel(bar.getId());
+            }
 
-        main.bindWidget("score-chart", getChart());
+            
+
+            
+        });
+        
+        
 
     }
-
-   
-
-   
-
-    private WCartesianChart getChart() {
-        WContainerWidget container = new WContainerWidget();
-        WStandardItemModel model = new WStandardItemModel(10, 10, container);
-        model.setHeaderData(0, new WString("Time"));
+    
+    private WStandardItemModel getModel(int id ) {
+        WStandardItemModel model = new WStandardItemModel(10,2);
+        model.setHeaderData(0, new WString("Date"));
         model.setHeaderData(1, new WString("Score"));
-        for (int i = 0; i < 40; ++i) {
-            double x = ((double) i - 20) / 4;
-            model.setData(i, 0, x);
-            model.setData(i, 1, Math.sin(x));
+        Application app = Application.getInstance();
+        Connection conn = null;
+        try {
+            conn = app.getConnection();
+            DSLContext dsl = app.createDSLContext(conn);
+            Result<Record2<BigDecimal, String>> r=dsl.select(BAR_SCORE.SCORE.avg(),BAR_SCORE.POST_TIME.substring(0,17))
+                    .from(BAR_SCORE)
+                    .join(BAR2_BAR_SCORE)
+                    .on(BAR2_BAR_SCORE.BAR_SCORE_ID.equal(BAR_SCORE.ID))
+                    .where(BAR2_BAR_SCORE.BAR_ID.eq(id))
+                    .groupBy(BAR_SCORE.POST_TIME.substring(0,17)).orderBy(BAR_SCORE.POST_TIME.substring(0,17).asc()).fetch();
+            BigDecimal sum=new BigDecimal(0);
+            int index=0;
+            for (int i = 0; i < r.size(); i++) {
+                sum=sum.add(r.get(i).getValue(BAR_SCORE.SCORE.avg()));
+                
+               
+                if(i>r.size()-10){
+                    model.setData(index,0, index);//r.get(i).getValue(BAR_SCORE.POST_TIME.substring(0,17)));
+                    model.setData(index,1, sum.divide(BigDecimal.valueOf(i+1),BigDecimal.ROUND_HALF_EVEN));
+                    index++;
+                }
+                
+            }
+           
+            
+        } catch (Exception e) {
+            app.rollback(conn);
+            throw new RuntimeException(e);
+        } finally {
+            app.closeConnection(conn);
         }
+        
+        return model;
+    }
+    
+    
+    private void setScore(double value,int id) {
+        Application app = Application.getInstance();
+        Connection conn = null;
+        try {
+            conn = app.getConnection();
+            DSLContext dsl = app.createDSLContext(conn);
+            BarScoreRecord r = dsl.insertInto(BAR_SCORE,BAR_SCORE.POST_TIME,BAR_SCORE.SCORE,BAR_SCORE.USER_ID)
+            .values(DateUtils.javaDateToSqliteFormat(new Date()),(new Double(value)).intValue(),1).returning().fetchOne();
+            dsl.insertInto(BAR2_BAR_SCORE,BAR2_BAR_SCORE.BAR_ID,BAR2_BAR_SCORE.BAR_SCORE_ID)
+            .values(id,r.getId()).execute();
+            conn.commit();
+        } catch (Exception e) {
+            app.rollback(conn);
+            throw new RuntimeException(e);
+        } finally {
+            app.closeConnection(conn);
+        }  
+        
+    }
+   
+
+    private WCartesianChart getChart(int id) {
+        WContainerWidget container = new WContainerWidget();
+        WTableView table = new WTableView(container);
+        table.setModel(getModel(id));
         WCartesianChart chart = new WCartesianChart(container);
-        chart.setModel(model);
+        chart.setModel(getModel(id));
         chart.setXSeriesColumn(0);
         // chart.setLegendEnabled(true);
         chart.setType(ChartType.ScatterPlot);
