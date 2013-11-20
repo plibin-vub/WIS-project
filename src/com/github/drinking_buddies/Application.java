@@ -156,7 +156,7 @@ public class Application extends WApplication {
                         .fetch();
                     
                     for (Record rr : reviewResults) {
-                        Record ur = dsl.select().from(USER).where(USER.ID.equal(rr.getValue(REVIEW.ID))).fetchOne();
+                        Record ur = dsl.select().from(USER).where(USER.ID.equal(rr.getValue(REVIEW.USER_ID))).fetchOne();
                         reviews.add(new Review(rr, ur));
                     }
                 } catch (Exception e) {
