@@ -26,8 +26,14 @@ import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WTemplate;
 import eu.webtoolkit.jwt.WTextArea;
 import eu.webtoolkit.jwt.WValidator;
+import eu.webtoolkit.jwt.WValidator.State;
 
 public class AddReviewDialog extends WDialog {
+    private WLineEdit color;
+    private WLineEdit smell;
+    private WLineEdit taste;
+    private WLineEdit feel;
+    
     private Signal1<Review> reviewAdded = new Signal1<Review>();
     
     public AddReviewDialog(final Beer beer, WObject parent) {
@@ -36,16 +42,16 @@ public class AddReviewDialog extends WDialog {
         final WTemplate main = new WTemplate(tr("add-review-dialog"), this.getContents());
         TemplateUtils.configureDefault(Application.getInstance(), main);
         
-        final WLineEdit color = new WLineEdit();
+        color = new WLineEdit();
         color.setValidator(createScoreValidator());
         main.bindWidget("color", color);
-        final WLineEdit smell = new WLineEdit();
+        smell = new WLineEdit();
         smell.setValidator(createScoreValidator());
         main.bindWidget("smell", smell);
-        final WLineEdit taste = new WLineEdit();
+        taste = new WLineEdit();
         taste.setValidator(createScoreValidator());
         main.bindWidget("taste", taste);
-        final WLineEdit feel = new WLineEdit();
+        feel = new WLineEdit();
         feel.setValidator(createScoreValidator());
         main.bindWidget("feel", feel);
         
@@ -56,6 +62,9 @@ public class AddReviewDialog extends WDialog {
         main.bindWidget("ok", ok);
         ok.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
             public void trigger(WMouseEvent arg) {
+                if (!validate())
+                    return;
+                
                 AddReviewDialog.this.accept();
                 Review review = save(beer, 
                                     Float.parseFloat(color.getText()),
@@ -74,6 +83,14 @@ public class AddReviewDialog extends WDialog {
                 AddReviewDialog.this.reject();
             }
         });
+    }
+    
+    private boolean validate() {
+        return
+            color.validate() == State.Valid &&
+            smell.validate() == State.Valid &&
+            taste.validate() == State.Valid &&
+            feel.validate() == State.Valid; 
     }
     
     private WValidator createScoreValidator() {
