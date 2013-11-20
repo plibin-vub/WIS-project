@@ -1,15 +1,19 @@
 package com.github.drinking_buddies.ui;
 
-import static com.github.drinking_buddies.jooq.Tables.*;
+import static com.github.drinking_buddies.jooq.Tables.REVIEW;
+import static com.github.drinking_buddies.jooq.Tables.USER;
 
 import java.sql.Connection;
+import java.util.Date;
 
 import org.jooq.DSLContext;
+import org.jooq.Record;
 
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.entities.Beer;
 import com.github.drinking_buddies.entities.Review;
 import com.github.drinking_buddies.jooq.tables.records.ReviewRecord;
+import com.github.drinking_buddies.ui.utils.DateUtils;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
 import eu.webtoolkit.jwt.Signal1;
@@ -92,9 +96,10 @@ public class AddReviewDialog extends WDialog {
             
             //TODO save poster and posttime
             DSLContext dsl = app.createDSLContext(conn);
-            ReviewRecord r 
+            ReviewRecord rr 
                     = dsl
                         .insertInto(REVIEW, 
+                                    REVIEW.BEER_ID,
                                     REVIEW.VISUAL_SCORE, 
                                     REVIEW.SMELL_SCORE,
                                     REVIEW.TASTE_SCORE,
@@ -102,19 +107,19 @@ public class AddReviewDialog extends WDialog {
                                     REVIEW.TEXT,
                                     REVIEW.POST_TIME,
                                     REVIEW.USER_ID)
-                        .values(color, smell, taste, feel, text, null, null)
+                        .values(beer.getId(), color, smell, taste, feel, text, DateUtils.javaDateToSqliteFormat(new Date()), app.getLoggedInUserId())
                         .returning().fetchOne();
             
+            Record ur 
+                    = dsl
+                        .select()
+                        .from(USER)
+                        .where(USER.ID.equal(rr.getUserId()))
+                        .fetchOne();
+                            
             conn.commit();
                 
-            return new Review(r.getId(), 
-                                    r.getVisualScore(),
-                                    r.getSmellScore(),
-                                    r.getTasteScore(),
-                                    r.getFeelScore(),
-                                    r.getText(),
-                                    null,
-                                    null);
+            return new Review(rr, ur);
         } catch (Exception e) {
             app.rollback(conn);
             throw new RuntimeException(e);

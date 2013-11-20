@@ -4,6 +4,7 @@ import static com.github.drinking_buddies.jooq.Tables.BEER;
 import static com.github.drinking_buddies.jooq.Tables.BEER2_BEER_TAG;
 import static com.github.drinking_buddies.jooq.Tables.BEER_TAG;
 import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BEER;
+import static com.github.drinking_buddies.jooq.Tables.REVIEW;
 import static com.github.drinking_buddies.jooq.Tables.USER;
 import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BAR;
 import static com.github.drinking_buddies.jooq.Tables.ADDRESS;
@@ -30,6 +31,7 @@ import com.github.drinking_buddies.entities.Address;
 import com.github.drinking_buddies.entities.Bar;
 import com.github.drinking_buddies.entities.Beer;
 import com.github.drinking_buddies.entities.Image;
+import com.github.drinking_buddies.entities.Review;
 import com.github.drinking_buddies.entities.Tag;
 import com.github.drinking_buddies.entities.User;
 import com.github.drinking_buddies.ui.BarForm;
@@ -114,6 +116,7 @@ public class Application extends WApplication {
                 String beerWSName = null;
                 Integer favoredBy = null;
                 List<Tag> tags = new ArrayList<Tag>();
+                List<Review> reviews = new ArrayList<Review>();
                 
                 Connection conn = null;
                 try {
@@ -146,9 +149,22 @@ public class Application extends WApplication {
                             .where(BEER2_BEER_TAG.BEER_ID.equal(id))
                             .orderBy(BEER_TAG.ID)
                             .fetch();
-                 
+                    
                     for (Record2<Integer, String> r2 : results) {
                         tags.add(new Tag(r2.value1(), r2.value2()));
+                    }
+                    
+                    Result<Record> reviewResults 
+                    = dsl
+                        .select()
+                        .from(REVIEW)
+                        .where(REVIEW.BEER_ID.equal(id))
+                        .orderBy(REVIEW.POST_TIME)
+                        .fetch();
+                    
+                    for (Record rr : reviewResults) {
+                        Record ur = dsl.select().from(USER).where(USER.ID.equal(rr.getValue(REVIEW.ID))).fetchOne();
+                        reviews.add(new Review(rr, ur));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -157,8 +173,8 @@ public class Application extends WApplication {
                     closeConnection(conn);
                 }
                 
-                Beer b = new Beer(id, beerName, "Westmalle klooster", favoredBy, 4.5, i);
-                getRoot().addWidget(new BeerForm(b, tags));
+                Beer b = new Beer(id, beerName, "--TODO--", favoredBy, i);
+                getRoot().addWidget(new BeerForm(b, tags, reviews));
             } else {
                 //show the beer selection form
             }
@@ -166,7 +182,7 @@ public class Application extends WApplication {
             //show 404
         }
         if ("users".equals(parts[0])) {
-           
+            Integer id = null;
             String firstName = null;
             String lastName = null;
                  
@@ -181,6 +197,7 @@ public class Application extends WApplication {
                              .from(USER)
                              .where(USER.ID.eq(1))
                              .fetchOne();
+                     id = r.getValue(USER.ID);
                      firstName = r.getValue(USER.FIRST_NAME);
                      lastName = r.getValue(USER.LAST_NAME);
                      }
@@ -191,7 +208,7 @@ public class Application extends WApplication {
                      closeConnection(conn);
                  }
 
-            User u = new User(firstName, lastName);
+            User u = new User(id, firstName, lastName);
             getRoot().addWidget(new UserForm(u));
         } else {
             //show 404

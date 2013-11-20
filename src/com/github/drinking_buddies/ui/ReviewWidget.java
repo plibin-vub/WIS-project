@@ -24,7 +24,7 @@ public class ReviewWidget extends WTemplate {
         this.review = review;
         
         this.bindString("average-score", formatScore(review.getAverageScore()));
-        this.bindString("poster", review.getPoster().getName());
+        this.bindString("poster", review.getPoster().getFirstName() + " " + review.getPoster().getLastName());
         
         this.bindString("color-score", formatScore(review.getColorScore()));
         this.bindString("smell-score", formatScore(review.getSmellScore()));

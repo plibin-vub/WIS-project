@@ -1,5 +1,4 @@
-﻿
-INSERT INTO "beer" VALUES(1,'"18"_imperial_ipa','"18" Imperial IPA','cBLTUw');
+﻿INSERT INTO "beer" VALUES(1,'"18"_imperial_ipa','"18" Imperial IPA','cBLTUw');
 INSERT INTO "beer" VALUES(2,'"god_country"_kolsch','"God Country" Kolsch','Hr5A0t');
 INSERT INTO "beer" VALUES(3,'"jemmy_dean"_breakfast_stout','"Jemmy Dean" Breakfast Stout','54rSgo');
 INSERT INTO "beer" VALUES(4,'"mike_saw_a_sasquatch"_session_ale','"Mike Saw a Sasquatch" Session Ale','b7WWL6');
