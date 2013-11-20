@@ -33,6 +33,8 @@ import com.github.drinking_buddies.ui.BeerForm;
 import com.github.drinking_buddies.ui.StartForm;
 import com.github.drinking_buddies.ui.UserForm;
 import com.github.drinking_buddies.ui.utils.EncodingUtils;
+import com.github.drinking_buddies.webservices.brewerydb.BreweryDb;
+import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WApplication;
@@ -69,6 +71,8 @@ public class Application extends WApplication {
 
         configuration = Main.loadConfiguration();
 
+        login(1);
+        
         handleInternalPath(getInternalPath());
     }
     
@@ -95,13 +99,6 @@ public class Application extends WApplication {
             
         if ("beers".equals(parts[0])) {
             if (parts.length > 1) {
-                Image i = null;
-                try {
-                    i = new Image(EncodingUtils.base64ToByteArray(data_uri), "image/gif");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                
                 final String beerURL = parts[1];
                 
                 Integer id = null;
@@ -166,8 +163,19 @@ public class Application extends WApplication {
                     closeConnection(conn);
                 }
                 
-                Beer b = new Beer(id, beerName, "--TODO--", favoredBy, i);
-                getRoot().addWidget(new BeerForm(b, tags, reviews));
+                com.github.drinking_buddies.webservices.brewerydb.Beer beer_from_brewerydb;
+                try {
+                    beer_from_brewerydb = BreweryDb.getBeer(beerWSName);
+                    Beer b = new Beer(id, 
+                            beerName, 
+                            beer_from_brewerydb.getMainBrewery(), 
+                            favoredBy, 
+                            beer_from_brewerydb.getAbv(),
+                            beer_from_brewerydb.getMediumLabelUrl());
+                    getRoot().addWidget(new BeerForm(b, tags, reviews));
+                } catch (RestException e) {
+                    e.printStackTrace();
+                }
             } else {
                 //show the beer selection form
             }

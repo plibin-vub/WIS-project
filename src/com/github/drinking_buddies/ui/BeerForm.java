@@ -41,15 +41,11 @@ public class BeerForm extends WContainerWidget {
         //we bind to some of the template's variables
         main.bindString("beer", beer.getName());
         main.bindString("brewery", beer.getBrewery());
+        main.bindString("alcohol", beer.getAlcohol()+"");
         main.bindInt("favored-by", beer.getFavoredBy());
         main.bindInt("highest-score", Review.highestScore);
-        //we bind the beer's picture to the template
-        WImage picture = new WImage();
-        {
-            WResource r = ImageUtils.createResource(beer.getPicture().getData(), beer.getPicture().getMimetype());
-            picture.setImageLink(new WLink(r));
-        }
-        main.bindWidget("picture", picture);
+        //we bind the beer's picture url to the template
+        main.bindString("picture-url", beer.getPictureUrl());
         
         //add the "add to favorites" button to the template
         WPushButton addToFavorites = new WPushButton(tr("beer-form.add-to-favorites"));

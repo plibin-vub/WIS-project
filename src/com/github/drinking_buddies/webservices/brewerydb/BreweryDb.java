@@ -36,7 +36,7 @@ public class BreweryDb {
         URI url;
         try {
             url = URIUtils.createURI("http", HOST, 80, BEERS_PATH, "key="
-                    + API_KEY + "&ids=" + id, null);
+                    + API_KEY + "&ids=" + id + "&withBreweries=y", null);
         } catch (URISyntaxException e) {
             throw new IllegalArgumentException("id is not valid", e);
         }
