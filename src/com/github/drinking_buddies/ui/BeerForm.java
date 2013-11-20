@@ -1,5 +1,6 @@
 package com.github.drinking_buddies.ui;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import com.github.drinking_buddies.Application;
@@ -134,7 +135,12 @@ public class BeerForm extends WContainerWidget {
         return total/reviews.size();
     }
     
+    private static final DecimalFormat formatter = new DecimalFormat("#.0"); 
+    private String formatScore(double score) {
+        return formatter.format(score);
+    }
+    
     private void updateReviewScore() {
-        main.bindString("score", String.valueOf(calculateScore()));
+        main.bindString("score", formatScore(calculateScore()));
     }
 }
