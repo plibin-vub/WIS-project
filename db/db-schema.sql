@@ -1,11 +1,8 @@
 CREATE TABLE user(
    id 				INTEGER 	PRIMARY KEY,
    name 			TEXT		NOT NULL,
-   facebook_name 	TEXT,
-   email 			TEXT,
-   city 			TEXT,
-   country 			TEXT,
-   phone 			INTEGER,
+   oauth_name 		TEXT,
+   oauth_provider	TEXT,
    location_x 		REAL,
    location_y 		REAL,
    birthdate 		CHAR(8)		NOT NULL,
