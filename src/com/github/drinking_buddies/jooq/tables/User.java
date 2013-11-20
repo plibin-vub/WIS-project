@@ -11,7 +11,7 @@ package com.github.drinking_buddies.jooq.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class User extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jooq.tables.records.UserRecord> {
 
-	private static final long serialVersionUID = 1028564322;
+	private static final long serialVersionUID = 1349414546;
 
 	/**
 	 * The singleton instance of <code>user</code>
@@ -32,9 +32,14 @@ public class User extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jo
 	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.UserRecord, java.lang.Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER, this);
 
 	/**
-	 * The column <code>user.name</code>. 
+	 * The column <code>user.first_name</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.UserRecord, java.lang.String> NAME = createField("name", org.jooq.impl.SQLDataType.CLOB.nullable(false), this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.UserRecord, java.lang.String> FIRST_NAME = createField("first_name", org.jooq.impl.SQLDataType.CLOB.nullable(false), this);
+
+	/**
+	 * The column <code>user.last_name</code>. 
+	 */
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.UserRecord, java.lang.String> LAST_NAME = createField("last_name", org.jooq.impl.SQLDataType.CLOB.nullable(false), this);
 
 	/**
 	 * The column <code>user.oauth_name</code>. 
@@ -55,16 +60,6 @@ public class User extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jo
 	 * The column <code>user.location_y</code>. 
 	 */
 	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.UserRecord, java.lang.Float> LOCATION_Y = createField("location_y", org.jooq.impl.SQLDataType.REAL, this);
-
-	/**
-	 * The column <code>user.birthdate</code>. 
-	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.UserRecord, java.lang.String> BIRTHDATE = createField("birthdate", org.jooq.impl.SQLDataType.CHAR.length(8).nullable(false), this);
-
-	/**
-	 * The column <code>user.picture</code>. 
-	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.UserRecord, byte[]> PICTURE = createField("picture", org.jooq.impl.SQLDataType.BLOB, this);
 
 	/**
 	 * Create a <code>user</code> table reference

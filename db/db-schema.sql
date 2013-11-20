@@ -1,12 +1,11 @@
 CREATE TABLE user(
    id 				INTEGER 	PRIMARY KEY,
-   name 			TEXT		NOT NULL,
+   first_name 		TEXT		NOT NULL,
+   last_name		TEXT 		NOT NULL,
    oauth_name 		TEXT,
    oauth_provider	TEXT,
    location_x 		REAL,
-   location_y 		REAL,
-   birthdate 		CHAR(8)		NOT NULL,
-   picture			BLOB
+   location_y 		REAL
 );
 
 CREATE TABLE buddy(

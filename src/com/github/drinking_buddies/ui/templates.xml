@@ -123,7 +123,7 @@
 	</message>
 
 	<message id="user-form">
-		<div class="name">${user}</div>
-		<div class="birthdate">${birthdate}</div>
+		<div class="first-name">${first-name}</div>
+		<div class="last-name">${last-name}</div>
 	</message>
 </messages>

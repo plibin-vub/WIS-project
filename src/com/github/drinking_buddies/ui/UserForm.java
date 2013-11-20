@@ -13,15 +13,11 @@ import eu.webtoolkit.jwt.WTemplate;
  */
 public class UserForm extends WContainerWidget {
     public UserForm(User user) {
-        //the main template for the user form 
-        //(a WTemplate constructor accepts the template text and its parent)
         WTemplate main = new WTemplate(tr("user-form"), this);
         TemplateUtils.configureDefault(Application.getInstance(), main);
-        //we bind to some of the template's variables
-        main.bindString("user", user.getName());
-        main.bindString("birthdate", user.getBirthdate());
-
-        }
+        main.bindString("first-name", user.getFirstName());
+        main.bindString("last-name", user.getFirstName());
     }
+}
 
 

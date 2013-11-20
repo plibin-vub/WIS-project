@@ -2,21 +2,20 @@ package com.github.drinking_buddies.entities;
 
 
 public class User {
-    private String name;
-    private String birthdate;
+    private String firstName;
+    private String lastName;
+    
+    public User (String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
-    
-    public User (String name, String birthdate) {
-        this.name = name;
-        this.birthdate = birthdate;
+    public String getFirstName() {
+        return firstName;
     }
-    
-    public String getName() {
-        return name;
+
+
+    public String getLastName() {
+        return lastName;
     }
-    
-    public String getBirthdate() {
-        return birthdate;
-    }
-    
 }
