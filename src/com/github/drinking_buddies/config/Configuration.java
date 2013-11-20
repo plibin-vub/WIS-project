@@ -4,8 +4,9 @@ public class Configuration {
     private Database database;
     private Wt wt;
 
-    public Configuration(Database database) {
+    public Configuration(String locale, Database database, Wt wt) {
         this.database = database;
+        this.wt = wt;
     }
 
     public Database getDatabase() {
