@@ -14,6 +14,7 @@ import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 import com.google.gson.Gson;
 
 public class Geocoding {
+    //got the class GoogleGeoCodeResponse from http://stackoverflow.com/questions/7265833/how-to-serialize-and-deserialize-a-json-object-from-google-geocode-using-java
     public static class GoogleGeoCodeResponse {
         static class results {
             public String formatted_address;
