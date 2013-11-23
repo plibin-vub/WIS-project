@@ -344,4 +344,18 @@ public class Application extends WApplication {
         String baseURL = this.getEnvironment().getDeploymentPath();
         this.redirect(baseURL + "/" + relativePath);
     }
+
+    public void searchBeers(String search) {
+        this.setInternalPath("/" + BEERS_URL, false);
+        
+        getRoot().clear();
+        getRoot().addWidget(new BeerSearchForm(search));
+    }
+    
+    public void searchBars(String search) {
+        this.setInternalPath("/" + BARS_URL, false);
+        
+        getRoot().clear();
+        getRoot().addWidget(new BarSearchForm(search));
+    }
 }

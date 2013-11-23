@@ -11,12 +11,14 @@ import org.jooq.Record;
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.Main;
 import com.github.drinking_buddies.entities.User;
+import com.github.drinking_buddies.jooq.utils.SearchUtils;
 import com.github.drinking_buddies.ui.autocompletion.AutocompletePopup;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 import com.github.drinking_buddies.webservices.facebook.Facebook;
 import com.github.drinking_buddies.webservices.facebook.Person;
 import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 
+import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WAnchor;
 import eu.webtoolkit.jwt.WContainerWidget;
@@ -56,11 +58,51 @@ public class StartForm extends WContainerWidget {
         });
         process.connectStartAuthenticate(login.clicked());
         
-        final WLineEdit beerSearch = new WLineEdit();
-        final AutocompletePopup beerPopup = new AutocompletePopup(new BeerAutocompleteDatabaseModel(10), beerSearch, main);
-        main.bindWidget("beer-search-text", beerSearch);
-        WPushButton beerSearchButton = new WPushButton(tr("start-form.search-beer"));
-        main.bindWidget("beer-search-button", beerSearchButton);
+        {
+            final WLineEdit beerSearch = new WLineEdit();
+            final AutocompletePopup beerPopup = new AutocompletePopup(new BeerAutocompleteDatabaseModel(10), beerSearch, main);
+            main.bindWidget("beer-search-text", beerSearch);
+            WPushButton beerSearchButton = new WPushButton(tr("start-form.search-beer"));
+            main.bindWidget("beer-search-button", beerSearchButton);
+            beerSearchButton.clicked().addListener(this, new Signal.Listener(){
+                public void trigger() {
+                    try {
+                        String url = SearchUtils.getBeerURL(beerSearch.getText());
+                        Application app = Application.getInstance();
+                        if (url == null) {
+                            app.searchBeers(beerSearch.getText());       
+                        } else {
+                           app.internalRedirect(Application.BEERS_URL + "/" + url); 
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+        
+        {
+            final WLineEdit barSearch = new WLineEdit();
+            final AutocompletePopup barPopup = new AutocompletePopup(new BarAutocompleteDatabaseModel(10), barSearch, main);
+            main.bindWidget("bar-search-text", barSearch);
+            WPushButton barSearchButton = new WPushButton(tr("start-form.search-bar"));
+            main.bindWidget("bar-search-button", barSearchButton);
+            barSearchButton.clicked().addListener(this, new Signal.Listener(){
+                public void trigger() {
+                    try {
+                        String url = SearchUtils.getBarURL(barSearch.getText());
+                        Application app = Application.getInstance();
+                        if (url == null) {
+                            app.searchBeers(barSearch.getText());       
+                        } else {
+                           app.internalRedirect(Application.BARS_URL + "/" + url); 
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
     }
     
     private void authenticated(Identity id, OAuthAccessToken token) throws SQLException, RestException {
