@@ -344,4 +344,9 @@ public class Application extends WApplication {
     public void login(User user) {
         loggedInUser = user;
     }
+    
+    public void internalRedirect(String relativePath) {
+        String baseURL = this.getEnvironment().getDeploymentPath();
+        this.redirect(baseURL + "/" + relativePath);
+    }
 }
