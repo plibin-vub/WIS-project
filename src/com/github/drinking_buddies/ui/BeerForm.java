@@ -171,7 +171,13 @@ public class BeerForm extends WContainerWidget {
     }
     
     private void updateReviewScore() {
-        main.bindString("score", formatScore(calculateScore()));
+        String score = "-";
+        
+        if (reviews.size() > 0) {
+            score = formatScore(calculateScore());
+        }
+        
+        main.bindString("score", score);
     }
     
     private boolean addToFavorites(Beer beer) {
