@@ -59,4 +59,5 @@
 	<message id="bar-search.select-bar">Select bar</message>
 	<message id="bar-search.find-bar">Find bar</message>
 	<message id="bar-search.results">Results</message>
+	<message id="bar-search.add-bar">Add new bar</message>
 </messages>

@@ -18,8 +18,10 @@ import com.github.drinking_buddies.ui.autocompletion.AutocompletePopup;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
 import eu.webtoolkit.jwt.Signal;
+import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WLineEdit;
+import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WTemplate;
 
@@ -73,6 +75,15 @@ public class BarSearchForm extends WContainerWidget {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+        
+        WPushButton addBarButton = new WPushButton(tr("bar-search.add-bar"));
+        main.bindWidget("add-bar", addBarButton);
+        addBarButton.clicked().addListener(this, new Signal.Listener() {
+            public void trigger() {
+                AddBarDialog dialog = new AddBarDialog(BarSearchForm.this);
+                dialog.show();
             }
         });
     }

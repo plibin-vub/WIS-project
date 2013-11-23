@@ -278,6 +278,7 @@
 		<span>${tr:bar-search.select-bar}:</span>
 		<div class="div-row">${field} ${find}</div>
 		${results}
+		${add-bar}
 	</message>
 	
 	<message id="bar-search-results">
