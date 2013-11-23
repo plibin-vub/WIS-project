@@ -54,7 +54,7 @@ public class Geocoding {
     }
     
     private static String createAddressString(Address address) {
-        return address.getNumber() + " " + address.getStreet() + "," + address.getCity() + " " + address.getZip() + "," + address.getCountry();
+        return address.getNumber() + " " + address.getStreet() + "," + address.getCity() + " " + address.getZipCode() + "," + address.getCountry();
     }
     
     public static location addressToLocation(Address address) throws RestException {
