@@ -20,6 +20,8 @@ public class TemplateUtils {
             tt.bindString("first-name", u.getFirstName());
             tt.bindString("last-name", u.getLastName());
             t.bindWidget("logged-in-user", tt);
+        } else {
+            t.bindWidget("logged-in-user", null);
         }
     }
 }
