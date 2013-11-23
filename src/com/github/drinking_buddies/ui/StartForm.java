@@ -128,11 +128,13 @@ public class StartForm extends WContainerWidget {
                                USER.OAUTH_NAME,
                                USER.OAUTH_PROVIDER,
                                USER.FIRST_NAME,
-                               USER.LAST_NAME)
+                               USER.LAST_NAME,
+                               USER.URL)
                     .values(id.getId(),
                             id.getProvider(),
                             p.getFirst_name(),
-                            p.getLast_name())
+                            p.getLast_name(),
+                            createUserURL(p))
                     .execute();
                
                 r = dsl
@@ -151,5 +153,12 @@ public class StartForm extends WContainerWidget {
         } finally {
             conn.commit();
         }
+    }
+    
+    private String createUserURL(Person p) {
+        //in order to be complete, 
+        //we should check that this URL is not in the database yet:
+        //if that would be the case we could add an incrementing number to assure uniqueness
+        return p.getFirst_name().toLowerCase() + "." + p.getLast_name().toLowerCase();
     }
 }

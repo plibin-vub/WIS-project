@@ -43,6 +43,7 @@ import com.github.drinking_buddies.ui.BeerForm;
 import com.github.drinking_buddies.ui.BeerSearchForm;
 import com.github.drinking_buddies.ui.NearbyBarsForm;
 import com.github.drinking_buddies.ui.StartForm;
+import com.github.drinking_buddies.ui.UserForm;
 import com.github.drinking_buddies.webservices.brewerydb.BreweryDb;
 import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 
@@ -97,6 +98,8 @@ public class Application extends WApplication {
     
     public static String BEERS_URL = "beers";
     public static String BARS_URL = "bars";
+    public static String FIND_NEARBY_FRIENDS_URL = "find_nearby_friends";
+    public static String FIND_NEARBY_BARS_URL = "find_nearby_bars";
     
     private void handleInternalPath(String ip) {
         String[] parts = split(ip);
@@ -194,34 +197,33 @@ public class Application extends WApplication {
             //show 404
         }
         if ("users".equals(parts[0])) {
-            Integer id = null;
-            String firstName = null;
-            String lastName = null;
+            if (parts.length > 0) {
+                String url = parts[1];
                  
                  Connection conn = null;
                  try {
                      conn = this.getConnection();
                      DSLContext dsl = createDSLContext(conn);
-                     
-                     Record r 
-                         = dsl
-                             .select(USER.FIRST_NAME)
-                             .from(USER)
-                             .where(USER.ID.eq(1))
-                             .fetchOne();
-                     id = r.getValue(USER.ID);
-                     firstName = r.getValue(USER.FIRST_NAME);
-                     lastName = r.getValue(USER.LAST_NAME);
+                     Record r = 
+                             dsl
+                                 .select()
+                                 .from(USER)
+                                 .where(USER.URL.equal(url))
+                                 .fetchOne();
+                     if (r != null) {
+                         Bar b = new Bar(-1, "don quichote", -1, 1, "",null,
+                                 new Address(-1,"","","", "Azoia","Portugal"));
+                         getRoot().addWidget(new UserForm(new User(r), b));
+                     } else {
+                         throw new RuntimeException("Unknown user URL");
                      }
-                  catch (Exception e) {
+                 } catch (Exception e) {
                      e.printStackTrace();
                      throw new RuntimeException(e);
                  } finally {
                      closeConnection(conn);
                  }
-
-            //User u = new User(r);
-            //getRoot().addWidget(new UserForm(u));
+            }
         } else {
             //show 404
         }

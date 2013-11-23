@@ -57,6 +57,7 @@ public class Keys {
 	public static final org.jooq.ForeignKey<com.github.drinking_buddies.jooq.tables.records.ReviewRecord, com.github.drinking_buddies.jooq.tables.records.UserRecord> FK_REVIEW_USER_1 = ForeignKeys0.FK_REVIEW_USER_1;
 	public static final org.jooq.ForeignKey<com.github.drinking_buddies.jooq.tables.records.ReviewCommentRecord, com.github.drinking_buddies.jooq.tables.records.ReviewRecord> FK_REVIEW_COMMENT_REVIEW_1 = ForeignKeys0.FK_REVIEW_COMMENT_REVIEW_1;
 	public static final org.jooq.ForeignKey<com.github.drinking_buddies.jooq.tables.records.ReviewCommentRecord, com.github.drinking_buddies.jooq.tables.records.UserRecord> FK_REVIEW_COMMENT_USER_1 = ForeignKeys0.FK_REVIEW_COMMENT_USER_1;
+	public static final org.jooq.ForeignKey<com.github.drinking_buddies.jooq.tables.records.UserRecord, com.github.drinking_buddies.jooq.tables.records.BarRecord> FK_USER_BAR_1 = ForeignKeys0.FK_USER_BAR_1;
 
 	// -------------------------------------------------------------------------
 	// [#1459] distribute members to avoid static initialisers > 64kb
@@ -95,5 +96,6 @@ public class Keys {
 		public static final org.jooq.ForeignKey<com.github.drinking_buddies.jooq.tables.records.ReviewRecord, com.github.drinking_buddies.jooq.tables.records.UserRecord> FK_REVIEW_USER_1 = createForeignKey(com.github.drinking_buddies.jooq.Keys.PK_USER, com.github.drinking_buddies.jooq.tables.Review.REVIEW, com.github.drinking_buddies.jooq.tables.Review.REVIEW.USER_ID);
 		public static final org.jooq.ForeignKey<com.github.drinking_buddies.jooq.tables.records.ReviewCommentRecord, com.github.drinking_buddies.jooq.tables.records.ReviewRecord> FK_REVIEW_COMMENT_REVIEW_1 = createForeignKey(com.github.drinking_buddies.jooq.Keys.PK_REVIEW, com.github.drinking_buddies.jooq.tables.ReviewComment.REVIEW_COMMENT, com.github.drinking_buddies.jooq.tables.ReviewComment.REVIEW_COMMENT.REVIEW_ID);
 		public static final org.jooq.ForeignKey<com.github.drinking_buddies.jooq.tables.records.ReviewCommentRecord, com.github.drinking_buddies.jooq.tables.records.UserRecord> FK_REVIEW_COMMENT_USER_1 = createForeignKey(com.github.drinking_buddies.jooq.Keys.PK_USER, com.github.drinking_buddies.jooq.tables.ReviewComment.REVIEW_COMMENT, com.github.drinking_buddies.jooq.tables.ReviewComment.REVIEW_COMMENT.USER_ID);
+		public static final org.jooq.ForeignKey<com.github.drinking_buddies.jooq.tables.records.UserRecord, com.github.drinking_buddies.jooq.tables.records.BarRecord> FK_USER_BAR_1 = createForeignKey(com.github.drinking_buddies.jooq.Keys.PK_BAR, com.github.drinking_buddies.jooq.tables.User.USER, com.github.drinking_buddies.jooq.tables.User.USER.BAR_ID);
 	}
 }

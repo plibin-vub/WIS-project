@@ -66,4 +66,10 @@
 	<message id="bar-search.add-bar">Add new bar</message>
 	
 	<message id="logged-in-user.user">User</message>
+	
+	<message id="user-form.is-drinking-in">is drinking in "{1}" (located in {2}, {3})</message>
+	<message id="user-form.find-nearby-friends">Find nearby friends</message>
+	<message id="user-form.find-nearby-bars">Find nearby bars</message>
+	<message id="user-form.favorite-beers">Favorite beers</message>
+	<message id="user-form.favorite-bars">Favorite bars</message>
 </messages>

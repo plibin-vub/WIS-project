@@ -4,8 +4,9 @@ CREATE TABLE user(
    last_name		TEXT 		NOT NULL,
    oauth_name 		TEXT,
    oauth_provider	TEXT,
-   location_x 		REAL,
-   location_y 		REAL
+   url 				text 		NOT NULL,
+   bar_id			INTEGER,
+   FOREIGN KEY(bar_id) REFERENCES bar(id)
 );
 
 CREATE TABLE buddy(

@@ -11,7 +11,7 @@ package com.github.drinking_buddies.jooq.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class User extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jooq.tables.records.UserRecord> {
 
-	private static final long serialVersionUID = 1349414546;
+	private static final long serialVersionUID = -1071715947;
 
 	/**
 	 * The singleton instance of <code>user</code>
@@ -52,14 +52,14 @@ public class User extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jo
 	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.UserRecord, java.lang.String> OAUTH_PROVIDER = createField("oauth_provider", org.jooq.impl.SQLDataType.CLOB, this);
 
 	/**
-	 * The column <code>user.location_x</code>. 
+	 * The column <code>user.url</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.UserRecord, java.lang.Float> LOCATION_X = createField("location_x", org.jooq.impl.SQLDataType.REAL, this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.UserRecord, java.lang.String> URL = createField("url", org.jooq.impl.SQLDataType.CLOB.nullable(false), this);
 
 	/**
-	 * The column <code>user.location_y</code>. 
+	 * The column <code>user.bar_id</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.UserRecord, java.lang.Float> LOCATION_Y = createField("location_y", org.jooq.impl.SQLDataType.REAL, this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.UserRecord, java.lang.Integer> BAR_ID = createField("bar_id", org.jooq.impl.SQLDataType.INTEGER, this);
 
 	/**
 	 * Create a <code>user</code> table reference
@@ -89,6 +89,14 @@ public class User extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jo
 	@Override
 	public java.util.List<org.jooq.UniqueKey<com.github.drinking_buddies.jooq.tables.records.UserRecord>> getKeys() {
 		return java.util.Arrays.<org.jooq.UniqueKey<com.github.drinking_buddies.jooq.tables.records.UserRecord>>asList(com.github.drinking_buddies.jooq.Keys.PK_USER);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public java.util.List<org.jooq.ForeignKey<com.github.drinking_buddies.jooq.tables.records.UserRecord, ?>> getReferences() {
+		return java.util.Arrays.<org.jooq.ForeignKey<com.github.drinking_buddies.jooq.tables.records.UserRecord, ?>>asList(com.github.drinking_buddies.jooq.Keys.FK_USER_BAR_1);
 	}
 
 	/**

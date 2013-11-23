@@ -161,10 +161,69 @@
 	</message>
 
 	<message id="user-form">
-		<div class="first-name">${first-name}</div>
-		<div class="last-name">${last-name}</div>
+		<div class="header">
+			<img src="${app.context}/pics/header.png" alt="Header image"></img>
+		</div>
+		${logged-in-user}
+	
+		<div class="personal-info">
+			<img src="${user-pic-url}" />
+			<span class="name">${first-name} ${last-name}</span>
+			${is-drinking-in}
+			${share-location}
+		</div>
+		${favorites}
+		<a target="_blank" href="${app.base.url}/${find-nearby-friends-url}">${tr:user-form.find-nearby-friends}</a>
+		<a target="_blank" href="${app.base.url}/${find-nearby-bars-url}">${tr:user-form.find-nearby-bars}</a>
 	</message>
 	
+	<message id="is-drinking-in">
+		<span class="is-drinking-in">${text}</span>
+	</message>
+	
+	<message id="user-favorites">
+		<table class="favorites">
+			<tr>
+				<td colspan="2">${tr:user-form.favorite-beers}</td>
+				<td colspan="2">${tr:user-form.favorite-bars}</td>
+			</tr>
+			<tr>
+				<td>${fav-beer-1}</td>
+				<td>${fav-beer-delete-1}</td>
+				<td>${fav-bar-1}</td>
+				<td>${fav-bar-delete-1}</td>
+			</tr>
+			<tr>
+				<td>${fav-beer-2}</td>
+				<td>${fav-beer-delete-2}</td>
+				<td>${fav-bar-2}</td>
+				<td>${fav-bar-delete-2}</td>
+			</tr>
+			<tr>
+				<td>${fav-beer-3}</td>
+				<td>${fav-beer-delete-3}</td>
+				<td>${fav-bar-3}</td>
+				<td>${fav-bar-delete-3}</td>
+			</tr>
+			<tr>
+				<td>${fav-beer-4}</td>
+				<td>${fav-beer-delete-4}</td>
+				<td>${fav-bar-4}</td>
+				<td>${fav-bar-delete-4}</td>
+			</tr>
+			<tr>
+				<td>${fav-beer-5}</td>
+				<td>${fav-beer-delete-5}</td>
+				<td>${fav-bar-5}</td>
+				<td>${fav-bar-delete-5}</td>
+			</tr>
+		</table>
+	</message>
+	
+	<message id="user-favorite-link">
+		<a href="${app.base.url}/${url}">${name}</a>
+	</message>
+		
 	<message id="comments-widget">
 		<span>${tr:comments.all-comments} (${number})</span>
 		${add-comment}
