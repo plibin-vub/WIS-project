@@ -273,4 +273,19 @@
 	<message id="beer-search-result">
 		<a href="${app.base.url}/${relative-url}">${name}</a>
 	</message>
+	
+	<message id="bar-search-form">
+		<span>${tr:bar-search.select-bar}:</span>
+		<div class="div-row">${field} ${find}</div>
+		${results}
+	</message>
+	
+	<message id="bar-search-results">
+		<span>${tr:bar-search.results}:</span>
+		<div>${result-entries}</div>
+	</message>
+	
+	<message id="bar-search-result">
+		<a href="${app.base.url}/${relative-url}">${name}</a>
+	</message>
 </messages>

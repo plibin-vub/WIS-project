@@ -94,6 +94,7 @@ public class Application extends WApplication {
     }
     
     public static String BEERS_URL = "beers";
+    public static String BARS_URL = "bars";
     
     private void handleInternalPath(String ip) {
         String[] parts = split(ip);
@@ -222,65 +223,57 @@ public class Application extends WApplication {
         } else {
             //show 404
         }
-        if ("bars".equals(parts[0])) {
-            if(parts.length<=1){
-                Address address=new Address(5, "TestStraat", "10"
-                      , "2800","Mechelen", "Belgie");
-                Image barPhoto = null; //TODO
-                Bar bar = new Bar(1,"TestBar",5, 6, "www.google.com",barPhoto, address) ;
-                getRoot().addWidget(new BarForm(bar));
-                show404();
-                return;
-            }
-            final String barURL = parts[1];
-              Bar bar=null;
-                   
-                   Connection conn = null;
-                   try {
-                       conn = this.getConnection();
-                       DSLContext dsl = createDSLContext(conn);
-                       
-                       Record r 
-                           = dsl
-                               .select(BAR.ID,BAR.NAME,BAR.WEBSITE,BAR.PHOTO,ADDRESS.ID,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY)
-                               .from(BAR,ADDRESS)
-                               .where(BAR.URL.eq(barURL))
-                               .and(ADDRESS.ID.eq(BAR.ADDRESS_ID))
-                               .fetchOne();
-                       if(r==null){
-                           show404();
-                           return;
-                       }
-                       int id=r.getValue(BAR.ID);
-                       int favoredBy
-                       = dsl
-                           .select()
-                           .from(FAVORITE_BAR)
-                           .where(FAVORITE_BAR.BAR_ID.equal(id))
-                           .fetchCount();
-                       BigDecimal score=dsl.select(BAR_SCORE.SCORE.avg())
-                               .from(BAR_SCORE)
-                               .join(BAR2_BAR_SCORE)
-                               .on(BAR2_BAR_SCORE.BAR_SCORE_ID.equal(BAR_SCORE.ID))
-                               .where(BAR2_BAR_SCORE.BAR_ID.eq(id))
-                               .fetchOne().getValue(BAR_SCORE.SCORE.avg());
-                       Address address=new Address(r.getValue(ADDRESS.ID), r.getValue(ADDRESS.STREET), r.getValue(ADDRESS.NUMBER)
-                               , r.getValue(ADDRESS.ZIPCODE), r.getValue(ADDRESS.CITY), r.getValue(ADDRESS.COUNTRY));
-                       Image barPhoto = null; //TODO
-                       bar = new Bar(id,r.getValue(BAR.NAME),favoredBy, score.doubleValue(), r.getValue(BAR.WEBSITE),barPhoto, address) ;
-                       }
-                    catch (Exception e) {
-                       e.printStackTrace();
-                       throw new RuntimeException(e);
-                   } finally {
-                       closeConnection(conn);
-                   }
+        if (BARS_URL.equals(parts[0])) {
+            if(parts.length>1) {
+                final String barURL = parts[1];
+                Bar bar=null;
+                     
+                     Connection conn = null;
+                     try {
+                         conn = this.getConnection();
+                         DSLContext dsl = createDSLContext(conn);
+                         
+                         Record r 
+                             = dsl
+                                 .select(BAR.ID,BAR.NAME,BAR.WEBSITE,BAR.PHOTO,ADDRESS.ID,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY)
+                                 .from(BAR,ADDRESS)
+                                 .where(BAR.URL.eq(barURL))
+                                 .and(ADDRESS.ID.eq(BAR.ADDRESS_ID))
+                                 .fetchOne();
+                         if(r==null){
+                             //TODO show error message in stead of 404
+                             show404();
+                             return;
+                         }
+                         int id=r.getValue(BAR.ID);
+                         int favoredBy
+                         = dsl
+                             .select()
+                             .from(FAVORITE_BAR)
+                             .where(FAVORITE_BAR.BAR_ID.equal(id))
+                             .fetchCount();
+                         BigDecimal score=dsl.select(BAR_SCORE.SCORE.avg())
+                                 .from(BAR_SCORE)
+                                 .join(BAR2_BAR_SCORE)
+                                 .on(BAR2_BAR_SCORE.BAR_SCORE_ID.equal(BAR_SCORE.ID))
+                                 .where(BAR2_BAR_SCORE.BAR_ID.eq(id))
+                                 .fetchOne().getValue(BAR_SCORE.SCORE.avg());
+                         Address address=new Address(r.getValue(ADDRESS.ID), r.getValue(ADDRESS.STREET), r.getValue(ADDRESS.NUMBER)
+                                 , r.getValue(ADDRESS.ZIPCODE), r.getValue(ADDRESS.CITY), r.getValue(ADDRESS.COUNTRY));
+                         Image barPhoto = null; //TODO
+                         bar = new Bar(id,r.getValue(BAR.NAME),favoredBy, score.doubleValue(), r.getValue(BAR.WEBSITE),barPhoto, address) ;
+                         }
+                      catch (Exception e) {
+                         e.printStackTrace();
+                         throw new RuntimeException(e);
+                     } finally {
+                         closeConnection(conn);
+                     }
 
-//              Address address=new Address(5, "TestStraat", "10"
-//                    , "2800","Mechelen", "Belgie");
-//              Image barPhoto = null; //TODO
-//              bar = new Bar(1,"TestBar",5, 6, "www.google.com",barPhoto, address) ;
-              getRoot().addWidget(new BarForm(bar));
+                getRoot().addWidget(new BarForm(bar));
+            } else {
+                getRoot().addWidget(new BarSearchForm());
+            }
           } else {
               show404();
           }
