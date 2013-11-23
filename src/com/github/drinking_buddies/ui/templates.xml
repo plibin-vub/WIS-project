@@ -260,6 +260,9 @@
 	</message>
 	
 	<message id="beer-search-form">
+		<div class="header">
+			<img src="${app.context}/pics/header.png" alt="Header image"></img>
+		</div>
 		<span>${tr:beer-search.select-beer}:</span>
 		<div class="div-row">${field} ${find}</div>
 		${results}
@@ -275,6 +278,9 @@
 	</message>
 	
 	<message id="bar-search-form">
+		<div class="header">
+			<img src="${app.context}/pics/header.png" alt="Header image"></img>
+		</div>
 		<span>${tr:bar-search.select-bar}:</span>
 		<div class="div-row">${field} ${find}</div>
 		${results}
