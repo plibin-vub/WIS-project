@@ -18,7 +18,7 @@ public class AutocompletePopup extends WSuggestionPopup {
         forEdit(searchText);
         searchText.keyWentUp().addListener(this, new Signal1.Listener<WKeyEvent>() {
             public void trigger(WKeyEvent ke) {
-                if (ke.getKey() != Key.Key_Enter)
+                if (filterKey(ke.getKey()))
                     filterModel().trigger(searchText.getText());
             }
         });
@@ -33,6 +33,10 @@ public class AutocompletePopup extends WSuggestionPopup {
                 }
             }
         });
+    }
+    
+    private boolean filterKey(Key key) {
+        return key != Key.Key_Enter && key !=Key.Key_Tab;
     }
     
     private void filter(String input) {
