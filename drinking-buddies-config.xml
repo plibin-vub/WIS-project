@@ -9,7 +9,7 @@
   <wt>
 	<locale>en</locale>
   	<authProperties>
-  		<property name="facebook-oauth2-redirect-endpoint" value="http://localhost:8080/db/"/>
+  		<property name="facebook-oauth2-redirect-endpoint" value="http://localhost:8080/db/oauth2callback/"/>
         <property name="facebook-oauth2-app-id" value="620305514675365"/>
         <property name="facebook-oauth2-app-secret" value="eeae19291543913f6a028071ddf81b72"/>
   	</authProperties>
