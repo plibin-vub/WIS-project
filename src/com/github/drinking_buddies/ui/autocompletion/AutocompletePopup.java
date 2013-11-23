@@ -1,8 +1,9 @@
 package com.github.drinking_buddies.ui.autocompletion;
 
-import eu.webtoolkit.jwt.Signal;
+import eu.webtoolkit.jwt.Key;
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WApplication;
+import eu.webtoolkit.jwt.WKeyEvent;
 import eu.webtoolkit.jwt.WLineEdit;
 import eu.webtoolkit.jwt.WObject;
 import eu.webtoolkit.jwt.WSuggestionPopup;
@@ -15,9 +16,10 @@ public class AutocompletePopup extends WSuggestionPopup {
         super(createOptions(), parent);
         this.setModel(model);
         forEdit(searchText);
-        searchText.keyWentUp().addListener(this, new Signal.Listener() {
-            public void trigger() {
-                filterModel().trigger(searchText.getText());
+        searchText.keyWentUp().addListener(this, new Signal1.Listener<WKeyEvent>() {
+            public void trigger(WKeyEvent ke) {
+                if (ke.getKey() != Key.Key_Enter)
+                    filterModel().trigger(searchText.getText());
             }
         });
         
