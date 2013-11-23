@@ -30,7 +30,7 @@ public class BeerAutocompleteDatabaseModel extends AutocompleteDatabaseModel {
                         .select(BEER.NAME)
                         .from(BEER)
                         .where(BEER.NAME.startsWith(s))
-                        .orderBy(BEER.NAME)
+                        .orderBy(BEER.NAME, BEER.ID)
                         .limit(limit)
                         .fetch();
             
