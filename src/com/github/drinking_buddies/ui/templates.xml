@@ -258,4 +258,18 @@
 			<div class="controls">${ok} ${cancel}</div>
 		</div>
 	</message>
+	
+	<message id="nearby-bars-form">
+			<div class="header">
+				${tr:nearby-bars-form.title}
+			</div>
+				
+			<div>${tr:nearby-bars-form.location}: ${location}</div>
+			<div>${tr:nearby-bars-form.radius}: ${radius} </div>
+			<div>${search}</div>
+			<div>
+			<div style="height:400px;width:400px">${map}</div>
+			<div> </div>
+			</div>
+	</message>
 </messages>

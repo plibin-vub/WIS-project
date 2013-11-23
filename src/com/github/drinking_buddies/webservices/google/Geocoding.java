@@ -34,7 +34,7 @@ public class Geocoding {
             public location southwest;
         }
 
-        static class location {
+        public static class location {
             public String lat;
             public String lng;
         }
@@ -58,10 +58,46 @@ public class Geocoding {
     }
     
     public static location addressToLocation(Address address) throws RestException {
+        
+         return addressToLocation( createAddressString(address));
+   
+    }
+    
+    public static String locationToAddress(String lat,String lng) throws RestException {
         URI url = null;
         try {
             Map<String, String> args = new HashMap<String, String>();
-            args.put("address", createAddressString(address));
+            args.put("latlng", lat+","+lng);
+            args.put("sensor", "false");
+            
+            url = URIUtils.createURI("https", "maps.googleapis.com", 443, 
+                    "/maps/api/geocode/json",
+                    RestRequest.argMapToString(args),
+                    null);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+        System.out.println(url.toString());
+        String json=RestRequest.makeRequest(url.toString());
+
+        Gson gson = new Gson();
+        GoogleGeoCodeResponse ggcr = gson.fromJson(json, GoogleGeoCodeResponse.class);
+        
+        if (ggcr != null 
+                && ggcr.results.length > 0 
+                && ggcr.results[0].formatted_address != null)
+            return ggcr.results[0].formatted_address;
+        else
+            return null;
+    }
+
+
+    public static location addressToLocation(String address) throws RestException {
+        URI url = null;
+        try {
+            Map<String, String> args = new HashMap<String, String>();
+            args.put("address", address);
             args.put("sensor", "false");
             
             url = URIUtils.createURI("https", "maps.googleapis.com", 443, 
@@ -84,5 +120,9 @@ public class Geocoding {
             return ggcr.results[0].geometry.location;
         else
             return null;
+    }
+
+    public static String locationToAddress(double lat, double lng) throws RestException {
+        return locationToAddress(new Double(lat).toString(), new Double(lng).toString());
     }
 }

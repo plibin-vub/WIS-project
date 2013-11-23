@@ -39,6 +39,7 @@ import com.github.drinking_buddies.entities.Tag;
 import com.github.drinking_buddies.entities.User;
 import com.github.drinking_buddies.ui.BarForm;
 import com.github.drinking_buddies.ui.BeerForm;
+import com.github.drinking_buddies.ui.NearbyBarsForm;
 import com.github.drinking_buddies.ui.StartForm;
 import com.github.drinking_buddies.ui.UserForm;
 import com.github.drinking_buddies.ui.utils.EncodingUtils;
@@ -285,6 +286,9 @@ public class Application extends WApplication {
               getRoot().addWidget(new BarForm(bar));
           } else {
               show404();
+          }
+          if ("nearby_bars".equals(parts[0])) {
+              getRoot().addWidget(new NearbyBarsForm());
           }
     }
     
