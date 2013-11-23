@@ -258,4 +258,19 @@
 			<div class="controls">${ok} ${cancel}</div>
 		</div>
 	</message>
+	
+	<message id="beer-search-form">
+		<span>${tr:beer-search.select-beer}:</span>
+		<div class="div-row">${field} ${find}</div>
+		${results}
+	</message>
+	
+	<message id="beer-search-results">
+		<span>${tr:beer-search.results}:</span>
+		<div>${result-entries}</div>
+	</message>
+	
+	<message id="beer-search-result">
+		<a href="${app.base.url}/${relative-url}">${name}</a>
+	</message>
 </messages>

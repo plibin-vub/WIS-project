@@ -93,6 +93,8 @@ public class Application extends WApplication {
         return internalPath.split("/");
     }
     
+    public static String BEERS_URL = "beers";
+    
     private void handleInternalPath(String ip) {
         String[] parts = split(ip);
         
@@ -103,7 +105,7 @@ public class Application extends WApplication {
             return;
         }
             
-        if ("beers".equals(parts[0])) {
+        if (BEERS_URL.equals(parts[0])) {
             if (parts.length > 1) {
                 final String beerURL = parts[1];
                 
@@ -183,7 +185,7 @@ public class Application extends WApplication {
                     e.printStackTrace();
                 }
             } else {
-                //show the beer selection form
+                getRoot().addWidget(new BeerSearchForm());
             }
         } else {
             //show 404

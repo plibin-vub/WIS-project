@@ -51,4 +51,8 @@
 	<message id="add-comment.post">Post</message>
 	
 	<message id="comment.posted-by">Posted by</message>
+	
+	<message id="beer-search.select-beer">Select beer</message>
+	<message id="beer-search.find-beer">Find beer</message>
+	<message id="beer-search.results">Results</message>
 </messages>
