@@ -64,4 +64,6 @@
 	<message id="bar-search.results">Results</message>
 	<message id="bar-search.no-results">Sorry, we could not find any results for your search.</message>
 	<message id="bar-search.add-bar">Add new bar</message>
+	
+	<message id="logged-in-user.user">User</message>
 </messages>

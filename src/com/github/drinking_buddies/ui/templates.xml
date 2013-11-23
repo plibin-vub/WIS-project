@@ -4,6 +4,7 @@
 		<div class="header">
 			<img src="${app.context}/pics/header.png" alt="Header image"></img>
 		</div>
+		${logged-in-user}
 		
 		<div class="div-row">
 			<table>
@@ -32,6 +33,7 @@
 		<div class="header">
 			<img src="${app.context}/pics/header.png" alt="Header image"></img>
 		</div>
+		${logged-in-user}
 		
 		<div class="div-row">
 			<table>
@@ -196,6 +198,8 @@
 		<div class="header">
 			<img src="${app.context}/pics/header.png" alt="Header image"></img>
 		</div>
+		${logged-in-user}
+		
 		<div>
 			<table>
 				<tr>
@@ -258,6 +262,8 @@
 		<div class="header">
 			<img src="${app.context}/pics/header.png" alt="Header image"></img>
 		</div>
+		${logged-in-user}
+		
 		<span>${tr:beer-search.select-beer}:</span>
 		<div class="div-row">${field} ${find}</div>
 		${results}
@@ -280,6 +286,8 @@
 		<div class="header">
 			<img src="${app.context}/pics/header.png" alt="Header image"></img>
 		</div>
+		${logged-in-user}
+		
 		<span>${tr:bar-search.select-bar}:</span>
 		<div class="div-row">${field} ${find}</div>
 		${results}
@@ -297,5 +305,9 @@
 	
 	<message id="no-bar-search-results">
 		<span>${tr:bar-search.no-results}</span>
+	</message>
+	
+	<message id="logged-in-user">
+		<div class="logged-in-user">${tr:logged-in-user.user}:${first-name} ${last-name}</div>
 	</message>
 </messages>
