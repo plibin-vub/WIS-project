@@ -23,10 +23,8 @@ import eu.webtoolkit.jwt.WObject;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WTemplate;
 
-public class NewBarForm extends WDialog {
-
-    
-    public NewBarForm(WObject parent) {
+public class AddBarDialog extends WDialog {
+    public AddBarDialog(WObject parent) {
         super(tr("new-bar-form.title").arg("Add new Bar"), parent);
         final WTemplate main = new WTemplate(tr("new-bar-form"), this.getContents());
         TemplateUtils.configureDefault(Application.getInstance(), main);
@@ -52,7 +50,7 @@ public class NewBarForm extends WDialog {
         main.bindWidget("ok", ok);
         ok.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
             public void trigger(WMouseEvent arg) {
-                NewBarForm.this.accept();
+                AddBarDialog.this.accept();
                 saveBar(street.getText(), number.getText(), zipcode.getText(),
                         city.getText(), country.getText(), name.getText(),
                         website.getText());
