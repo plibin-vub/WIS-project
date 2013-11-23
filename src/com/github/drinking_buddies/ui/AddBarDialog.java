@@ -11,9 +11,14 @@ import org.jooq.Record1;
 import org.jooq.Result;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.entities.Address;
+import com.github.drinking_buddies.geolocation.GeoLocation;
 import com.github.drinking_buddies.jooq.tables.records.AddressRecord;
 import com.github.drinking_buddies.jooq.tables.records.ReviewRecord;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
+import com.github.drinking_buddies.webservices.google.Geocoding;
+import com.github.drinking_buddies.webservices.google.Geocoding.GoogleGeoCodeResponse.location;
+import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WDialog;
@@ -64,6 +69,15 @@ public class AddBarDialog extends WDialog {
             String city, String country, String name, String website) {
         Application app = Application.getInstance();
         Connection conn = null;
+        location location;
+        try {
+            location = Geocoding.addressToLocation(new Address(0, street, number, zipcode, city, country));
+        } catch (RestException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return;
+        }
+        GeoLocation geoLocation=GeoLocation.fromDegrees(Double.parseDouble(location.lat),Double.parseDouble(location.lng));
         try {
             conn = app.getConnection();
             DSLContext dsl = app.createDSLContext(conn);
@@ -77,8 +91,8 @@ public class AddBarDialog extends WDialog {
                     .values( street, number, zipcode, city, country).returning()
                     .fetchOne();
             
-            dsl.insertInto(BAR, BAR.ADDRESS_ID, BAR.NAME, BAR.WEBSITE,BAR.URL)
-                    .values(rr.getId(), name, website,url).execute();
+            dsl.insertInto(BAR, BAR.ADDRESS_ID, BAR.NAME, BAR.WEBSITE,BAR.URL,BAR.LOCATION_X,BAR.LOCATION_Y)
+                    .values(rr.getId(), name, website,url,new Float(geoLocation.getLatitudeInRadians()),new Float(geoLocation.getLongitudeInRadians())).execute();
             conn.commit();
         } catch (Exception e) {
             app.rollback(conn);

@@ -378,9 +378,21 @@
 			<div>${tr:nearby-bars-form.location}: ${location}</div>
 			<div>${tr:nearby-bars-form.radius}: ${radius} </div>
 			<div>${search}</div>
-			<div>
-			<div style="height:400px;width:400px">${map}</div>
-			<div> </div>
-			</div>
+			<table>
+			<tr>
+			<td>${map}</td><td>${results}</td>
+			</tr>
+			</table>
 	</message>
+	
+	<message id="bar-result">
+		<div>${bar}</div>
+		<div>${tr:bar-form.website}: ${website}</div>
+		<div>${tr:bar-form.address}: ${address1}</div>
+		<div> ${address2}</div>
+		<div> ${address3}</div>
+		
+		
+	</message>
+	
 </messages>
