@@ -28,7 +28,7 @@ public class BarResultWidget extends WTemplate {
         this.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
             public void trigger(WMouseEvent arg) {
                 Application app = Application.getInstance();
-                app.internalRedirect("bars/"+bar.getUrl());
+                app.internalRedirect("/" + Application.BARS_URL + "/" + bar.getUrl());
             }
         });
     }

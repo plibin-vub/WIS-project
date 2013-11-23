@@ -54,7 +54,7 @@ public class BeerSearchForm extends WContainerWidget {
                 try {
                     String url = SearchUtils.getBeerURL(beerSearch.getText());
                     if (url != null) {
-                        Application.getInstance().internalRedirect(Application.BEERS_URL + "/" + url);
+                        Application.getInstance().internalRedirect("/" + Application.BEERS_URL + "/" + url);
                     } else {
                         showResults(beerSearch.getText(), main);
                     }

@@ -56,7 +56,7 @@ public class BarSearchForm extends WContainerWidget {
                 try {
                     String url = SearchUtils.getBarURL(barSearch.getText());
                     if (url != null) {
-                        Application.getInstance().internalRedirect(Application.BARS_URL + "/" + url);
+                        Application.getInstance().internalRedirect("/" + Application.BARS_URL + "/" + url);
                     } else {
                         showResults(barSearch.getText(), main);
                     }

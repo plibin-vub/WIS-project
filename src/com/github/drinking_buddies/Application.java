@@ -350,8 +350,7 @@ public class Application extends WApplication {
     }
     
     public void internalRedirect(String relativePath) {
-        String baseURL = this.getEnvironment().getDeploymentPath();
-        this.redirect(baseURL + "/" + relativePath);
+        setInternalPath(relativePath);
     }
 
     public void searchBeers(String search) {

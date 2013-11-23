@@ -72,7 +72,7 @@ public class StartForm extends WContainerWidget {
                         if (url == null) {
                             app.searchBeers(beerSearch.getText());       
                         } else {
-                           app.internalRedirect(Application.BEERS_URL + "/" + url); 
+                           app.internalRedirect("/" + Application.BEERS_URL + "/" + url); 
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
