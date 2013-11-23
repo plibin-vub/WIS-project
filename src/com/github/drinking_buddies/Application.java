@@ -81,7 +81,7 @@ public class Application extends WApplication {
 
         configuration = Main.loadConfiguration();
 
-        login(1);
+//        login(1);
         
         handleInternalPath(getInternalPath());
     }
