@@ -193,7 +193,6 @@
 	
 	
 	<message id="bar-form">
-	
 		<div class="header">
 			<img src="${app.context}/pics/header.png" alt="Header image"></img>
 		</div>
@@ -230,11 +229,7 @@
 	</message>
 	
 	
-	<message id="new-bar-form">
-		<div class="header">
-			${tr:new-bar-form.title}
-		</div>
-		
+	<message id="new-bar-form">	
 		<div>
 			<table>
 				<tr>
