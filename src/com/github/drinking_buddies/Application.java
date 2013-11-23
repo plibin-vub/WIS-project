@@ -211,9 +211,7 @@ public class Application extends WApplication {
                                  .where(USER.URL.equal(url))
                                  .fetchOne();
                      if (r != null) {
-                         Bar b = new Bar(-1, "don quichote", -1, 1, "",null,
-                                 new Address(-1,"","","", "Azoia","Portugal"));
-                         getRoot().addWidget(new UserForm(new User(r), b));
+                         getRoot().addWidget(new UserForm(new User(r), null));
                      } else {
                          throw new RuntimeException("Unknown user URL");
                      }
