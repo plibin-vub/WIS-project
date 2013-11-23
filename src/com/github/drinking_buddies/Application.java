@@ -263,7 +263,11 @@ public class Application extends WApplication {
                          Address address=new Address(r.getValue(ADDRESS.ID), r.getValue(ADDRESS.STREET), r.getValue(ADDRESS.NUMBER)
                                  , r.getValue(ADDRESS.ZIPCODE), r.getValue(ADDRESS.CITY), r.getValue(ADDRESS.COUNTRY));
                          Image barPhoto = null; //TODO
-                         bar = new Bar(id,r.getValue(BAR.NAME),favoredBy, score.doubleValue(), r.getValue(BAR.WEBSITE),barPhoto, address) ;
+                         double scoreValue=0;
+                         if(score!=null){
+                             scoreValue=score.doubleValue();
+                         }
+                         bar = new Bar(id,r.getValue(BAR.NAME),favoredBy,scoreValue , r.getValue(BAR.WEBSITE),barPhoto, address,barURL) ;
                          }
                       catch (Exception e) {
                          e.printStackTrace();

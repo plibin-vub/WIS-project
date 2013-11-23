@@ -1,16 +1,24 @@
 package com.github.drinking_buddies.ui;
 
 import static com.github.drinking_buddies.jooq.Tables.BAR;
+import static com.github.drinking_buddies.jooq.Tables.ADDRESS;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
 
 import org.jooq.Condition;
 import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.Record10;
 import org.jooq.Record2;
+import org.jooq.Record3;
+import org.jooq.Record8;
+import org.jooq.Record9;
 import org.jooq.Result;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.entities.Address;
+import com.github.drinking_buddies.entities.Bar;
 import com.github.drinking_buddies.geolocation.GeoLocation;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 import com.github.drinking_buddies.webservices.google.Geocoding;
@@ -29,6 +37,7 @@ import eu.webtoolkit.jwt.WTemplate;
 
 public class NearbyBarsForm extends WContainerWidget{
 
+    private WContainerWidget ResultsContainer = new WContainerWidget();
     
     public NearbyBarsForm() {
         // the main template for the user form
@@ -58,9 +67,12 @@ public class NearbyBarsForm extends WContainerWidget{
         final WGoogleMap map = new WGoogleMap(WGoogleMap.ApiVersion.Version3);
         main.bindWidget("map",map);
         map.setHeight(new WLength(400));
+        map.setWidth(new WLength(400));
         setMapCenter(map, lat, lng, radius.getValue());
+        addBarToMap(map, lat, lng);
         WPushButton search = new WPushButton(tr("nearby-bars-form.search"));
         main.bindWidget("search", search);
+        main.bindWidget("results", ResultsContainer);
         search.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
             public void trigger(WMouseEvent arg) {
                 findBars();
@@ -75,8 +87,9 @@ public class NearbyBarsForm extends WContainerWidget{
                     giveError();
                     return;
                 }
-                querryBars(Double.valueOf(coordinates.lat), Double.valueOf(coordinates.lng),radius.getValue());
-                setMapCenter(map,  Double.valueOf(coordinates.lat), Double.valueOf(coordinates.lng), radius.getValue());
+                map.clearOverlays();
+                ResultsContainer.clear();
+                querryBars(map ,Double.valueOf(coordinates.lat), Double.valueOf(coordinates.lng),radius.getValue());
             }
 
 
@@ -90,9 +103,14 @@ public class NearbyBarsForm extends WContainerWidget{
        
     }
     
-    private void querryBars(double lat,double lng,double radius) {
+    private void querryBars(WGoogleMap map,double lat,double lng,double radius) {        
         GeoLocation location=GeoLocation.fromDegrees(lat, lng);
         GeoLocation[] boundingCoordinates=location.boundingCoordinates(radius, GeoLocation.RADIUS_EARTH);
+        Coordinate center=new Coordinate(lat, lng);
+        map.setCenter(center);
+        Coordinate rightBottom=new Coordinate(boundingCoordinates[1].getLatitudeInDegrees(),boundingCoordinates[1].getLongitudeInDegrees());
+        Coordinate topLeft=new Coordinate(boundingCoordinates[0].getLatitudeInDegrees(),boundingCoordinates[0].getLongitudeInDegrees());;
+        map.zoomWindow(topLeft, rightBottom);
         Application app = Application.getInstance();
         Connection conn = null;
         try {
@@ -107,19 +125,23 @@ public class NearbyBarsForm extends WContainerWidget{
             boundingCoordinates[1].getLongitudeInRadians()){
                 condition2=BAR.LOCATION_Y.ge(new Float(boundingCoordinates[0].getLatitudeInRadians())).or(BAR.LOCATION_Y.le(new Float(boundingCoordinates[1].getLatitudeInRadians())));
             }else{
-                condition2=BAR.LOCATION_Y.ge(new Float(boundingCoordinates[0].getLatitudeInRadians())).and(BAR.LOCATION_Y.le(new Float(boundingCoordinates[1].getLatitudeInRadians())));
+                condition2=BAR.LOCATION_Y.ge(new Float(boundingCoordinates[0].getLongitudeInRadians())).and(BAR.LOCATION_Y.le(new Float(boundingCoordinates[1].getLongitudeInRadians())));
             }
             Condition condition3=BAR.LOCATION_X.sin().multiply(Math.sin(location.getLatitudeInRadians()))
                     .plus(BAR.LOCATION_X.cos().multiply(Math.cos(location.getLatitudeInRadians())).
                             multiply(BAR.LOCATION_Y.subtract(location.getLongitudeInRadians()).cos())).le(new BigDecimal(Math.cos(radius / GeoLocation.RADIUS_EARTH)));
-            Result r=dsl.select(BAR.NAME,BAR.LOCATION_X,BAR.LOCATION_Y)
-                    .from(BAR)
+            Result<Record10<String, String, String, Float, Float, String, String, String, String, String>> r
+            =dsl.select(BAR.NAME,BAR.WEBSITE,BAR.URL,BAR.LOCATION_X,BAR.LOCATION_Y,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY)
+                    .from(BAR).join(ADDRESS).on(BAR.ADDRESS_ID.eq(ADDRESS.ID))
                     .where(condition1.and(condition2).and(condition3))
                     .fetch();
-            System.out.println(dsl.toString());
-
-           
-            
+            for (Record record : r) {
+                GeoLocation loc = GeoLocation.fromRadians(record.getValue(BAR.LOCATION_X),record.getValue(BAR.LOCATION_Y));
+                addBarToMap(map,loc.getLatitudeInDegrees(),loc.getLongitudeInDegrees());
+                Address address=new Address(0, record.getValue(ADDRESS.STREET),  record.getValue(ADDRESS.NUMBER),  record.getValue(ADDRESS.ZIPCODE),  record.getValue(ADDRESS.CITY),  record.getValue(ADDRESS.COUNTRY));
+                Bar bar = new Bar(0,record.getValue(BAR.NAME),0,0,record.getValue(BAR.WEBSITE),null,address,record.getValue(BAR.URL));
+                new BarResultWidget(bar, ResultsContainer);
+            }
         } catch (Exception e) {
             app.rollback(conn);
             throw new RuntimeException(e);
@@ -127,6 +149,12 @@ public class NearbyBarsForm extends WContainerWidget{
             app.closeConnection(conn);
         }
         
+    }
+
+    private void addBarToMap(WGoogleMap map, double lat,
+            double lng) {
+       map.addMarker(new Coordinate(lat, lng));
+      
     }
 
     private void setMapCenter(WGoogleMap map,double lat,double lng, double radius) {

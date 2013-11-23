@@ -8,11 +8,11 @@ public class Bar {
     private String website;
     private Image picture;
     private Address address;
-    
+    private String url;
     
     
     public Bar(int id, String name, int favoredBy, double score,String website, Image picture,
-            Address address) {
+            Address address,String url) {
         this.id = id;
         this.name = name;
         this.favoredBy = favoredBy;
@@ -20,6 +20,7 @@ public class Bar {
         this.picture = picture;
         this.address = address;
         this.website=website;
+        this.url=url;
     }
     public int getId() {
         return id;
@@ -41,6 +42,13 @@ public class Bar {
     }
     public CharSequence getWebsite() {
         return website;
+    }
+    public String getUrl() {
+       
+        return url;
+    }
+    public void setUrl(String url) {
+        this.url = url;
     }
     
     
