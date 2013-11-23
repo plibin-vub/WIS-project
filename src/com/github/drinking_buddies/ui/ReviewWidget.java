@@ -102,6 +102,8 @@ public class ReviewWidget extends WTemplate {
             conn.commit();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            app.closeConnection(conn);
         }
     }
     

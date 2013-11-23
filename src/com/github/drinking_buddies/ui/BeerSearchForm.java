@@ -104,18 +104,23 @@ public class BeerSearchForm extends WContainerWidget {
     }
     private List<BeerUrl> findMatchingBeers(String beerName) throws SQLException {
         Application app = Application.getInstance();
-        Connection conn = app.getConnection();
-        DSLContext dsl = app.createDSLContext(conn);       
-        List<BeerUrl> beers = new ArrayList<BeerUrl>();
-        Result<Record> records =
-                dsl
-                    .select()
-                    .from(BEER)
-                    .where(BEER.NAME.like("%"+beerName+"%"))
-                    .orderBy(BEER.NAME, BEER.ID)
-                    .fetch();
-       for (Record r : records)
-           beers.add(new BeerUrl(r));
-       return beers;
+        Connection conn = null;
+        try {
+            conn = app.getConnection();
+            DSLContext dsl = app.createDSLContext(conn);       
+            List<BeerUrl> beers = new ArrayList<BeerUrl>();
+            Result<Record> records =
+                    dsl
+                        .select()
+                        .from(BEER)
+                        .where(BEER.NAME.like("%"+beerName+"%"))
+                        .orderBy(BEER.NAME, BEER.ID)
+                        .fetch();
+           for (Record r : records)
+               beers.add(new BeerUrl(r));
+           return beers;
+        } finally {
+            app.closeConnection(conn);
+        }
     }
 }

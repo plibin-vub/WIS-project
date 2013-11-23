@@ -37,6 +37,8 @@ public class SearchUtils {
                 return b.value1();
         } catch (InvalidResultException ire) {
             return null;
+        } finally {
+            app.closeConnection(conn);
         }
     }
     
@@ -60,6 +62,8 @@ public class SearchUtils {
                 return b.value1();
         } catch (InvalidResultException ire) {
             return null;
+        } finally {
+            app.closeConnection(conn);
         }
     }
 }

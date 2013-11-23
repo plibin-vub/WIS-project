@@ -145,13 +145,15 @@ public class StartForm extends WContainerWidget {
                         .fetchOne();
             }
             
+            conn.commit();
+            
             if (r != null) {
                 app.login(new User(r));
             } else {
                 throw new RuntimeException("Error occured when logging in!");
             }
         } finally {
-            conn.commit();
+            app.closeConnection(conn);
         }
     }
     

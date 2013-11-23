@@ -115,18 +115,24 @@ public class BarSearchForm extends WContainerWidget {
     }
     private List<BarUrl> findMatchingBars(String barName) throws SQLException {
         Application app = Application.getInstance();
-        Connection conn = app.getConnection();
-        DSLContext dsl = app.createDSLContext(conn);       
-        List<BarUrl> bars = new ArrayList<BarUrl>();
-        Result<Record> records =
-                dsl
-                    .select()
-                    .from(BAR)
-                    .where(BAR.NAME.like("%"+barName+"%"))
-                    .orderBy(BAR.NAME, BAR.ID)
-                    .fetch();
-       for (Record r : records)
-           bars.add(new BarUrl(r));
-       return bars;
+        Connection conn = null;
+        try {
+            conn = app.getConnection();
+            DSLContext dsl = app.createDSLContext(conn);       
+            List<BarUrl> bars = new ArrayList<BarUrl>();
+            Result<Record> records =
+                    dsl
+                        .select()
+                        .from(BAR)
+                        .where(BAR.NAME.like("%"+barName+"%"))
+                        .orderBy(BAR.NAME, BAR.ID)
+                        .fetch();
+           for (Record r : records)
+               bars.add(new BarUrl(r));
+           
+           return bars;
+        } finally {
+            app.closeConnection(conn);
+        }
     }
 }

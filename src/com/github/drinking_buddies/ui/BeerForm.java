@@ -214,6 +214,8 @@ public class BeerForm extends WContainerWidget {
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
+        } finally {
+            app.closeConnection(conn);
         }
     }
 }

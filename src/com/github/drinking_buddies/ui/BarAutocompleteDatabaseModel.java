@@ -21,9 +21,10 @@ public class BarAutocompleteDatabaseModel extends AutocompleteDatabaseModel {
 
     @Override
     public void filterQuery(String s, int limit, ArrayList<String> list) {
+        Application app = Application.getInstance();
+        Connection conn = null;
         try {
-            Application app = Application.getInstance();
-            Connection conn = app.getConnection();
+            conn = app.getConnection();
             DSLContext dsl = app.createDSLContext(conn);
             Result<Record1<String>> results = 
                     dsl
@@ -39,6 +40,8 @@ public class BarAutocompleteDatabaseModel extends AutocompleteDatabaseModel {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            app.closeConnection(conn);
         }
     }
 }

@@ -159,11 +159,7 @@ public class UserForm extends WContainerWidget {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            app.closeConnection(conn);
         }
         
         if (favoriteBeers == 0 && favoriteBars == 0)
@@ -173,10 +169,10 @@ public class UserForm extends WContainerWidget {
     }
     
     private void deleteFavoriteBeer(int beerId) {
+        Application app = Application.getInstance();
+        Connection conn = null;
         try {
-            Application app = Application.getInstance();
-
-            Connection conn = app.getConnection();
+            conn = app.getConnection();
             DSLContext dsl = app.createDSLContext(conn);
             dsl
                 .delete(FAVORITE_BEER)
@@ -188,14 +184,16 @@ public class UserForm extends WContainerWidget {
             updateFavorites(this.main);
         } catch(Exception e) {
             e.printStackTrace();
+        } finally {
+            app.closeConnection(conn);
         }
     }
     
     private void deleteFavoriteBar(int barId) {
+        Application app = Application.getInstance();
+        Connection conn = null;
         try {
-            Application app = Application.getInstance();
-
-            Connection conn = app.getConnection();
+            conn = app.getConnection();
             DSLContext dsl = app.createDSLContext(conn);
             dsl
                 .delete(FAVORITE_BAR)
@@ -207,6 +205,8 @@ public class UserForm extends WContainerWidget {
             updateFavorites(this.main);
         } catch(Exception e) {
             e.printStackTrace();
+        } finally {
+            app.closeConnection(conn);
         }
     }
     
