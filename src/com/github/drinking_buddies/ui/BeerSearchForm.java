@@ -31,7 +31,11 @@ public class BeerSearchForm extends WContainerWidget {
         this(null, parent);
     }
     
-    public BeerSearchForm(String searchString, WContainerWidget parent) {
+    public BeerSearchForm(String needle) {
+        this(needle, null);
+    }
+    
+    public BeerSearchForm(String needle, WContainerWidget parent) {
         super(parent);
         
         final WTemplate main = new WTemplate(tr("beer-search-form"), this);
@@ -52,25 +56,42 @@ public class BeerSearchForm extends WContainerWidget {
                     if (url != null) {
                         Application.getInstance().internalRedirect(Application.BEERS_URL + "/" + url);
                     } else {
-                        List<BeerUrl> beers = findMatchingBeers(beerSearch.getText());
-                        
-                        WTemplate results = new WTemplate(tr("beer-search-results"));
-                        TemplateUtils.configureDefault(Application.getInstance(), results);
-                        main.bindWidget("results", results);
-                        WContainerWidget resultEntries = new WContainerWidget();
-                        results.bindWidget("result-entries", resultEntries);
-                        for (BeerUrl bu : beers) {
-                            WTemplate entry = new WTemplate(tr("beer-search-result"), resultEntries);
-                            TemplateUtils.configureDefault(Application.getInstance(), entry);
-                            entry.bindString("relative-url", Application.BEERS_URL + "/" + bu.url);
-                            entry.bindString("name", bu.name);
-                        }
+                        showResults(beerSearch.getText(), main);
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
         });
+        
+        if (needle != null) {
+            try {
+                beerSearch.setText(needle);
+                showResults(needle, main);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    private void showResults(String needle, WTemplate main) throws SQLException {
+        List<BeerUrl> beers = findMatchingBeers(needle);
+        
+        if (beers.size() > 0) {
+            WTemplate results = new WTemplate(tr("beer-search-results"));
+            TemplateUtils.configureDefault(Application.getInstance(), results);
+            main.bindWidget("results", results);
+            WContainerWidget resultEntries = new WContainerWidget();
+            results.bindWidget("result-entries", resultEntries);
+            for (BeerUrl bu : beers) {
+                WTemplate entry = new WTemplate(tr("beer-search-result"), resultEntries);
+                TemplateUtils.configureDefault(Application.getInstance(), entry);
+                entry.bindString("relative-url", Application.BEERS_URL + "/" + bu.url);
+                entry.bindString("name", bu.name);
+            }
+        } else {
+            main.bindWidget("results", new WTemplate(tr("no-beer-search-results")));
+        }
     }
     
     class BeerUrl {

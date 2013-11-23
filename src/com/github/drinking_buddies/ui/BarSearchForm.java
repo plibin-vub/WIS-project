@@ -33,7 +33,11 @@ public class BarSearchForm extends WContainerWidget {
         this(null, parent);
     }
     
-    public BarSearchForm(String searchString, WContainerWidget parent) {
+    public BarSearchForm(String needle) {
+        this(needle, null);
+    }
+    
+    public BarSearchForm(String needle, WContainerWidget parent) {
         super(parent);
         
         final WTemplate main = new WTemplate(tr("bar-search-form"), this);
@@ -54,19 +58,7 @@ public class BarSearchForm extends WContainerWidget {
                     if (url != null) {
                         Application.getInstance().internalRedirect(Application.BARS_URL + "/" + url);
                     } else {
-                        List<BarUrl> bars = findMatchingBars(barSearch.getText());
-                        
-                        WTemplate results = new WTemplate(tr("bar-search-results"));
-                        TemplateUtils.configureDefault(Application.getInstance(), results);
-                        main.bindWidget("results", results);
-                        WContainerWidget resultEntries = new WContainerWidget();
-                        results.bindWidget("result-entries", resultEntries);
-                        for (BarUrl bu : bars) {
-                            WTemplate entry = new WTemplate(tr("bar-search-result"), resultEntries);
-                            TemplateUtils.configureDefault(Application.getInstance(), entry);
-                            entry.bindString("relative-url", Application.BARS_URL + "/" + bu.url);
-                            entry.bindString("name", bu.name);
-                        }
+                        showResults(barSearch.getText(), main);
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -82,6 +74,35 @@ public class BarSearchForm extends WContainerWidget {
                 dialog.show();
             }
         });
+        
+        if (needle != null) {
+            try {
+                barSearch.setText(needle);
+                showResults(needle, main);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    private void showResults(String needle, WTemplate main) throws SQLException {
+        List<BarUrl> bars = findMatchingBars(needle);
+        
+        if (bars.size() > 0) {
+            WTemplate results = new WTemplate(tr("bar-search-results"));
+            TemplateUtils.configureDefault(Application.getInstance(), results);
+            main.bindWidget("results", results);
+            WContainerWidget resultEntries = new WContainerWidget();
+            results.bindWidget("result-entries", resultEntries);
+            for (BarUrl bu : bars) {
+                WTemplate entry = new WTemplate(tr("bar-search-result"), resultEntries);
+                TemplateUtils.configureDefault(Application.getInstance(), entry);
+                entry.bindString("relative-url", Application.BARS_URL + "/" + bu.url);
+                entry.bindString("name", bu.name);
+            }
+        } else {
+            main.bindWidget("results", new WTemplate(tr("no-bar-search-results")));
+        }
     }
     
     class BarUrl {

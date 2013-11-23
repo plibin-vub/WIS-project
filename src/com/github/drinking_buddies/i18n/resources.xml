@@ -55,9 +55,12 @@
 	<message id="beer-search.select-beer">Select beer</message>
 	<message id="beer-search.find-beer">Find beer</message>
 	<message id="beer-search.results">Results</message>
+	<message id="bar-search.no-results">Sorry, we could not find any results for your search.</message>
+	
 	
 	<message id="bar-search.select-bar">Select bar</message>
 	<message id="bar-search.find-bar">Find bar</message>
 	<message id="bar-search.results">Results</message>
+	<message id="bar-search.no-results">Sorry, we could not find any results for your search.</message>
 	<message id="bar-search.add-bar">Add new bar</message>
 </messages>

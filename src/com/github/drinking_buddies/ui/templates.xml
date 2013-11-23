@@ -277,6 +277,10 @@
 		<a href="${app.base.url}/${relative-url}">${name}</a>
 	</message>
 	
+	<message id="no-beer-search-results">
+		<span>${tr:beer-search.no-results}</span>
+	</message>
+	
 	<message id="bar-search-form">
 		<div class="header">
 			<img src="${app.context}/pics/header.png" alt="Header image"></img>
@@ -294,5 +298,9 @@
 	
 	<message id="bar-search-result">
 		<a href="${app.base.url}/${relative-url}">${name}</a>
+	</message>
+	
+	<message id="no-bar-search-results">
+		<span>${tr:bar-search.no-results}</span>
 	</message>
 </messages>
