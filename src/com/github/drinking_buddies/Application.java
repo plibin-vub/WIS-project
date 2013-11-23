@@ -1,16 +1,16 @@
 package com.github.drinking_buddies;
 
+import static com.github.drinking_buddies.jooq.Tables.ADDRESS;
+import static com.github.drinking_buddies.jooq.Tables.BAR;
 import static com.github.drinking_buddies.jooq.Tables.BAR2_BAR_SCORE;
 import static com.github.drinking_buddies.jooq.Tables.BAR_SCORE;
 import static com.github.drinking_buddies.jooq.Tables.BEER;
 import static com.github.drinking_buddies.jooq.Tables.BEER2_BEER_TAG;
 import static com.github.drinking_buddies.jooq.Tables.BEER_TAG;
+import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BAR;
 import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BEER;
 import static com.github.drinking_buddies.jooq.Tables.REVIEW;
 import static com.github.drinking_buddies.jooq.Tables.USER;
-import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BAR;
-import static com.github.drinking_buddies.jooq.Tables.ADDRESS;
-import static com.github.drinking_buddies.jooq.Tables.BAR;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -38,10 +38,11 @@ import com.github.drinking_buddies.entities.Review;
 import com.github.drinking_buddies.entities.Tag;
 import com.github.drinking_buddies.entities.User;
 import com.github.drinking_buddies.ui.BarForm;
+import com.github.drinking_buddies.ui.BarSearchForm;
 import com.github.drinking_buddies.ui.BeerForm;
+import com.github.drinking_buddies.ui.BeerSearchForm;
 import com.github.drinking_buddies.ui.NearbyBarsForm;
 import com.github.drinking_buddies.ui.StartForm;
-import com.github.drinking_buddies.ui.UserForm;
 import com.github.drinking_buddies.webservices.brewerydb.BreweryDb;
 import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 
