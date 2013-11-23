@@ -9,11 +9,10 @@ import java.util.List;
 
 import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.jooq.Record1;
 import org.jooq.Result;
-import org.jooq.exception.InvalidResultException;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.jooq.utils.SearchUtils;
 import com.github.drinking_buddies.ui.autocompletion.AutocompletePopup;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
@@ -49,10 +48,7 @@ public class BeerSearchForm extends WContainerWidget {
         beerFindButton.clicked().addListener(this, new Signal.Listener() {
             public void trigger() {
                 try {
-                    //will be null if:
-                    // - the beer does not exists
-                    // - the beer name is not complete
-                    String url = getBeerURL(beerSearch.getText());
+                    String url = SearchUtils.getBeerURL(beerSearch.getText());
                     if (url != null) {
                         Application.getInstance().internalRedirect(Application.BEERS_URL + "/" + url);
                     } else {
@@ -100,25 +96,5 @@ public class BeerSearchForm extends WContainerWidget {
        for (Record r : records)
            beers.add(new BeerUrl(r));
        return beers;
-    }
-    
-    private String getBeerURL(String beerName) throws SQLException {
-        Application app = Application.getInstance();
-        Connection conn = app.getConnection();
-        DSLContext dsl = app.createDSLContext(conn);
-        try {
-            Record1<String> b = 
-                    dsl
-                        .select(BEER.URL)
-                        .from(BEER)
-                        .where(BEER.NAME.equal(beerName))
-                        .fetchOne();
-            if (b == null)
-                return null;
-            else
-                return b.value1();
-        } catch (InvalidResultException ire) {
-            return null;
-        }
     }
 }

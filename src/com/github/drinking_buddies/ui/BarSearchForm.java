@@ -14,14 +14,13 @@ import org.jooq.Result;
 import org.jooq.exception.InvalidResultException;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.jooq.utils.SearchUtils;
 import com.github.drinking_buddies.ui.autocompletion.AutocompletePopup;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
 import eu.webtoolkit.jwt.Signal;
-import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WLineEdit;
-import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WTemplate;
 
@@ -51,10 +50,7 @@ public class BarSearchForm extends WContainerWidget {
         barFindButton.clicked().addListener(this, new Signal.Listener() {
             public void trigger() {
                 try {
-                    //will be null if:
-                    // - the bar does not exists
-                    // - the bar name is not complete
-                    String url = getBarURL(barSearch.getText());
+                    String url = SearchUtils.getBarURL(barSearch.getText());
                     if (url != null) {
                         Application.getInstance().internalRedirect(Application.BARS_URL + "/" + url);
                     } else {
@@ -111,25 +107,5 @@ public class BarSearchForm extends WContainerWidget {
        for (Record r : records)
            bars.add(new BarUrl(r));
        return bars;
-    }
-    
-    private String getBarURL(String barName) throws SQLException {
-        Application app = Application.getInstance();
-        Connection conn = app.getConnection();
-        DSLContext dsl = app.createDSLContext(conn);
-        try {
-            Record1<String> b = 
-                    dsl
-                        .select(BAR.URL)
-                        .from(BAR)
-                        .where(BAR.NAME.equal(barName))
-                        .fetchOne();
-            if (b == null)
-                return null;
-            else
-                return b.value1();
-        } catch (InvalidResultException ire) {
-            return null;
-        }
     }
 }
