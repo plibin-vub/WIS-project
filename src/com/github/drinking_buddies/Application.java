@@ -2,8 +2,6 @@ package com.github.drinking_buddies;
 
 import static com.github.drinking_buddies.jooq.Tables.ADDRESS;
 import static com.github.drinking_buddies.jooq.Tables.BAR;
-import static com.github.drinking_buddies.jooq.Tables.BAR2_BAR_SCORE;
-import static com.github.drinking_buddies.jooq.Tables.BAR_SCORE;
 import static com.github.drinking_buddies.jooq.Tables.BEER;
 import static com.github.drinking_buddies.jooq.Tables.BEER2_BEER_TAG;
 import static com.github.drinking_buddies.jooq.Tables.BEER_TAG;
@@ -37,6 +35,7 @@ import com.github.drinking_buddies.entities.Image;
 import com.github.drinking_buddies.entities.Review;
 import com.github.drinking_buddies.entities.Tag;
 import com.github.drinking_buddies.entities.User;
+import com.github.drinking_buddies.jooq.queries.BarQueries;
 import com.github.drinking_buddies.ui.BarForm;
 import com.github.drinking_buddies.ui.BarSearchForm;
 import com.github.drinking_buddies.ui.BeerForm;
@@ -256,12 +255,7 @@ public class Application extends WApplication {
                              .from(FAVORITE_BAR)
                              .where(FAVORITE_BAR.BAR_ID.equal(id))
                              .fetchCount();
-                         BigDecimal score=dsl.select(BAR_SCORE.SCORE.avg())
-                                 .from(BAR_SCORE)
-                                 .join(BAR2_BAR_SCORE)
-                                 .on(BAR2_BAR_SCORE.BAR_SCORE_ID.equal(BAR_SCORE.ID))
-                                 .where(BAR2_BAR_SCORE.BAR_ID.eq(id))
-                                 .fetchOne().getValue(BAR_SCORE.SCORE.avg());
+                         BigDecimal score= BarQueries.getAvgScore(dsl, id);
                          Address address=new Address(r.getValue(ADDRESS.ID), r.getValue(ADDRESS.STREET), r.getValue(ADDRESS.NUMBER)
                                  , r.getValue(ADDRESS.ZIPCODE), r.getValue(ADDRESS.CITY), r.getValue(ADDRESS.COUNTRY));
                          Image barPhoto = null; //TODO
