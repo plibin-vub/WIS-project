@@ -1,5 +1,6 @@
 package com.github.drinking_buddies.ui;
 
+import static com.github.drinking_buddies.jooq.Tables.USER;
 import static com.github.drinking_buddies.jooq.Tables.BAR;
 import static com.github.drinking_buddies.jooq.Tables.BEER;
 import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BAR;
@@ -15,12 +16,14 @@ import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Bar;
 import com.github.drinking_buddies.entities.User;
-import com.github.drinking_buddies.ui.geolocation.GeolocationWidget;
+import com.github.drinking_buddies.jwt.ShareLocationHandler;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
 import eu.webtoolkit.jwt.Signal;
+import eu.webtoolkit.jwt.Signal2;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WImage;
+import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WString;
 import eu.webtoolkit.jwt.WTemplate;
 
@@ -57,8 +60,17 @@ public class UserForm extends WContainerWidget {
         }
         
         if (isLoggedInUser(user)) {
-            GeolocationWidget glw = new GeolocationWidget();
-            main.bindWidget("share-location", glw);
+            WPushButton b = new WPushButton(tr("user-form.share-location"));
+            ShareLocationHandler slh = new ShareLocationHandler(main, b);
+            main.bindWidget("share-location", b);
+            
+            slh.locationShared().addListener(this, new Signal2.Listener<String, String>() {
+                public void trigger(String arg1, String arg2) {
+                       System.err.println(arg1+"-"+arg2);
+                }
+            });
+        } else {
+            main.bindWidget("share-location", null);
         }
         
         updateFavorites(main);
