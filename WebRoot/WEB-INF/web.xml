@@ -21,5 +21,17 @@
     <servlet-name>DrinkingBuddies</servlet-name>
     <url-pattern>/db/*</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>bars-service</servlet-name>
+    <display-name>Bars service</display-name>
+    <description>Bars service</description>
+    <servlet-class>com.github.drinking_buddies.webservices.servlet.BarsRestServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>bars-service</servlet-name>
+    <url-pattern>/db/rest/*</url-pattern>
+  </servlet-mapping>
 </web-app>
 
