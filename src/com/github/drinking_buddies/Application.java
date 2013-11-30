@@ -51,6 +51,7 @@ import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WBootstrapTheme;
 import eu.webtoolkit.jwt.WEnvironment;
+import eu.webtoolkit.jwt.WLink;
 import eu.webtoolkit.jwt.WXmlLocalizedStrings;
 
 public class Application extends WApplication {
@@ -62,7 +63,8 @@ public class Application extends WApplication {
     
     public Application(WEnvironment env, ServletContext servletContext) {
         super(env);
-        
+        this.useStyleSheet(
+                new WLink("styles/app1.css"));
         this.servletContext = servletContext;
         
         setTheme(new WBootstrapTheme());

@@ -36,8 +36,10 @@ public class AddBarDialog extends WDialog {
         // we bind to some of the template's variables
         final WLineEdit name = new WLineEdit();
         main.bindWidget("bar", name);
+        name.setId("inputName");
         final WLineEdit website = new WLineEdit();
         main.bindWidget("website", website);
+        website.setId("inputWebsite");
         final WLineEdit street = new WLineEdit();
         main.bindWidget("street", street);
         final WLineEdit number = new WLineEdit();

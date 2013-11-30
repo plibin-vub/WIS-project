@@ -293,28 +293,26 @@
 	
 	
 	<message id="new-bar-form">	
-		<div>
-			<table>
-				<tr>
-					
-					<td>
-						<div>${tr:new-bar-form.name}: ${bar}</div>
-						<div>${tr:new-bar-form.website}: ${website}</div>
-						<div>${tr:bar-form.street}: ${street} ${tr:bar-form.number}: ${number} </div>
-						<div>${tr:bar-form.zipcode}: ${zipcode} ${tr:bar-form.city}: ${city}</div>
-						<div> ${tr:bar-form.country}: ${country}</div>
-						<div>${tr:new-bar-form.score}: ${score} /10</div>
-					</td>
-					<td>
-						<div>${tr:new-bar-form.beerlist-tile}</div>
-						<table>
-							<tr></tr>
-						</table>	
-					</td>
-				</tr>
-			</table>	
+		<form class="form-horizontal">
+			<div>
+				<div class="control-group">
+				<label class="control-label" for="inputName">${tr:new-bar-form.name}:</label> ${bar}
+				</div>
+				<div class="control-group">
+				<label class="control-label" for="inputWebsite">${tr:new-bar-form.website}:</label> ${website}
+				</div>
+				<div class="control-group">
+				<label class="control-label" for="inputStreet">${tr:bar-form.street}:</label> ${street} ${tr:bar-form.number}: ${number} 
+				</div>
+				<div class="control-group">
+				${tr:bar-form.zipcode}: ${zipcode} ${tr:bar-form.city}: ${city}
+				</div>
+				<div class="control-group">
+				${tr:bar-form.country}: ${country}
+				</div>
+			</div>
 			<div class="controls">${ok} ${cancel}</div>
-		</div>
+		</form>
 	</message>
 	
 	<message id="beer-search-form">
