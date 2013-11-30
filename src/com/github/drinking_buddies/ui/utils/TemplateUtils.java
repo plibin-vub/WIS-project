@@ -13,6 +13,10 @@ public class TemplateUtils {
         t.bindString("app.base.url", app.getEnvironment().getDeploymentPath());
         t.bindString("app.context", app.getServletContext().getContextPath());
         
+        setLoggedInUser(app, t);
+    }
+    
+    public static void setLoggedInUser(Application app, WTemplate t) {
         User u = app.getLoggedInUser();
         if (u != null) {
             WTemplate tt = new WTemplate(WString.tr("logged-in-user"));
