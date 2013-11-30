@@ -109,8 +109,9 @@ public class ReviewWidget extends WTemplate {
     }
     
     private void collapse() {
-        //TODO this 100 is chosen quite arbitrarily
-        final int charLimit = 100;
+        //choose this 60 limit, since it corresponds to 2-3 sentence(s)
+        //src: http://strainindex.wordpress.com/2008/07/28/the-average-sentence-length/
+        final int charLimit = 60;
         final String shortText = shortText(review.getText(), charLimit);
         this.bindString("text", shortText);
         showEllipsis(!review.getText().equals(shortText));
