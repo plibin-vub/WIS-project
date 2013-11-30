@@ -137,16 +137,27 @@ public class ReviewWidget extends WTemplate {
         return formatter.format(score);
     }
     
-    private String shortText(String text, int charLimit) {
+    private static String shortText(String text, int charLimit) {
         if (text.length() <= charLimit) {
             return text;
         } else {
-            //TODO
-            //this code does not handle ellipses properly
-            //prolly, if we run into an ellipse we should cut right after the ellipse?
             for (int i = charLimit; i < text.length(); ++i) {
-                if (text.charAt(i) == '.')
-                    return text.substring(0, i + 1);
+                if (text.charAt(i) == '.') {
+                    int next = i + 1;
+                    if (next < text.length() && text.charAt(next) == '.') {
+                        //we have caught an ellipse!
+                        //we should find the end of the ellipse
+                        for (int j = next; j < text.length(); ++j) {
+                            if (text.charAt(j) != '.')
+                                return text.substring(0, j);    
+                        }
+                        //no characters found that were NOT '.'
+                        //return the entire text
+                        return text;
+                    } else {
+                        return text.substring(0, i + 1);
+                    }
+                }
             }
             return text;
         }
