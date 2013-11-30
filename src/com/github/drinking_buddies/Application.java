@@ -350,7 +350,7 @@ public class Application extends WApplication {
     }
     
     public void internalRedirect(String relativePath) {
-        setInternalPath(relativePath);
+        setInternalPath(relativePath, true);
     }
 
     public void searchBeers(String search) {
