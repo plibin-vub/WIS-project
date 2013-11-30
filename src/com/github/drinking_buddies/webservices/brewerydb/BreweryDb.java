@@ -119,7 +119,7 @@ public class BreweryDb {
             .where(BEER.WEBSERVICE_NAME.eq(beer.getId()))
             .fetchAny();
         if(r!=null){
-            //TODO update
+            throw new RuntimeException("Currently updating is not supported!");
         }else{
             dsl.insertInto(BEER,BEER.ID,BEER.NAME,BEER.URL,BEER.WEBSERVICE_NAME)
             .values(id,beer.getName(),beerURL,beer.getId()).execute();
