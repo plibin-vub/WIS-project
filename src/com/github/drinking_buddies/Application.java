@@ -51,6 +51,7 @@ import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WBootstrapTheme;
 import eu.webtoolkit.jwt.WEnvironment;
+import eu.webtoolkit.jwt.WLink;
 import eu.webtoolkit.jwt.WXmlLocalizedStrings;
 
 public class Application extends WApplication {
@@ -67,6 +68,8 @@ public class Application extends WApplication {
         
         setTheme(new WBootstrapTheme());
         
+        this.useStyleSheet(new WLink("styles/app2.css"));
+        
         WXmlLocalizedStrings resources = new WXmlLocalizedStrings();
         resources.use("/com/github/drinking_buddies/ui/templates");
         resources.use("/com/github/drinking_buddies/i18n/resources");
@@ -82,8 +85,6 @@ public class Application extends WApplication {
         });
 
         configuration = Main.loadConfiguration();
-
-//        login(1);
         
         handleInternalPath(getInternalPath());
     }

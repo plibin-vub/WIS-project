@@ -65,7 +65,7 @@
 	<message id="bar-search.no-results">Sorry, we could not find any results for your search.</message>
 	<message id="bar-search.add-bar">Add new bar</message>
 	
-	<message id="logged-in-user.user">User</message>
+	<message id="logged-in-user.logged-in-as">Logged in as</message>
 	
 	<message id="user-form.is-drinking-in">is drinking in "{1}" (located in {2}, {3})</message>
 	<message id="user-form.find-nearby-friends">Find nearby friends</message>

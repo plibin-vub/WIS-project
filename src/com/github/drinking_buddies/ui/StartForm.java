@@ -35,7 +35,7 @@ import eu.webtoolkit.jwt.auth.OAuthProcess;
  */
 public class StartForm extends WContainerWidget {
     public StartForm() {
-        WTemplate main = new WTemplate(tr("start-form"), this);
+        final WTemplate main = new WTemplate(tr("start-form"), this);
         TemplateUtils.configureDefault(Application.getInstance(), main);
 
         WAnchor login = new WAnchor();
@@ -49,6 +49,8 @@ public class StartForm extends WContainerWidget {
             public void trigger(Identity id) {
                 try {
                     authenticated(id, process.getToken());
+                    //update the current user in the header
+                    TemplateUtils.setHeader(Application.getInstance(), main);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } catch (RestException e) {
