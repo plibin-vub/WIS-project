@@ -1,5 +1,10 @@
 package com.github.drinking_buddies.config;
 
+import java.io.File;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+
 public class Configuration {
     private Database database;
     private Wt wt;
@@ -15,5 +20,14 @@ public class Configuration {
     
     public Wt getWt() {
         return wt;
+    }
+    
+    public static Configuration loadConfiguration() {
+        XStream xstream = new XStream(new DomDriver()); 
+        xstream.alias("configuration", Configuration.class);
+        xstream.alias("database", Database.class);
+        xstream.alias("wt", Wt.class);
+        //TODO: allow for the configuration of this file location
+        return (Configuration) xstream.fromXML(new File("./drinking-buddies-config.xml"));
     }
 }

@@ -16,7 +16,7 @@ import org.jooq.Record;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 
-import com.github.drinking_buddies.Main;
+import com.github.drinking_buddies.config.Configuration;
 import com.github.drinking_buddies.config.Database;
 import com.github.drinking_buddies.webservices.rest.RestRequest;
 import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
@@ -133,7 +133,7 @@ public class BreweryDb {
     }
 
     public static Connection getConnection() throws SQLException {
-        Database db = Main.loadConfiguration().getDatabase();
+        Database db = Configuration.loadConfiguration().getDatabase();
         
         try {
             Class.forName("org.sqlite.JDBC").newInstance();

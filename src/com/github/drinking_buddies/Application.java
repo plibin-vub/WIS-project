@@ -85,7 +85,7 @@ public class Application extends WApplication {
             }            
         });
 
-        configuration = Main.loadConfiguration();
+        configuration = Configuration.loadConfiguration();
         
         handleInternalPath(getInternalPath());
     }

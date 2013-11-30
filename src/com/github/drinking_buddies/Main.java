@@ -22,7 +22,7 @@ public class Main extends WtServlet {
     public Main() {
         super();
         
-        Configuration conf = loadConfiguration();
+        Configuration conf = Configuration.loadConfiguration();
 
         {
             eu.webtoolkit.jwt.Configuration c = new eu.webtoolkit.jwt.Configuration();
@@ -42,15 +42,6 @@ public class Main extends WtServlet {
             facebookService = new FacebookService(new AuthService());
     }
     
-    public static Configuration loadConfiguration() {
-        XStream xstream = new XStream(new DomDriver()); 
-        xstream.alias("configuration", Configuration.class);
-        xstream.alias("database", Database.class);
-        xstream.alias("wt", Wt.class);
-        //TODO: allow for the configuration of this file location
-        return (Configuration) xstream.fromXML(new File("./drinking-buddies-config.xml"));
-    }
-
     @Override
     public WApplication createApplication(WEnvironment env) {
         return new Application(env, this.getServletContext());
