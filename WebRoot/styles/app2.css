@@ -15,3 +15,7 @@ body {
 	padding: 0px;
 	margin-top: 20px;
 }
+
+.result-entries a {
+	padding-left: 20px;
+}

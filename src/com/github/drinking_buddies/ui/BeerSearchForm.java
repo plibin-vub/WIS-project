@@ -90,7 +90,9 @@ public class BeerSearchForm extends WContainerWidget {
                 entry.bindString("name", bu.name);
             }
         } else {
-            main.bindWidget("results", new WTemplate(tr("no-beer-search-results")));
+            WTemplate noResults = new WTemplate(tr("no-beer-search-results"));
+            TemplateUtils.configureDefault(Application.getInstance(), noResults);
+            main.bindWidget("results", noResults);
         }
     }
     

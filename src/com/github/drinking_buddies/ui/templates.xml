@@ -343,16 +343,15 @@
 	
 	<message id="beer-search-form">
 		${header}
-		${logged-in-user}
 		
-		<span>${tr:beer-search.select-beer}:</span>
-		<div class="div-row">${field} ${find}</div>
+		<h2>${tr:beer-search.select-beer}</h2>
+		<div class="input-append">${field} ${find}</div>
 		${results}
 	</message>
 	
 	<message id="beer-search-results">
-		<span>${tr:beer-search.results}:</span>
-		<div>${result-entries}</div>
+		<h3>${tr:beer-search.results}</h3>
+		<div class="result-entries">${result-entries}</div>
 	</message>
 	
 	<message id="beer-search-result">
@@ -360,7 +359,7 @@
 	</message>
 	
 	<message id="no-beer-search-results">
-		<span>${tr:beer-search.no-results}</span>
+		<h3>${tr:beer-search.no-results}</h3>
 	</message>
 	
 	<message id="bar-search-form">
