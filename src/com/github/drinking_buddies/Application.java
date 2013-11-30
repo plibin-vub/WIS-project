@@ -63,7 +63,8 @@ public class Application extends WApplication {
     
     public Application(WEnvironment env, ServletContext servletContext) {
         super(env);
-        
+        this.useStyleSheet(
+                new WLink("styles/app1.css"));
         this.servletContext = servletContext;
         
         setTheme(new WBootstrapTheme());
