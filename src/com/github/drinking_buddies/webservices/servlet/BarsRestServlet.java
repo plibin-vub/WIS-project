@@ -40,6 +40,10 @@ public class BarsRestServlet extends RestServlet {
 
     @Override
     public void streamOutput(OutputStream os, Format format, String pathInfo) throws IOException {
+        if (format != Format.JSON) {
+            appendUTF8(os, "Error: we only support the JSON output format!");
+        }
+        
         String[] pathParts = pathInfo.substring(1).split("/");
         if (pathParts.length == 1 && pathParts[0].equals("bars")) {
             streamBars(os, format);
@@ -47,7 +51,7 @@ public class BarsRestServlet extends RestServlet {
             String barUrl = pathParts[1];
             streamBar(os, format, barUrl);
         } else {
-            os.write(("Error: don't know how to fetch for the path: \"" + pathInfo + "\"").getBytes());
+            appendUTF8(os, "Error: don't know how to fetch for the path: \"" + pathInfo + "\"");
         }
     }
     
@@ -134,6 +138,11 @@ public class BarsRestServlet extends RestServlet {
                         .where(BAR.URL.eq(barURL))
                         .and(ADDRESS.ID.eq(BAR.ADDRESS_ID))
                         .fetchOne();
+                
+                if (r == null) {
+                    appendUTF8(os, "Error: could not fetch a bar with URL \"" + barURL + "\"");
+                    return;
+                }
                 
                 Address address=new Address(r.getValue(ADDRESS.ID), r.getValue(ADDRESS.STREET), r.getValue(ADDRESS.NUMBER)
                         , r.getValue(ADDRESS.ZIPCODE), r.getValue(ADDRESS.CITY), r.getValue(ADDRESS.COUNTRY));
