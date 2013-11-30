@@ -74,7 +74,6 @@ public class AddBarDialog extends WDialog {
         try {
             location = Geocoding.addressToLocation(new Address(0, street, number, zipcode, city, country));
         } catch (RestException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
             return;
         }
