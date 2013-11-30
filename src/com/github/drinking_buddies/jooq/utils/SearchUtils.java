@@ -5,16 +5,13 @@ import static com.github.drinking_buddies.jooq.Tables.BEER;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.jooq.DSLContext;
-import org.jooq.Record;
 import org.jooq.Record1;
-import org.jooq.Result;
 import org.jooq.exception.InvalidResultException;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.db.DBUtils;
 
 public class SearchUtils {   
     //will be null if:
@@ -23,7 +20,7 @@ public class SearchUtils {
     public static String getBeerURL(String beerName) throws SQLException {
         Application app = Application.getInstance();
         Connection conn = app.getConnection();
-        DSLContext dsl = app.createDSLContext(conn);
+        DSLContext dsl = DBUtils.createDSLContext(conn);
         try {
             Record1<String> b = 
                     dsl
@@ -38,7 +35,7 @@ public class SearchUtils {
         } catch (InvalidResultException ire) {
             return null;
         } finally {
-            app.closeConnection(conn);
+            DBUtils.closeConnection(conn);
         }
     }
     
@@ -48,7 +45,7 @@ public class SearchUtils {
     public static String getBarURL(String barName) throws SQLException {
         Application app = Application.getInstance();
         Connection conn = app.getConnection();
-        DSLContext dsl = app.createDSLContext(conn);
+        DSLContext dsl = DBUtils.createDSLContext(conn);
         try {
             Record1<String> b = 
                     dsl

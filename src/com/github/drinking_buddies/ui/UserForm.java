@@ -1,18 +1,18 @@
 package com.github.drinking_buddies.ui;
 
-import static com.github.drinking_buddies.jooq.Tables.BEER;
-import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BEER;
 import static com.github.drinking_buddies.jooq.Tables.BAR;
+import static com.github.drinking_buddies.jooq.Tables.BEER;
 import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BAR;
+import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BEER;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
 import org.jooq.DSLContext;
 import org.jooq.Record3;
 import org.jooq.Result;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Bar;
 import com.github.drinking_buddies.entities.User;
 import com.github.drinking_buddies.ui.geolocation.GeolocationWidget;
@@ -79,7 +79,7 @@ public class UserForm extends WContainerWidget {
         Connection conn = null;
         try {
             conn = app.getConnection();
-            DSLContext dsl = app.createDSLContext(conn);
+            DSLContext dsl = DBUtils.createDSLContext(conn);
             
             Result<Record3<String, String, Integer>> results = 
                     dsl
@@ -173,7 +173,7 @@ public class UserForm extends WContainerWidget {
         Connection conn = null;
         try {
             conn = app.getConnection();
-            DSLContext dsl = app.createDSLContext(conn);
+            DSLContext dsl = DBUtils.createDSLContext(conn);
             dsl
                 .delete(FAVORITE_BEER)
                 .where(FAVORITE_BEER.USER_ID.equal(user.getId()))
@@ -194,7 +194,7 @@ public class UserForm extends WContainerWidget {
         Connection conn = null;
         try {
             conn = app.getConnection();
-            DSLContext dsl = app.createDSLContext(conn);
+            DSLContext dsl = DBUtils.createDSLContext(conn);
             dsl
                 .delete(FAVORITE_BAR)
                 .where(FAVORITE_BAR.USER_ID.equal(user.getId()))

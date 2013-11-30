@@ -13,6 +13,7 @@ import org.jooq.Record10;
 import org.jooq.Result;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Address;
 import com.github.drinking_buddies.entities.Bar;
 import com.github.drinking_buddies.geolocation.GeoLocation;
@@ -112,7 +113,7 @@ public class NearbyBarsForm extends WContainerWidget{
         Connection conn = null;
         try {
             conn = app.getConnection();
-            DSLContext dsl = app.createDSLContext(conn);
+            DSLContext dsl = DBUtils.createDSLContext(conn);
 //            "SELECT * FROM Places WHERE (Lat >= ? AND Lat <= ?) AND (Lon >= ? " +
 //            (meridian180WithinDistance ? "OR" : "AND") + " Lon <= ?) AND " +
 //            "acos(sin(?) * sin(Lat) + cos(?) * cos(Lat) * cos(Lon - ?)) <= ?");
@@ -140,7 +141,7 @@ public class NearbyBarsForm extends WContainerWidget{
                 new BarResultWidget(bar, ResultsContainer);
             }
         } catch (Exception e) {
-            app.rollback(conn);
+            DBUtils.rollback(conn);
             throw new RuntimeException(e);
         } finally {
             app.closeConnection(conn);

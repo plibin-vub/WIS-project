@@ -10,6 +10,7 @@ import org.jooq.Record;
 
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.Main;
+import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.User;
 import com.github.drinking_buddies.jooq.utils.SearchUtils;
 import com.github.drinking_buddies.ui.autocompletion.AutocompletePopup;
@@ -110,7 +111,7 @@ public class StartForm extends WContainerWidget {
     private void authenticated(Identity id, OAuthAccessToken token) throws SQLException, RestException {
         Application app = Application.getInstance();
         Connection conn = app.getConnection();
-        DSLContext dsl = app.createDSLContext(conn);
+        DSLContext dsl = DBUtils.createDSLContext(conn);
         
         Record r 
             = dsl

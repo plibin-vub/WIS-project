@@ -10,6 +10,7 @@ import org.jooq.DSLContext;
 import org.jooq.Record;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Beer;
 import com.github.drinking_buddies.entities.Review;
 import com.github.drinking_buddies.jooq.tables.records.ReviewRecord;
@@ -112,7 +113,7 @@ public class AddReviewDialog extends WDialog {
         try {
             conn = app.getConnection();
             
-            DSLContext dsl = app.createDSLContext(conn);
+            DSLContext dsl = DBUtils.createDSLContext(conn);
             ReviewRecord rr 
                     = dsl
                         .insertInto(REVIEW, 
@@ -138,7 +139,7 @@ public class AddReviewDialog extends WDialog {
                 
             return new Review(rr, ur);
         } catch (Exception e) {
-            app.rollback(conn);
+            DBUtils.rollback(conn);
             throw new RuntimeException(e);
         } finally {
             app.closeConnection(conn);

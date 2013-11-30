@@ -12,7 +12,6 @@ import static com.github.drinking_buddies.jooq.Tables.USER;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +22,9 @@ import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Record2;
 import org.jooq.Result;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
 
 import com.github.drinking_buddies.config.Configuration;
-import com.github.drinking_buddies.config.Database;
+import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Address;
 import com.github.drinking_buddies.entities.Bar;
 import com.github.drinking_buddies.entities.Beer;
@@ -125,8 +122,8 @@ public class Application extends WApplication {
                 
                 Connection conn = null;
                 try {
-                    conn = this.getConnection();
-                    DSLContext dsl = createDSLContext(conn);
+                    conn = DBUtils.getConnection();
+                    DSLContext dsl = DBUtils.createDSLContext(conn);
                     
                     Record r 
                         = dsl
@@ -175,7 +172,7 @@ public class Application extends WApplication {
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 } finally {
-                    closeConnection(conn);
+                    DBUtils.closeConnection(conn);
                 }
                 
                 com.github.drinking_buddies.webservices.brewerydb.Beer beer_from_brewerydb;
@@ -203,8 +200,8 @@ public class Application extends WApplication {
                  
                  Connection conn = null;
                  try {
-                     conn = this.getConnection();
-                     DSLContext dsl = createDSLContext(conn);
+                     conn = DBUtils.getConnection();
+                     DSLContext dsl = DBUtils.createDSLContext(conn);
                      Record r = 
                              dsl
                                  .select()
@@ -220,7 +217,7 @@ public class Application extends WApplication {
                      e.printStackTrace();
                      throw new RuntimeException(e);
                  } finally {
-                     closeConnection(conn);
+                     DBUtils.closeConnection(conn);
                  }
             }
         } else {
@@ -233,8 +230,8 @@ public class Application extends WApplication {
                      
                      Connection conn = null;
                      try {
-                         conn = this.getConnection();
-                         DSLContext dsl = createDSLContext(conn);
+                         conn = DBUtils.getConnection();
+                         DSLContext dsl = DBUtils.createDSLContext(conn);
                          
                          Record r 
                              = dsl
@@ -269,7 +266,7 @@ public class Application extends WApplication {
                          e.printStackTrace();
                          throw new RuntimeException(e);
                      } finally {
-                         closeConnection(conn);
+                         DBUtils.closeConnection(conn);
                      }
 
                 getRoot().addWidget(new BarForm(bar));
@@ -301,42 +298,7 @@ public class Application extends WApplication {
     public Configuration getConfiguration() {
         return configuration;
     }
-    
-    public Connection getConnection() throws SQLException {
-        Database db = configuration.getDatabase();
-        
-        try {
-            Class.forName("org.sqlite.JDBC").newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        Connection conn = DriverManager.getConnection(db.getJdbcUrl(), db.getUserName(), db.getPassword());
-        conn.setAutoCommit(false);
-        return conn;
-    }
-    
-    public void closeConnection(Connection conn) {
-        try {
-            conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-    
-    public DSLContext createDSLContext(Connection conn) {
-        return DSL.using(conn, SQLDialect.SQLITE);
-    }
 
-    public void rollback(Connection conn) {
-        try {
-            conn.rollback();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-    
     public User getLoggedInUser() {
         return loggedInUser;
     }
@@ -347,6 +309,15 @@ public class Application extends WApplication {
     
     public void internalRedirect(String relativePath) {
         setInternalPath(relativePath, true);
+    }
+    
+    public Connection getConnection() {
+        try {
+            return DBUtils.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void searchBeers(String search) {
@@ -361,5 +332,9 @@ public class Application extends WApplication {
         
         getRoot().clear();
         getRoot().addWidget(new BarSearchForm(search));
+    }
+
+    public void closeConnection(Connection conn) {
+        DBUtils.closeConnection(conn);
     }
 }

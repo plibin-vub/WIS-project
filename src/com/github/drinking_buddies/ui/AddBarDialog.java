@@ -6,15 +6,14 @@ import static com.github.drinking_buddies.jooq.Tables.BAR;
 import java.sql.Connection;
 
 import org.jooq.DSLContext;
-import org.jooq.Record;
 import org.jooq.Record1;
 import org.jooq.Result;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Address;
 import com.github.drinking_buddies.geolocation.GeoLocation;
 import com.github.drinking_buddies.jooq.tables.records.AddressRecord;
-import com.github.drinking_buddies.jooq.tables.records.ReviewRecord;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 import com.github.drinking_buddies.webservices.google.Geocoding;
 import com.github.drinking_buddies.webservices.google.Geocoding.GoogleGeoCodeResponse.location;
@@ -82,7 +81,7 @@ public class AddBarDialog extends WDialog {
         GeoLocation geoLocation=GeoLocation.fromDegrees(Double.parseDouble(location.lat),Double.parseDouble(location.lng));
         try {
             conn = app.getConnection();
-            DSLContext dsl = app.createDSLContext(conn);
+            DSLContext dsl = DBUtils.createDSLContext(conn);
             String url=name.toLowerCase().replace(" ", "_");
             Result<Record1<Integer>> r = dsl.select(BAR.ID).from(BAR).where(BAR.URL.eq(url)).fetch();
             if(r.size()!=0){
@@ -97,7 +96,7 @@ public class AddBarDialog extends WDialog {
                     .values(rr.getId(), name, website,url,new Float(geoLocation.getLatitudeInRadians()),new Float(geoLocation.getLongitudeInRadians())).execute();
             conn.commit();
         } catch (Exception e) {
-            app.rollback(conn);
+            DBUtils.rollback(conn);
             throw new RuntimeException(e);
         } finally {
             app.closeConnection(conn);

@@ -25,6 +25,7 @@ import org.jooq.impl.DSL;
 
 import com.github.drinking_buddies.config.Configuration;
 import com.github.drinking_buddies.config.Database;
+import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Address;
 import com.github.drinking_buddies.entities.Comment;
 import com.github.drinking_buddies.jooq.queries.BarQueries;
@@ -55,23 +56,6 @@ public class BarsRestServlet extends RestServlet {
         }
     }
     
-    private Connection getConnection() throws SQLException {
-        Database db = configuration.getDatabase();
-        
-        try {
-            Class.forName("org.sqlite.JDBC").newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        Connection conn = DriverManager.getConnection(db.getJdbcUrl(), db.getUserName(), db.getPassword());
-        conn.setAutoCommit(false);
-        return conn;
-    }
-    
-    private DSLContext createDSLContext(Connection conn) {
-        return DSL.using(conn, SQLDialect.SQLITE);
-    }
-
     private static class SimpleBar {
         public String url;
         public String name;
@@ -80,8 +64,8 @@ public class BarsRestServlet extends RestServlet {
         Connection conn = null;
         try {
             try {
-                conn = this.getConnection();
-                DSLContext dsl = createDSLContext(conn);
+                conn = DBUtils.getConnection();
+                DSLContext dsl = DBUtils.createDSLContext(conn);
                 
                 Result<Record2<String, String>> results 
                     = dsl
@@ -128,8 +112,8 @@ public class BarsRestServlet extends RestServlet {
         Connection conn = null;
         try {
             try {
-                conn = this.getConnection();
-                DSLContext dsl = createDSLContext(conn);
+                conn = DBUtils.getConnection();
+                DSLContext dsl = DBUtils.createDSLContext(conn);
                 
                 Record r 
                     = dsl

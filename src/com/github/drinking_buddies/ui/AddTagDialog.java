@@ -11,6 +11,7 @@ import org.jooq.Result;
 import org.jooq.SelectConditionStep;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Beer;
 import com.github.drinking_buddies.entities.Tag;
 import com.github.drinking_buddies.jooq.tables.records.BeerTagRecord;
@@ -100,7 +101,7 @@ public class AddTagDialog extends WDialog {
         Connection conn = null;
         try {
             conn = app.getConnection();
-            DSLContext dsl = app.createDSLContext(conn);
+            DSLContext dsl = DBUtils.createDSLContext(conn);
  
             return createTagListQuery(dsl, beer).fetchCount() > 0;         
         } catch (Exception e) {
@@ -122,7 +123,7 @@ public class AddTagDialog extends WDialog {
             Connection conn = null;
             try {
                 conn = app.getConnection();
-                DSLContext dsl = app.createDSLContext(conn);
+                DSLContext dsl = DBUtils.createDSLContext(conn);
                 //fetch all tags in the database, 
                 //except the ones that are already connected to this beer
                 Result<Record1<String>> results 
@@ -158,7 +159,7 @@ public class AddTagDialog extends WDialog {
             if (type == Type.AddNew) {
                 String name = tagName.getText();
                 
-                DSLContext dsl = app.createDSLContext(conn);
+                DSLContext dsl = DBUtils.createDSLContext(conn);
                 BeerTagRecord r 
                     = dsl
                         .insertInto(BEER_TAG, BEER_TAG.NAME)
@@ -176,7 +177,7 @@ public class AddTagDialog extends WDialog {
             } else if (type == Type.SelectExisting) {
                 String name = tagList.getValueText();
                 
-                DSLContext dsl = app.createDSLContext(conn);
+                DSLContext dsl = DBUtils.createDSLContext(conn);
                 Record1<Integer> r 
                     = dsl
                         .select(BEER_TAG.ID)
@@ -194,7 +195,7 @@ public class AddTagDialog extends WDialog {
                 return new Tag(r.value1(), name);
             }
         } catch (Exception e) {
-            app.rollback(conn);
+            DBUtils.rollback(conn);
             throw new RuntimeException(e);
         } finally {
             app.closeConnection(conn);
