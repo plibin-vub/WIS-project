@@ -10,6 +10,7 @@ import java.util.List;
 import org.jooq.DSLContext;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Beer;
 import com.github.drinking_buddies.entities.Review;
 import com.github.drinking_buddies.entities.Tag;
@@ -20,12 +21,12 @@ import eu.webtoolkit.jwt.Icon;
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.StandardButton;
 import eu.webtoolkit.jwt.WContainerWidget;
+import eu.webtoolkit.jwt.WDialog.DialogCode;
 import eu.webtoolkit.jwt.WMessageBox;
 import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WString;
 import eu.webtoolkit.jwt.WTemplate;
-import eu.webtoolkit.jwt.WDialog.DialogCode;
 
 /**
  * The beer form UI component.
@@ -188,7 +189,7 @@ public class BeerForm extends WContainerWidget {
             
             User user = app.getLoggedInUser();
             
-            DSLContext dsl = app.createDSLContext(conn);
+            DSLContext dsl = DBUtils.createDSLContext(conn);
             long count =
                     dsl
                         .select()

@@ -56,7 +56,7 @@
 	<message id="beer-search.select-beer">Select beer</message>
 	<message id="beer-search.find-beer">Find beer</message>
 	<message id="beer-search.results">Results</message>
-	<message id="bar-search.no-results">Sorry, we could not find any results for your search.</message>
+	<message id="beer-search.no-results">Sorry, we could not find any results for your search.</message>
 	
 	
 	<message id="bar-search.select-bar">Select bar</message>
@@ -65,13 +65,14 @@
 	<message id="bar-search.no-results">Sorry, we could not find any results for your search.</message>
 	<message id="bar-search.add-bar">Add new bar</message>
 	
-	<message id="logged-in-user.user">User</message>
+	<message id="logged-in-user.logged-in-as">Logged in as</message>
 	
 	<message id="user-form.is-drinking-in">is drinking in "{1}" (located in {2}, {3})</message>
 	<message id="user-form.find-nearby-friends">Find nearby friends</message>
 	<message id="user-form.find-nearby-bars">Find nearby bars</message>
 	<message id="user-form.favorite-beers">Favorite beers</message>
 	<message id="user-form.favorite-bars">Favorite bars</message>
+	<message id="user-form.share-location">Share location</message>
 	
 	<message id="new-bar-form.title">Add a new bar</message>
 	<message id="new-bar-form.name">Name of the bar</message>

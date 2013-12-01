@@ -1,38 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <messages>
+	<message id="header">
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<button type="button" class="btn btn-navbar" data-toggle="collapse"
+						data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="brand" href="#">Drinking buddies</a>
+					<div class="nav-collapse collapse">
+							${logged-in-user}
+					</div><!--/.nav-collapse -->
+				</div>
+			</div>
+		</div>
+	</message>
+
 	<message id="start-form">
-		<div class="header">
-			<img src="${app.context}/pics/header.png" alt="Header image"></img>
-		</div>
-		${logged-in-user}
+		${header}
+		<div class="start-form container">
+			<div class="row">
+				<div class="span6">
+					<div class="form-horizontal">
+					  <div class="form-group">
+					    <div class="col-sm-10">
+					      ${beer-search-text}
+					    </div>
+					  </div>
 		
-		<div class="div-row">
-			<table>
-				<tr>
-					<td>
-						<div class="search">
-							${beer-search-text}
-							${beer-search-button}
-						</div>
-					</td>
-					<td>
-						<div class="search">
-							${bar-search-text}
-							${bar-search-button}
-						</div>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<div class="div-row login">
-			${login}
+					  <div class="form-group">
+					    <div class="col-sm-offset-2 col-sm-10">
+					     	${beer-search-button}
+					    </div>
+					  </div>
+					</div>
+				</div>
+				<div class="span6">
+					<div class="form-horizontal">
+					  <div class="form-group">
+					    <div class="col-sm-10">
+					      ${bar-search-text}
+					    </div>
+					  </div>
+		
+					  <div class="form-group">
+					    <div class="col-sm-offset-2 col-sm-10">
+					     	${bar-search-button}
+					    </div>
+					  </div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				${login}
+			</div>
 		</div>
 	</message>
 	
 	<message id="beer-form">
-		<div class="header">
-			<img src="${app.context}/pics/header.png" alt="Header image"></img>
-		</div>
+		${header}
 		${logged-in-user}
 		
 		<div class="div-row">
@@ -161,9 +191,7 @@
 	</message>
 
 	<message id="user-form">
-		<div class="header">
-			<img src="${app.context}/pics/header.png" alt="Header image"></img>
-		</div>
+		${header}
 		${logged-in-user}
 	
 		<div class="personal-info">
@@ -254,9 +282,7 @@
 	
 	
 	<message id="bar-form">
-		<div class="header">
-			<img src="${app.context}/pics/header.png" alt="Header image"></img>
-		</div>
+		${header}
 		${logged-in-user}
 		
 		<div>
@@ -294,33 +320,39 @@
 	
 	
 	<message id="new-bar-form">	
-		<div>
+		<form class="form-horizontal">
 			<div>
-				<div>${tr:new-bar-form.name}: ${bar}</div>
-				<div>${tr:new-bar-form.website}: ${website}</div>
-				<div>${tr:new-bar-form.address}:</div>
-				<div>${tr:new-bar-form.street}: ${street} ${tr:new-bar-form.number}: ${number} </div>
-				<div>${tr:new-bar-form.zipcode}: ${zipcode} ${tr:new-bar-form.city}: ${city}</div>
-				<div> ${tr:new-bar-form.country}: ${country}</div>		
-			</div>	
+				<div class="control-group">
+				<label class="control-label" for="inputName">${tr:new-bar-form.name}:</label> ${bar}
+				</div>
+				<div class="control-group">
+				<label class="control-label" for="inputWebsite">${tr:new-bar-form.website}:</label> ${website}
+				</div>
+				<div class="control-group">
+				<label class="control-label" for="inputStreet">${tr:bar-form.street}:</label> ${street} ${tr:bar-form.number}: ${number} 
+				</div>
+				<div class="control-group">
+				${tr:bar-form.zipcode}: ${zipcode} ${tr:bar-form.city}: ${city}
+				</div>
+				<div class="control-group">
+				${tr:bar-form.country}: ${country}
+				</div>
+			</div>
 			<div class="controls">${ok} ${cancel}</div>
-		</div>
+		</form>
 	</message>
 	
 	<message id="beer-search-form">
-		<div class="header">
-			<img src="${app.context}/pics/header.png" alt="Header image"></img>
-		</div>
-		${logged-in-user}
+		${header}
 		
-		<span>${tr:beer-search.select-beer}:</span>
-		<div class="div-row">${field} ${find}</div>
+		<h2>${tr:beer-search.select-beer}</h2>
+		<div class="input-append">${field} ${find}</div>
 		${results}
 	</message>
 	
 	<message id="beer-search-results">
-		<span>${tr:beer-search.results}:</span>
-		<div>${result-entries}</div>
+		<h3>${tr:beer-search.results}</h3>
+		<div class="result-entries">${result-entries}</div>
 	</message>
 	
 	<message id="beer-search-result">
@@ -328,13 +360,11 @@
 	</message>
 	
 	<message id="no-beer-search-results">
-		<span>${tr:beer-search.no-results}</span>
+		<h3>${tr:beer-search.no-results}</h3>
 	</message>
 	
 	<message id="bar-search-form">
-		<div class="header">
-			<img src="${app.context}/pics/header.png" alt="Header image"></img>
-		</div>
+		${header}
 		${logged-in-user}
 		
 		<span>${tr:bar-search.select-bar}:</span>
@@ -357,7 +387,9 @@
 	</message>
 	
 	<message id="logged-in-user">
-		<div class="logged-in-user">${tr:logged-in-user.user}:${first-name} ${last-name}</div>
+		<p class="navbar-text pull-right">
+              ${tr:logged-in-user.logged-in-as} <a href="#" class="navbar-link">${first-name} ${last-name}</a>
+        </p>
 	</message>
 	
 	<message id="nearby-bars-form">

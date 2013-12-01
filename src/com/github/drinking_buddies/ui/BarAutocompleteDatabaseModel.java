@@ -12,6 +12,7 @@ import org.jooq.Record1;
 import org.jooq.Result;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.ui.autocompletion.AutocompleteDatabaseModel;
 
 public class BarAutocompleteDatabaseModel extends AutocompleteDatabaseModel {
@@ -25,7 +26,7 @@ public class BarAutocompleteDatabaseModel extends AutocompleteDatabaseModel {
         Connection conn = null;
         try {
             conn = app.getConnection();
-            DSLContext dsl = app.createDSLContext(conn);
+            DSLContext dsl = DBUtils.createDSLContext(conn);
             Result<Record1<String>> results = 
                     dsl
                         .select(BAR.NAME)
@@ -38,8 +39,6 @@ public class BarAutocompleteDatabaseModel extends AutocompleteDatabaseModel {
             for (Record r : results) {
                 list.add(r.getValue(BAR.NAME));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             app.closeConnection(conn);
         }

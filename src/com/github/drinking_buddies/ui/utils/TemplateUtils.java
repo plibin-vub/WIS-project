@@ -13,15 +13,23 @@ public class TemplateUtils {
         t.bindString("app.base.url", app.getEnvironment().getDeploymentPath());
         t.bindString("app.context", app.getServletContext().getContextPath());
         
+        setHeader(app, t);
+    }
+    
+    public static void setHeader(Application app, WTemplate t) {
+        WTemplate header = new WTemplate(WString.tr("header"));
+        
         User u = app.getLoggedInUser();
         if (u != null) {
             WTemplate tt = new WTemplate(WString.tr("logged-in-user"));
             tt.addFunction("tr", WTemplate.Functions.tr);
             tt.bindString("first-name", u.getFirstName());
             tt.bindString("last-name", u.getLastName());
-            t.bindWidget("logged-in-user", tt);
+            header.bindWidget("logged-in-user", tt);
         } else {
-            t.bindWidget("logged-in-user", null);
+            header.bindWidget("logged-in-user", null);
         }
+        
+        t.bindWidget("header", header);
     }
 }

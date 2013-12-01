@@ -7,16 +7,15 @@ import java.sql.Connection;
 import java.util.EnumSet;
 
 import org.jooq.DSLContext;
-import org.jooq.Record;
 import org.jooq.Record1;
 import org.jooq.Result;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Address;
 import com.github.drinking_buddies.entities.Review;
 import com.github.drinking_buddies.geolocation.GeoLocation;
 import com.github.drinking_buddies.jooq.tables.records.AddressRecord;
-import com.github.drinking_buddies.jooq.tables.records.ReviewRecord;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 import com.github.drinking_buddies.webservices.google.Geocoding;
 import com.github.drinking_buddies.webservices.google.Geocoding.GoogleGeoCodeResponse.location;
@@ -47,9 +46,11 @@ public class AddBarDialog extends WDialog {
         // we bind to some of the template's variables
         final WLineEdit name = new WLineEdit();
         main.bindWidget("bar", name);
+        name.setId("inputName");
         name.setValidator(createManditoryValidator());
         final WLineEdit website = new WLineEdit();
         main.bindWidget("website", website);
+        website.setId("inputWebsite");
         website.setValidator(createWebsiteValidator());
         final WLineEdit street = new WLineEdit();
         main.bindWidget("street", street);
@@ -126,7 +127,7 @@ public class AddBarDialog extends WDialog {
                 Double.parseDouble(location.lng));
         try {
             conn = app.getConnection();
-            DSLContext dsl = app.createDSLContext(conn);
+            DSLContext dsl = DBUtils.createDSLContext(conn);
             String url = name.toLowerCase().replace(" ", "_");
             Result<Record1<Integer>> r = dsl.select(BAR.ID).from(BAR)
                     .where(BAR.URL.eq(url)).fetch();
@@ -148,7 +149,7 @@ public class AddBarDialog extends WDialog {
             conn.commit();
             return "/bars/"+url;
         } catch (Exception e) {
-            app.rollback(conn);
+            DBUtils.rollback(conn);
             throw new RuntimeException(e);
         } finally {
             app.closeConnection(conn);

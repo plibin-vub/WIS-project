@@ -14,6 +14,7 @@ import org.jooq.Record;
 import org.jooq.Result;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Comment;
 import com.github.drinking_buddies.entities.Review;
 import com.github.drinking_buddies.entities.User;
@@ -75,7 +76,7 @@ public class ReviewWidget extends WTemplate {
         Connection conn = null;
         try {
             conn = app.getConnection();
-            DSLContext dsl = app.createDSLContext(conn);
+            DSLContext dsl = DBUtils.createDSLContext(conn);
             
             Result<Record> results 
                 = dsl
@@ -108,8 +109,9 @@ public class ReviewWidget extends WTemplate {
     }
     
     private void collapse() {
-        //TODO this 100 is chosen quite arbitrarily
-        final int charLimit = 100;
+        //choose this 60 limit, since it corresponds to 2-3 sentence(s)
+        //src: http://strainindex.wordpress.com/2008/07/28/the-average-sentence-length/
+        final int charLimit = 60;
         final String shortText = shortText(review.getText(), charLimit);
         this.bindString("text", shortText);
         showEllipsis(!review.getText().equals(shortText));
@@ -135,16 +137,27 @@ public class ReviewWidget extends WTemplate {
         return formatter.format(score);
     }
     
-    private String shortText(String text, int charLimit) {
+    private static String shortText(String text, int charLimit) {
         if (text.length() <= charLimit) {
             return text;
         } else {
-            //TODO
-            //this code does not handle ellipses properly
-            //prolly, if we run into an ellipse we should cut right after the ellipse?
             for (int i = charLimit; i < text.length(); ++i) {
-                if (text.charAt(i) == '.')
-                    return text.substring(0, i + 1);
+                if (text.charAt(i) == '.') {
+                    int next = i + 1;
+                    if (next < text.length() && text.charAt(next) == '.') {
+                        //we have caught an ellipse!
+                        //we should find the end of the ellipse
+                        for (int j = next; j < text.length(); ++j) {
+                            if (text.charAt(j) != '.')
+                                return text.substring(0, j);    
+                        }
+                        //no characters found that were NOT '.'
+                        //return the entire text
+                        return text;
+                    } else {
+                        return text.substring(0, i + 1);
+                    }
+                }
             }
             return text;
         }

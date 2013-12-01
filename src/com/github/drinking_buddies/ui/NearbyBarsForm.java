@@ -1,7 +1,7 @@
 package com.github.drinking_buddies.ui;
 
-import static com.github.drinking_buddies.jooq.Tables.BAR;
 import static com.github.drinking_buddies.jooq.Tables.ADDRESS;
+import static com.github.drinking_buddies.jooq.Tables.BAR;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -10,16 +10,14 @@ import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Record10;
-import org.jooq.Record2;
-import org.jooq.Record3;
-import org.jooq.Record8;
-import org.jooq.Record9;
 import org.jooq.Result;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Address;
 import com.github.drinking_buddies.entities.Bar;
 import com.github.drinking_buddies.geolocation.GeoLocation;
+import com.github.drinking_buddies.jwt.DBGoogleMap;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 import com.github.drinking_buddies.webservices.google.Geocoding;
 import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
@@ -27,7 +25,7 @@ import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WDoubleSpinBox;
-import eu.webtoolkit.jwt.WGoogleMap;
+import eu.webtoolkit.jwt.WGoogleMap.ApiVersion;
 import eu.webtoolkit.jwt.WGoogleMap.Coordinate;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLineEdit;
@@ -64,7 +62,7 @@ public class NearbyBarsForm extends WContainerWidget{
         radius.setSingleStep(0.5);
         radius.setSuffix(" km");
         main.bindWidget("radius", radius);
-        final WGoogleMap map = new WGoogleMap(WGoogleMap.ApiVersion.Version3);
+        final DBGoogleMap map = new DBGoogleMap(ApiVersion.Version3);
         main.bindWidget("map",map);
         map.setHeight(new WLength(400));
         map.setWidth(new WLength(400));
@@ -103,7 +101,7 @@ public class NearbyBarsForm extends WContainerWidget{
        
     }
     
-    private void querryBars(WGoogleMap map,double lat,double lng,double radius) {        
+    private void querryBars(DBGoogleMap map,double lat,double lng,double radius) {        
         GeoLocation location=GeoLocation.fromDegrees(lat, lng);
         GeoLocation[] boundingCoordinates=location.boundingCoordinates(radius, GeoLocation.RADIUS_EARTH);
         Coordinate center=new Coordinate(lat, lng);
@@ -115,7 +113,7 @@ public class NearbyBarsForm extends WContainerWidget{
         Connection conn = null;
         try {
             conn = app.getConnection();
-            DSLContext dsl = app.createDSLContext(conn);
+            DSLContext dsl = DBUtils.createDSLContext(conn);
 //            "SELECT * FROM Places WHERE (Lat >= ? AND Lat <= ?) AND (Lon >= ? " +
 //            (meridian180WithinDistance ? "OR" : "AND") + " Lon <= ?) AND " +
 //            "acos(sin(?) * sin(Lat) + cos(?) * cos(Lat) * cos(Lon - ?)) <= ?");
@@ -143,7 +141,7 @@ public class NearbyBarsForm extends WContainerWidget{
                 new BarResultWidget(bar, ResultsContainer);
             }
         } catch (Exception e) {
-            app.rollback(conn);
+            DBUtils.rollback(conn);
             throw new RuntimeException(e);
         } finally {
             app.closeConnection(conn);
@@ -151,13 +149,13 @@ public class NearbyBarsForm extends WContainerWidget{
         
     }
 
-    private void addBarToMap(WGoogleMap map, double lat,
+    private void addBarToMap(DBGoogleMap map, double lat,
             double lng) {
-       map.addMarker(new Coordinate(lat, lng));
+       map.addMarker(new Coordinate(lat, lng), "<b>test</b>");
       
     }
 
-    private void setMapCenter(WGoogleMap map,double lat,double lng, double radius) {
+    private void setMapCenter(DBGoogleMap map,double lat,double lng, double radius) {
         if(lat!=0 && lng!=0){
             GeoLocation geoLocation=GeoLocation.fromDegrees(lat, lng);
             GeoLocation[] boundingBox = geoLocation.boundingCoordinates(radius, GeoLocation.RADIUS_EARTH);

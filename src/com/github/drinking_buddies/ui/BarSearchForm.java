@@ -9,11 +9,10 @@ import java.util.List;
 
 import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.jooq.Record1;
 import org.jooq.Result;
-import org.jooq.exception.InvalidResultException;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.jooq.utils.SearchUtils;
 import com.github.drinking_buddies.ui.autocompletion.AutocompletePopup;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
@@ -118,7 +117,7 @@ public class BarSearchForm extends WContainerWidget {
         Connection conn = null;
         try {
             conn = app.getConnection();
-            DSLContext dsl = app.createDSLContext(conn);       
+            DSLContext dsl = DBUtils.createDSLContext(conn);       
             List<BarUrl> bars = new ArrayList<BarUrl>();
             Result<Record> records =
                     dsl

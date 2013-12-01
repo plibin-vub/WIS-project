@@ -9,6 +9,7 @@ import java.util.List;
 import org.jooq.DSLContext;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Comment;
 import com.github.drinking_buddies.entities.Review;
 import com.github.drinking_buddies.entities.User;
@@ -35,7 +36,7 @@ public class ReviewCommentsWidget extends CommentsWidget {
         try {
             conn = app.getConnection();
             
-            DSLContext dsl = app.createDSLContext(conn);
+            DSLContext dsl = DBUtils.createDSLContext(conn);
             dsl
                         .insertInto(REVIEW_COMMENT, 
                                     REVIEW_COMMENT.REVIEW_ID,

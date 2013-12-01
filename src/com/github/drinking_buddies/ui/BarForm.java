@@ -2,20 +2,19 @@ package com.github.drinking_buddies.ui;
 
 
 
+import static com.github.drinking_buddies.jooq.Tables.BAR2_BAR_SCORE;
+import static com.github.drinking_buddies.jooq.Tables.BAR_SCORE;
+
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import org.jooq.DSLContext;
-import org.jooq.Record;
-import org.jooq.Record1;
 import org.jooq.Record2;
 import org.jooq.Result;
-import org.jooq.util.derby.sys.Sys;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Bar;
 import com.github.drinking_buddies.entities.Comment;
 import com.github.drinking_buddies.entities.Review;
@@ -28,12 +27,10 @@ import com.github.drinking_buddies.ui.utils.DateUtils;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
 import eu.webtoolkit.jwt.Signal1;
-import eu.webtoolkit.jwt.WAbstractItemModel;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WDoubleSpinBox;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WMouseEvent;
-import eu.webtoolkit.jwt.WObject;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WStandardItemModel;
 import eu.webtoolkit.jwt.WString;
@@ -43,8 +40,6 @@ import eu.webtoolkit.jwt.chart.ChartType;
 import eu.webtoolkit.jwt.chart.SeriesType;
 import eu.webtoolkit.jwt.chart.WCartesianChart;
 import eu.webtoolkit.jwt.chart.WDataSeries;
-import static com.github.drinking_buddies.jooq.Tables.BAR2_BAR_SCORE;
-import static com.github.drinking_buddies.jooq.Tables.BAR_SCORE;
 
 public class BarForm extends WContainerWidget {
     
@@ -94,7 +89,7 @@ public class BarForm extends WContainerWidget {
         Connection conn = null;
         try {
             conn = app.getConnection();
-            DSLContext dsl = app.createDSLContext(conn);
+            DSLContext dsl = DBUtils.createDSLContext(conn);
             Result<Record2<BigDecimal, String>> r=dsl.select(BAR_SCORE.SCORE.avg(),BAR_SCORE.POST_TIME.substring(0,17))
                     .from(BAR_SCORE)
                     .join(BAR2_BAR_SCORE)
@@ -117,7 +112,7 @@ public class BarForm extends WContainerWidget {
            
             
         } catch (Exception e) {
-            app.rollback(conn);
+            DBUtils.rollback(conn);
             throw new RuntimeException(e);
         } finally {
             app.closeConnection(conn);
@@ -132,14 +127,14 @@ public class BarForm extends WContainerWidget {
         Connection conn = null;
         try {
             conn = app.getConnection();
-            DSLContext dsl = app.createDSLContext(conn);
+            DSLContext dsl = DBUtils.createDSLContext(conn);
             BarScoreRecord r = dsl.insertInto(BAR_SCORE,BAR_SCORE.POST_TIME,BAR_SCORE.SCORE,BAR_SCORE.USER_ID)
             .values(DateUtils.javaDateToSqliteFormat(new Date()),(new Double(value)).intValue(),1).returning().fetchOne();
             dsl.insertInto(BAR2_BAR_SCORE,BAR2_BAR_SCORE.BAR_ID,BAR2_BAR_SCORE.BAR_SCORE_ID)
             .values(id,r.getId()).execute();
             conn.commit();
         } catch (Exception e) {
-            app.rollback(conn);
+            DBUtils.rollback(conn);
             throw new RuntimeException(e);
         } finally {
             app.closeConnection(conn);

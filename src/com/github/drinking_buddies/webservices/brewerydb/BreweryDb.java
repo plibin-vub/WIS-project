@@ -5,7 +5,6 @@ import static com.github.drinking_buddies.jooq.Tables.BEER;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +12,8 @@ import java.util.List;
 import org.apache.http.client.utils.URIUtils;
 import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
 
-import com.github.drinking_buddies.Main;
-import com.github.drinking_buddies.config.Database;
+import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.webservices.rest.RestRequest;
 import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 import com.google.gson.Gson;
@@ -76,8 +72,8 @@ public class BreweryDb {
 //        BreweryDb b = new BreweryDb();
         List<BeerResults> results = getAllBeers();
         int totalskipped=0;
-        Connection conn=getConnection();
-        DSLContext dsl = createDSLContext(conn);
+        Connection conn= DBUtils.getConnection();
+        DSLContext dsl = DBUtils.createDSLContext(conn);
         for (BeerResults beerResults : results) {
             if (beerResults.getData()!=null) {
                 List<Beer> beers = beerResults.getData();
@@ -123,47 +119,12 @@ public class BreweryDb {
             .where(BEER.WEBSERVICE_NAME.eq(beer.getId()))
             .fetchAny();
         if(r!=null){
-            //TODO update
+            throw new RuntimeException("Currently updating is not supported!");
         }else{
             dsl.insertInto(BEER,BEER.ID,BEER.NAME,BEER.URL,BEER.WEBSERVICE_NAME)
             .values(id,beer.getName(),beerURL,beer.getId()).execute();
         }
         
         return true;
-    }
-
-    public static Connection getConnection() throws SQLException {
-        Database db = Main.loadConfiguration().getDatabase();
-        
-        try {
-            Class.forName("org.sqlite.JDBC").newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        Connection conn = DriverManager.getConnection(db.getJdbcUrl(), db.getUserName(), db.getPassword());
-        conn.setAutoCommit(false);
-        return conn;
-    }
-    
-    public void closeConnection(Connection conn) {
-        try {
-            conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-    
-    public static DSLContext createDSLContext(Connection conn) {
-        return DSL.using(conn, SQLDialect.SQLITE);
-    }
-
-    public void rollback(Connection conn) {
-        try {
-            conn.rollback();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
     }
 }

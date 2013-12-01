@@ -12,6 +12,7 @@ import org.jooq.Record;
 import org.jooq.Result;
 
 import com.github.drinking_buddies.Application;
+import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.jooq.utils.SearchUtils;
 import com.github.drinking_buddies.ui.autocompletion.AutocompletePopup;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
@@ -90,7 +91,9 @@ public class BeerSearchForm extends WContainerWidget {
                 entry.bindString("name", bu.name);
             }
         } else {
-            main.bindWidget("results", new WTemplate(tr("no-beer-search-results")));
+            WTemplate noResults = new WTemplate(tr("no-beer-search-results"));
+            TemplateUtils.configureDefault(Application.getInstance(), noResults);
+            main.bindWidget("results", noResults);
         }
     }
     
@@ -107,7 +110,7 @@ public class BeerSearchForm extends WContainerWidget {
         Connection conn = null;
         try {
             conn = app.getConnection();
-            DSLContext dsl = app.createDSLContext(conn);       
+            DSLContext dsl = DBUtils.createDSLContext(conn);       
             List<BeerUrl> beers = new ArrayList<BeerUrl>();
             Result<Record> records =
                     dsl
