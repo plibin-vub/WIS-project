@@ -72,4 +72,24 @@
 	<message id="user-form.find-nearby-bars">Find nearby bars</message>
 	<message id="user-form.favorite-beers">Favorite beers</message>
 	<message id="user-form.favorite-bars">Favorite bars</message>
+	
+	<message id="new-bar-form.title">Add a new bar</message>
+	<message id="new-bar-form.name">Name of the bar</message>
+	<message id="new-bar-form.website">Website of the bar</message>
+	<message id="new-bar-form.address">Address of the bar</message>
+	<message id="new-bar-form.street">Street</message>
+	<message id="new-bar-form.zipcode">Zip Code</message>
+	<message id="new-bar-form.number">House number</message>
+	<message id="new-bar-form.city">City</message>
+	<message id="new-bar-form.country">Country</message>
+	<message id="new-bar-form.ok">Save bar</message>
+	<message id="new-bar-form.cancel">Cancel</message>
+	
+	<message id="bar-form.name">Name of the bar</message>
+	<message id="bar-form.website">Website</message>
+	<message id="bar-form.address">Address</message>
+	<message id="bar-form.favored-by">Favored by</message>
+	<message id="bar-form.score">Score</message>
+	<message id="bar-form.beerlist-tile">Availble beers</message>
+	
 </messages>

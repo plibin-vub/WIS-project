@@ -17,8 +17,13 @@ import org.jooq.util.derby.sys.Sys;
 
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.entities.Bar;
+import com.github.drinking_buddies.entities.Comment;
 import com.github.drinking_buddies.entities.Review;
+import com.github.drinking_buddies.entities.Tag;
 import com.github.drinking_buddies.jooq.tables.records.BarScoreRecord;
+import com.github.drinking_buddies.ui.comments.BarCommentsWidget;
+import com.github.drinking_buddies.ui.comments.CommentsWidget;
+import com.github.drinking_buddies.ui.comments.ReviewCommentsWidget;
 import com.github.drinking_buddies.ui.utils.DateUtils;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
@@ -42,8 +47,11 @@ import static com.github.drinking_buddies.jooq.Tables.BAR2_BAR_SCORE;
 import static com.github.drinking_buddies.jooq.Tables.BAR_SCORE;
 
 public class BarForm extends WContainerWidget {
-    public BarForm(final Bar bar) {
+    
+    private Application app;
+    public BarForm(final Bar bar, List<Tag> tags, List<Comment> comments) {
         // the main template for the user form
+        app=Application.getInstance();
         // (a WTemplate constructor accepts the template text and its parent)
         WTemplate main = new WTemplate(tr("bar-form"), this);
         TemplateUtils.configureDefault(Application.getInstance(), main);
@@ -73,15 +81,9 @@ public class BarForm extends WContainerWidget {
             public void trigger(WMouseEvent arg) {
                 setScore(sb.getValue(),bar.getId());
                 getModel(bar.getId());
-            }
-
-            
-
-            
+            }       
         });
-        
-        
-
+        main.bindWidget("comments", new BarCommentsWidget(comments, app.getLoggedInUser(),null));
     }
     
     private WStandardItemModel getModel(int id ) {
@@ -153,18 +155,10 @@ public class BarForm extends WContainerWidget {
         WCartesianChart chart = new WCartesianChart(container);
         chart.setModel(getModel(id));
         chart.setXSeriesColumn(0);
-        // chart.setLegendEnabled(true);
         chart.setType(ChartType.ScatterPlot);
-        // chart.getAxis(Axis.XAxis).setLocation(AxisValue.ZeroValue);
-        // chart.getAxis(Axis.YAxis).setLocation(AxisValue.ZeroValue);
-        // chart.setPlotAreaPadding(80, EnumSet.of(Side.Left));
-        // chart.setPlotAreaPadding(40, EnumSet.of(Side.Top, Side.Bottom));
         WDataSeries s = new WDataSeries(1, SeriesType.CurveSeries);
-        // s.setShadow(new WShadow(3, 3, new WColor(0, 0, 0, 127), 3));
         chart.addSeries(s);
         chart.resize(new WLength(350), new WLength(100));
-        // chart.setMargin(new WLength(10), EnumSet.of(Side.Top, Side.Bottom));
-        // chart.setMargin(WLength.Auto, EnumSet.of(Side.Left, Side.Right));
         return chart;
     }
 }

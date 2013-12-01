@@ -276,7 +276,7 @@ public class Application extends WApplication {
                          closeConnection(conn);
                      }
 
-                getRoot().addWidget(new BarForm(bar));
+                getRoot().addWidget(new BarForm(bar,null,null));
             } else {
                 getRoot().addWidget(new BarSearchForm());
             }
