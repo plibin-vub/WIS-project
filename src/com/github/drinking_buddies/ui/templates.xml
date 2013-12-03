@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <messages>
-	<message id="header">
-		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-			<div class="navbar-inner">
-				<div class="container-fluid">
-					<button type="button" class="btn btn-navbar" data-toggle="collapse"
-						data-target=".nav-collapse">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="brand" href="#">Drinking buddies</a>
-					<div class="nav-collapse collapse">
-							${logged-in-user}
-					</div><!--/.nav-collapse -->
-				</div>
-			</div>
-		</div>
+	<message id="header-user">
+			<label>${logged-in-user}</label>
 	</message>
 
 	<message id="start-form">
@@ -329,16 +314,23 @@
 				<label class="control-label" for="inputWebsite">${tr:new-bar-form.website}:</label> ${website}
 				</div>
 				<div class="control-group">
-				<label class="control-label" for="inputStreet">${tr:bar-form.street}:</label> ${street} ${tr:bar-form.number}: ${number} 
+				<label class="control-label" for="inputStreet">${tr:new-bar-form.street}:</label> ${street} 
 				</div>
 				<div class="control-group">
-				${tr:bar-form.zipcode}: ${zipcode} ${tr:bar-form.city}: ${city}
+				<label class="control-label" for="inputNumber">${tr:new-bar-form.number}:</label> ${number} 
 				</div>
 				<div class="control-group">
-				${tr:bar-form.country}: ${country}
+				<label class="control-label" for="inputZipcode">${tr:new-bar-form.zipcode}:</label> ${zipcode} 
 				</div>
+				<div class="control-group">
+				<label class="control-label" for="inputCity">${tr:new-bar-form.city}:</label> ${city}
+				</div>
+				<div class="control-group">
+				<label class="control-label" for="inputCountry">${tr:new-bar-form.country}:</label> ${country}
+				</div>
+				<div class="controls">${ok} ${cancel}</div>
 			</div>
-			<div class="controls">${ok} ${cancel}</div>
+			
 		</form>
 	</message>
 	

@@ -3,6 +3,10 @@ package com.github.drinking_buddies.ui.utils;
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.entities.User;
 
+import eu.webtoolkit.jwt.AlignmentFlag;
+import eu.webtoolkit.jwt.WImage;
+import eu.webtoolkit.jwt.WLink;
+import eu.webtoolkit.jwt.WNavigationBar;
 import eu.webtoolkit.jwt.WString;
 import eu.webtoolkit.jwt.WTemplate;
 
@@ -17,19 +21,27 @@ public class TemplateUtils {
     }
     
     public static void setHeader(Application app, WTemplate t) {
-        WTemplate header = new WTemplate(WString.tr("header"));
+        WTemplate userLoggedIn = new WTemplate(WString.tr("header-user"));
+        WNavigationBar navigation = new WNavigationBar();
+//        navigation.setTitle("Drinking Buddies", new WLink(
+//                "#"));
         
+        navigation.addWidget(new WImage(new WLink("pics/header.png")));
+        navigation.setResponsive(false);
+        navigation.addStyleClass("navbar-inverse");
+        navigation.addStyleClass("navbar-fixed-top");
         User u = app.getLoggedInUser();
         if (u != null) {
             WTemplate tt = new WTemplate(WString.tr("logged-in-user"));
             tt.addFunction("tr", WTemplate.Functions.tr);
             tt.bindString("first-name", u.getFirstName());
             tt.bindString("last-name", u.getLastName());
-            header.bindWidget("logged-in-user", tt);
+            
+            userLoggedIn.bindWidget("logged-in-user", tt);
         } else {
-            header.bindWidget("logged-in-user", null);
+            userLoggedIn.bindWidget("logged-in-user", null);
         }
-        
-        t.bindWidget("header", header);
+        navigation.addWidget(userLoggedIn,AlignmentFlag.AlignRight);
+        t.bindWidget("header", navigation);
     }
 }

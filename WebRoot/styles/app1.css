@@ -1,0 +1,20 @@
+body
+{
+	
+	background-color:#d0e4fe;
+}
+
+#bar-title{
+	text-shadow: 3px 10px 10px rgba(0, 0, 0, 0.75);
+	font-size: 300%;
+	text-align: center;
+}
+
+@media(min-width: 980px){body {padding-top:62px;}}
+
+.Wt-invalid  {
+  border-color: #b94a48;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}

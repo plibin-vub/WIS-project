@@ -132,12 +132,14 @@ public class StartForm extends WContainerWidget {
                                USER.OAUTH_PROVIDER,
                                USER.FIRST_NAME,
                                USER.LAST_NAME,
-                               USER.URL)
+                               USER.URL
+                               )
                     .values(id.getId(),
                             id.getProvider(),
                             p.getFirst_name(),
                             p.getLast_name(),
-                            createUserURL(p))
+                            createUserURL(p)
+                            )
                     .execute();
                
                 r = dsl

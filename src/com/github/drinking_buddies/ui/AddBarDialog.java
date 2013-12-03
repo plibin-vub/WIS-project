@@ -54,14 +54,19 @@ public class AddBarDialog extends WDialog {
         website.setValidator(createWebsiteValidator());
         final WLineEdit street = new WLineEdit();
         main.bindWidget("street", street);
+        street.setId("inputStreet");
         final WLineEdit number = new WLineEdit();
         main.bindWidget("number", number);
+        number.setId("inputNumber");
         final WLineEdit zipcode = new WLineEdit();
         main.bindWidget("zipcode", zipcode);
+        zipcode.setId("inputZipcode");
         final WLineEdit city = new WLineEdit();
         main.bindWidget("city", city);
+        city.setId("inputCity");
         final WLineEdit country = new WLineEdit();
         main.bindWidget("country", country);
+        country.setId("inputCountry");
 
         WPushButton ok = new WPushButton(tr("new-bar-form.ok"));
         main.bindWidget("ok", ok);
@@ -74,6 +79,12 @@ public class AddBarDialog extends WDialog {
                 }
                 if(website.validate()!= State.Valid){
                     showError("Invalid website");
+                }
+                if(zipcode.validate()!= State.Valid){
+                    showError("Invalid zipcode");
+                }
+                if(number.validate()!= State.Valid){
+                    showError("Invalid zipcode");
                 }
                 String url = saveBar(street.getText(), number.getText(),
                         zipcode.getText(), city.getText(), country.getText(),

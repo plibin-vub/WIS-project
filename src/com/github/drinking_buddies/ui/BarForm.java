@@ -8,6 +8,7 @@ import static com.github.drinking_buddies.jooq.Tables.BAR_SCORE;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.Date;
+import java.util.List;
 
 import org.jooq.DSLContext;
 import org.jooq.Record2;
