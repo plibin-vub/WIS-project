@@ -17,16 +17,15 @@ import org.jooq.Result;
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Bar;
+import com.github.drinking_buddies.entities.Beer;
 import com.github.drinking_buddies.entities.Comment;
-import com.github.drinking_buddies.entities.Review;
 import com.github.drinking_buddies.entities.Tag;
 import com.github.drinking_buddies.jooq.tables.records.BarScoreRecord;
 import com.github.drinking_buddies.ui.comments.BarCommentsWidget;
-import com.github.drinking_buddies.ui.comments.CommentsWidget;
-import com.github.drinking_buddies.ui.comments.ReviewCommentsWidget;
 import com.github.drinking_buddies.ui.utils.DateUtils;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
+import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WDoubleSpinBox;
@@ -35,8 +34,11 @@ import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WStandardItemModel;
 import eu.webtoolkit.jwt.WString;
+import eu.webtoolkit.jwt.WTable;
 import eu.webtoolkit.jwt.WTableView;
 import eu.webtoolkit.jwt.WTemplate;
+import eu.webtoolkit.jwt.WText;
+import eu.webtoolkit.jwt.chart.Axis;
 import eu.webtoolkit.jwt.chart.ChartType;
 import eu.webtoolkit.jwt.chart.SeriesType;
 import eu.webtoolkit.jwt.chart.WCartesianChart;
@@ -45,7 +47,8 @@ import eu.webtoolkit.jwt.chart.WDataSeries;
 public class BarForm extends WContainerWidget {
     
     private Application app;
-    public BarForm(final Bar bar, List<Tag> tags, List<Comment> comments) {
+    private int row;
+    public BarForm(final Bar bar, List<Comment> comments, List<Beer> beers) {
         // the main template for the user form
         app=Application.getInstance();
         // (a WTemplate constructor accepts the template text and its parent)
@@ -53,6 +56,7 @@ public class BarForm extends WContainerWidget {
         TemplateUtils.configureDefault(Application.getInstance(), main);
         // we bind to some of the template's variables
         main.bindString("website", bar.getWebsite());
+        main.bindString("facebook","http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fdrinking_buddies.github.com%2Fdb%2Fbars%2F"+bar.getUrl()+"&width&layout=standard&action=like&show_faces=true&share=true&height=80&appId=620305514675365");
         main.bindString("bar", bar.getName());
         String addressLine1 = bar.getAddress().getStreet() + " "
                 + bar.getAddress().getNumber();
@@ -66,22 +70,58 @@ public class BarForm extends WContainerWidget {
         main.bindString("url", "aa1");
         final WDoubleSpinBox sb = new WDoubleSpinBox();
         sb.setRange(0, 10);
+        sb.addStyleClass("input-mini");
         sb.setValue(bar.getScore());
         sb.setSingleStep(1);
         main.bindWidget("score", sb);
+        final WPushButton changeScore = new WPushButton(tr("bar-form.change-score"));
+        main.bindWidget("change-score", changeScore);
+        changeScore.hide();
+        sb.changed().addListener(this, new Signal.Listener() {
+            public void trigger() {
+                changeScore.show();
+            }
+        });
         final WCartesianChart chart = getChart(bar.getId());
         main.bindWidget("score-chart", chart);
-        WPushButton changeScore = new WPushButton(tr("bar-form.change-score"));
-        main.bindWidget("change-score", changeScore);
+        chart.resize(350, 150);
         changeScore.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
             public void trigger(WMouseEvent arg) {
+                changeScore.hide();
                 setScore(sb.getValue(),bar.getId());
                 getModel(bar.getId());
             }       
         });
-        main.bindWidget("comments", new BarCommentsWidget(comments, app.getLoggedInUser(),null));
+        final WTable beerList = new WTable();
+        row=0;
+        for (Beer beer : beers) {
+            BeerListItemWidget beerListItem = new BeerListItemWidget(beer);
+            beerList.getElementAt(row, 0).addWidget(beerListItem);
+            row++;
+        }
+        final WPushButton addBeer = new WPushButton(tr("bar-form.add-beer"));
+        beerList.getElementAt(row, 0).addWidget(addBeer);
+        addBeer.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
+            public void trigger(WMouseEvent arg) {
+                AddBeerListItemDialog dialog = new AddBeerListItemDialog(bar.getId());
+                dialog.beerAdded().addListener(BarForm.this, new Signal1.Listener<Beer>() {
+                    public void trigger(Beer beer) {
+                        BeerListItemWidget beerListItem = new BeerListItemWidget(beer);
+                        beerList.getElementAt(row, 0).removeWidget(addBeer);
+                        beerList.getElementAt(row, 0).refresh();
+                        beerList.getElementAt(row, 0).addWidget(beerListItem);
+                        row++;
+                        beerList.getElementAt(row, 0).addWidget(addBeer);
+                    }
+                });
+                dialog.show();
+            }       
+        });
+        main.bindWidget("beer-list", beerList);
+        main.bindWidget("comments", new BarCommentsWidget(bar,comments, app.getLoggedInUser(),null));
     }
     
+
     private WStandardItemModel getModel(int id ) {
         WStandardItemModel model = new WStandardItemModel(10,2);
         model.setHeaderData(0, new WString("Date"));
@@ -154,7 +194,7 @@ public class BarForm extends WContainerWidget {
         chart.setType(ChartType.ScatterPlot);
         WDataSeries s = new WDataSeries(1, SeriesType.CurveSeries);
         chart.addSeries(s);
-        chart.resize(new WLength(350), new WLength(100));
+        //chart.resize(new WLength(350), new WLength(100));
         return chart;
     }
 }

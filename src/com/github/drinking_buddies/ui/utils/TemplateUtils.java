@@ -36,7 +36,6 @@ public class TemplateUtils {
             tt.addFunction("tr", WTemplate.Functions.tr);
             tt.bindString("first-name", u.getFirstName());
             tt.bindString("last-name", u.getLastName());
-            
             userLoggedIn.bindWidget("logged-in-user", tt);
         } else {
             userLoggedIn.bindWidget("logged-in-user", null);

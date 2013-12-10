@@ -1,3 +1,4 @@
+begin transaction;
 INSERT INTO "beer" VALUES(1,'"18"_imperial_ipa','"18" Imperial IPA','cBLTUw');
 INSERT INTO "beer" VALUES(2,'"god_country"_kolsch','"God Country" Kolsch','Hr5A0t');
 INSERT INTO "beer" VALUES(3,'"jemmy_dean"_breakfast_stout','"Jemmy Dean" Breakfast Stout','54rSgo');
@@ -9863,4 +9864,4 @@ INSERT INTO "bar2_bar_score" VALUES(2,27);
 INSERT INTO "bar2_bar_score" VALUES(4,28);
 INSERT INTO "bar2_bar_score" VALUES(4,29);
 INSERT INTO "bar2_bar_score" VALUES(4,30);
-
+commit;

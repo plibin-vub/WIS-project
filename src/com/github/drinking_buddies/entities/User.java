@@ -33,13 +33,13 @@ public class User {
     
     public String getSmallImageUrl() {
         if ("facebook".equals(oAuthProvider))
-            return "http://graph.facebook.com/" + firstName + "." + lastName + "/picture";
+            return "http://graph.facebook.com/" + oAuthName + "/picture";
         return null;
     }
     
     public String getLargeImageUrl() {
         if ("facebook".equals(oAuthProvider))
-            return "http://graph.facebook.com/" + firstName + "." + lastName + "/picture?type=large";
+            return "http://graph.facebook.com/" + oAuthName + "/picture?type=large";
         return null;
     }
 }

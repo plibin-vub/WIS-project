@@ -26,8 +26,11 @@ public abstract class CommentsWidget extends WContainerWidget {
         this.main = new WTemplate(tr("comments-widget"), this);
         TemplateUtils.configureDefault(Application.getInstance(), main);
         
-        AddCommentWidget acw = new AddCommentWidget(poster);
-        this.main.bindWidget("add-comment", acw);
+       
+        if(poster!=null){
+            AddCommentWidget acw = new AddCommentWidget(poster);
+            this.main.bindWidget("add-comment", acw);
+        
         acw.addedComment().addListener(this, new Signal1.Listener<Comment>() {
             public void trigger(Comment c) {
                 saveComment(c);
@@ -36,7 +39,9 @@ public abstract class CommentsWidget extends WContainerWidget {
                 updateAllComments();
             }
         });
-        
+        }else{
+            this.main.bindString("add-comment", tr("comments.please-log-in"));
+        }
         for (Comment c : comments) {
             commentsContainer.addWidget(new CommentWidget(c));
         }

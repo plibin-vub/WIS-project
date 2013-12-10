@@ -9,6 +9,7 @@ CREATE TABLE user(
    FOREIGN KEY(bar_id) REFERENCES bar(id)
 );
 
+
 CREATE TABLE buddy(
    user_id 			INTEGER,
    buddy_id 		INTEGER,

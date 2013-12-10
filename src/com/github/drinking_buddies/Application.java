@@ -4,16 +4,21 @@ import static com.github.drinking_buddies.jooq.Tables.ADDRESS;
 import static com.github.drinking_buddies.jooq.Tables.BAR;
 import static com.github.drinking_buddies.jooq.Tables.BEER;
 import static com.github.drinking_buddies.jooq.Tables.BEER2_BEER_TAG;
+import static com.github.drinking_buddies.jooq.Tables.BEER2_BAR;
 import static com.github.drinking_buddies.jooq.Tables.BEER_TAG;
 import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BAR;
 import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BEER;
 import static com.github.drinking_buddies.jooq.Tables.REVIEW;
+import static com.github.drinking_buddies.jooq.Tables.REVIEW_COMMENT;
 import static com.github.drinking_buddies.jooq.Tables.USER;
+import static com.github.drinking_buddies.jooq.Tables.BAR_COMMENT;
+import static com.github.drinking_buddies.jooq.Tables.BAR2_BAR_COMMENT;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -21,13 +26,16 @@ import javax.servlet.ServletContext;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Record2;
+import org.jooq.Record3;
 import org.jooq.Result;
+import org.jooq.TableLike;
 
 import com.github.drinking_buddies.config.Configuration;
 import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Address;
 import com.github.drinking_buddies.entities.Bar;
 import com.github.drinking_buddies.entities.Beer;
+import com.github.drinking_buddies.entities.Comment;
 import com.github.drinking_buddies.entities.Image;
 import com.github.drinking_buddies.entities.Review;
 import com.github.drinking_buddies.entities.Tag;
@@ -40,6 +48,7 @@ import com.github.drinking_buddies.ui.BeerSearchForm;
 import com.github.drinking_buddies.ui.NearbyBarsForm;
 import com.github.drinking_buddies.ui.StartForm;
 import com.github.drinking_buddies.ui.UserForm;
+import com.github.drinking_buddies.ui.utils.DateUtils;
 import com.github.drinking_buddies.webservices.brewerydb.BreweryDb;
 import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 
@@ -48,9 +57,11 @@ import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WBootstrapTheme;
 import eu.webtoolkit.jwt.WEnvironment;
 import eu.webtoolkit.jwt.WLink;
+import eu.webtoolkit.jwt.WText;
 import eu.webtoolkit.jwt.WXmlLocalizedStrings;
 
 public class Application extends WApplication {
+
     private ServletContext servletContext;
     private Configuration configuration;
     
@@ -195,9 +206,10 @@ public class Application extends WApplication {
             //show 404
         }
         if ("users".equals(parts[0])) {
-            if (parts.length > 0) {
-                String url = parts[1];
-                 
+            
+            if (parts.length > 1 || true) {
+               // String url = parts[1];
+                 String url="tom.de bie";
                  Connection conn = null;
                  try {
                      conn = DBUtils.getConnection();
@@ -227,12 +239,14 @@ public class Application extends WApplication {
             if(parts.length>1) {
                 final String barURL = parts[1];
                 Bar bar=null;
-                     
+                ArrayList<Beer> beers=new ArrayList<Beer>();     
                      Connection conn = null;
-                     try {
+                     List<Comment> comments = new ArrayList<Comment>();
+                    try {
                          conn = DBUtils.getConnection();
                          DSLContext dsl = DBUtils.createDSLContext(conn);
                          
+           
                          Record r 
                              = dsl
                                  .select(BAR.ID,BAR.NAME,BAR.WEBSITE,BAR.PHOTO,ADDRESS.ID,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY)
@@ -246,6 +260,15 @@ public class Application extends WApplication {
                              return;
                          }
                          int id=r.getValue(BAR.ID);
+                         Result<Record3<Integer, String, String>> beersRecords = dsl
+                             .select(BEER.ID,BEER.URL,BEER.NAME)
+                             .from(BEER,BAR,BEER2_BAR)
+                             .where(BAR.URL.eq(barURL))
+                             .and(BAR.ID.eq(BEER2_BAR.BAR_ID)).and(BEER.ID.eq(BEER2_BAR.BEER_ID))
+                             .fetch();
+                         for (Record3<Integer, String, String> beer : beersRecords) {
+                            beers.add(new Beer(beer.getValue(BEER.ID), beer.getValue(BEER.NAME),beer.getValue(BEER.URL)));
+                        }
                          int favoredBy
                          = dsl
                              .select()
@@ -261,7 +284,31 @@ public class Application extends WApplication {
                              scoreValue=score.doubleValue();
                          }
                          bar = new Bar(id,r.getValue(BAR.NAME),favoredBy,scoreValue , r.getValue(BAR.WEBSITE),barPhoto, address,barURL) ;
+                         
+                         Result<Record> commentResults 
+                         = dsl
+                             .select()
+                             .from(BAR_COMMENT,BAR2_BAR_COMMENT)
+                             .where(BAR2_BAR_COMMENT.BAR_ID.equal(bar.getId())).and(BAR2_BAR_COMMENT.BAR_COMMENT_ID.eq(BAR_COMMENT.ID))
+                             .orderBy(BAR_COMMENT.TIMESTAMP, BAR_COMMENT.ID)
+                             .fetch();
+                     
+                     for (Record comment : commentResults) {
+                         String text = comment.getValue(BAR_COMMENT.TEXT);
+                         Date postDate = DateUtils.sqliteDateToJavaDate(comment.getValue(BAR_COMMENT.TIMESTAMP));
+                         
+                         Record userRecord
+                         = dsl
+                             .select()
+                             .from(USER)
+                             .where(USER.ID.eq(comment.getValue(BAR_COMMENT.USER_ID)))
+                             .fetchOne();   
+                         User poster = new User(userRecord);
+                         
+                         comments.add(new Comment(text, poster, postDate));
+                     }
                          }
+                  
                       catch (Exception e) {
                          e.printStackTrace();
                          throw new RuntimeException(e);
@@ -269,7 +316,7 @@ public class Application extends WApplication {
                          DBUtils.closeConnection(conn);
                      }
 
-                getRoot().addWidget(new BarForm(bar,null,null));
+                getRoot().addWidget(new BarForm(bar,comments,beers));
             } else {
                 getRoot().addWidget(new BarSearchForm());
             }
@@ -283,7 +330,7 @@ public class Application extends WApplication {
     
     
     private void show404() {
-        // TODO Auto-generated method stub
+        //getRoot().addWidget(new WText("404"));
         
     }
 
