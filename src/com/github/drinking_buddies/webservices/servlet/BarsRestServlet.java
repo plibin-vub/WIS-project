@@ -6,11 +6,12 @@ import static com.github.drinking_buddies.jooq.Tables.BAR;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
@@ -20,11 +21,8 @@ import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Record2;
 import org.jooq.Result;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
 
 import com.github.drinking_buddies.config.Configuration;
-import com.github.drinking_buddies.config.Database;
 import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Address;
 import com.github.drinking_buddies.entities.Comment;
@@ -113,6 +111,11 @@ public class BarsRestServlet extends RestServlet {
         }
         private String uri;
     }
+    private static class SimplifiedComment {
+        private String text;
+        private String poster;
+        private Date postDate;
+    }
     private static class FullBar {
         private String url;
         private String name;
@@ -120,7 +123,7 @@ public class BarsRestServlet extends RestServlet {
         private String averageScore;
         private Address address;
         private Image image;
-        private List<Comment> comments = new ArrayList<Comment>();
+        private List<SimplifiedComment> comments = new ArrayList<SimplifiedComment>();
     }
     private void streamBar(OutputStream os, Format format, String barURL) {
         Connection conn = null;
@@ -150,8 +153,10 @@ public class BarsRestServlet extends RestServlet {
                 fb.url = r.getValue(BAR.URL);
                 fb.address = address;
                 fb.webSite = r.getValue(BAR.WEBSITE);
-                fb.averageScore = formatScore(BarQueries.getAvgScore(dsl, r.getValue(BAR.ID)).doubleValue());
-                fb.comments = SearchUtils.getBarComments(dsl, r.getValue(BAR.ID));
+                BigDecimal avgScore = BarQueries.getAvgScore(dsl, r.getValue(BAR.ID));
+                if (avgScore != null)
+                    fb.averageScore = formatScore(avgScore.doubleValue());
+                fb.comments = toSimplifiedComments(SearchUtils.getBarComments(dsl, r.getValue(BAR.ID)));
                 fb.image = new Image(r.getValue(BAR.PHOTO), r.getValue(BAR.PHOTO_MIME_TYPE));
                 
                 Gson gson = new Gson();
@@ -170,6 +175,18 @@ public class BarsRestServlet extends RestServlet {
         }
     }
     
+    private List<SimplifiedComment> toSimplifiedComments(List<Comment> barComments) {
+        List<SimplifiedComment> simplified = new ArrayList<SimplifiedComment>();
+        for (Comment c : barComments) {
+            SimplifiedComment sc = new SimplifiedComment();
+            sc.postDate = c.getPostDate();
+            sc.poster = c.getPoster().getFirstName() + " " + c.getPoster().getLastName();
+            sc.text = c.getText();
+            simplified.add(sc);
+        }
+        return simplified;
+    }
+
     private static final DecimalFormat formatter = new DecimalFormat("#.0"); 
     private String formatScore(double score) {
         return formatter.format(score);
