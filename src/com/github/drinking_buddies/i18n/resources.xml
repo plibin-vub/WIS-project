@@ -74,6 +74,7 @@
 	<message id="user-form.favorite-beers">Favorite beers</message>
 	<message id="user-form.favorite-bars">Favorite bars</message>
 	<message id="user-form.share-location">Share location</message>
+	<message id="user-form.friend-import">Import your friends from facebook</message>
 	
 	<message id="new-bar-form.title">Add a new bar</message>
 	<message id="new-bar-form.name">Name of the bar</message>
@@ -106,7 +107,7 @@
 	<message id="nearby-bars-form.radius">Radius</message>
 	<message id="nearby-bars-form.beer">Beer on tap:</message>
 	<message id="nearby-bars-form.search">Find bars</message>
-		<message id="nearby-bars-form.beer-not-found">Beer not found, no beer used in search</message>
+    <message id="nearby-bars-form.beer-not-found">Beer not found, no beer used in search</message>
 	
 	<message id="friends-bars-form.title">Find bars with friends</message>
 	<message id="friends-bars-form.location">Search location</message>

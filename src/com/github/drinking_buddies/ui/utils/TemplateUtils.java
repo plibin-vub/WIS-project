@@ -35,10 +35,8 @@ public class TemplateUtils {
         if (u != null) {
             WTemplate tt = new WTemplate(WString.tr("logged-in-user"));
             tt.addFunction("tr", WTemplate.Functions.tr);
-            tt.bindString("first-name", u.getFirstName());
-            tt.bindString("last-name", u.getLastName());
-            //WAnchor anchor=new WAnchor(new WLink(type, value));
-            tt.bindString("url", app.makeAbsoluteUrl("db/users/"+u.getUrl()));
+            WAnchor anchor=new WAnchor(new WLink(WLink.Type.InternalPath, "/users/"+u.getUrl()),u.getFirstName()+" "+u.getLastName());
+            tt.bindWidget("url", anchor);
             userLoggedIn.bindWidget("logged-in-user", tt);
         } else {
             userLoggedIn.bindWidget("logged-in-user", null);

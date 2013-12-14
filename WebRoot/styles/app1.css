@@ -58,6 +58,10 @@ body
 	border-radius:25px;
 }
 
+.name{
+	margin-bottom:20px;
+}
+
 @media(min-width: 979px){body {padding-top:62px;}}
 
 .Wt-invalid  {

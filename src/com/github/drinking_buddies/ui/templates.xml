@@ -413,7 +413,7 @@
 	
 	<message id="logged-in-user">
 		<p class="navbar-text pull-right">
-              ${tr:logged-in-user.logged-in-as} <a href="${url}" class="navbar-link">${first-name} ${last-name}</a>
+              ${tr:logged-in-user.logged-in-as} <a href="" class="navbar-link">${url}</a>
         </p>
 	</message>
 	
