@@ -246,7 +246,7 @@ public class Application extends WApplication {
            
                          Record r 
                              = dsl
-                                 .select(BAR.ID,BAR.NAME,BAR.WEBSITE,BAR.PHOTO,ADDRESS.ID,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY)
+                                 .select(BAR.ID,BAR.NAME,BAR.WEBSITE,BAR.PHOTO, BAR.PHOTO_MIME_TYPE, ADDRESS.ID,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY)
                                  .from(BAR,ADDRESS)
                                  .where(BAR.URL.eq(barURL))
                                  .and(ADDRESS.ID.eq(BAR.ADDRESS_ID))
@@ -275,7 +275,7 @@ public class Application extends WApplication {
                          BigDecimal score= BarQueries.getAvgScore(dsl, id);
                          Address address=new Address(r.getValue(ADDRESS.ID), r.getValue(ADDRESS.STREET), r.getValue(ADDRESS.NUMBER)
                                  , r.getValue(ADDRESS.ZIPCODE), r.getValue(ADDRESS.CITY), r.getValue(ADDRESS.COUNTRY));
-                         Image barPhoto = null; //TODO
+                         Image barPhoto = new Image(r.getValue(BAR.PHOTO), r.getValue(BAR.PHOTO_MIME_TYPE));
                          double scoreValue=0;
                          if(score!=null){
                              scoreValue=score.doubleValue();

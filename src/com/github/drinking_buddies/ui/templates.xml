@@ -280,7 +280,7 @@
 			<h1 id="title" >${bar}</h1>
 		</div>
 		<div class="row-fluid">
-			<div class="span4">${picture}
+			<div class="span4">${photo} ${tr:bar-form.upload}: ${upload}
 			<div class="div-row">
 		   <object type="text/html" data="${facebook}"></object>
 			<div class="controls">${add-to-favorites}</div>
@@ -288,9 +288,6 @@
 			</div>
 						
 					<div class="span4">
-						<div class="row-fluid">
-							${photo} ${upload}
-						</div>
 						<div class="row-fluid">
 						<div class="span4">${tr:bar-form.website}:</div><div class="span8"> ${website}</div>
 						</div>

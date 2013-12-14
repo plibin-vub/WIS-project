@@ -139,27 +139,33 @@ public class BarForm extends WContainerWidget {
             mr.setData(image.getData());
             i.setResource(mr);
             main.bindWidget("photo", i);
-            final WFileUpload fu = new WFileUpload();
-            fu.uploaded().addListener(this, new Signal.Listener() {
-                @Override
-                public void trigger() {
-                    saveAndShowPhoto(new File(fu.getSpoolFileName()), fu.getClientFileName());
-                }
-            });
-            main.bindWidget("upload", fu);
         } else {
             main.bindWidget("photo", null);
-            main.bindWidget("upload", null);
         }
+        
+        final WFileUpload fu = new WFileUpload();
+        fu.changed().addListener(this, new Signal.Listener() {
+            public void trigger() {
+                fu.upload();
+            }
+        });
+        fu.uploaded().addListener(this, new Signal.Listener() {
+            @Override
+            public void trigger() {
+                saveAndShowPhoto(new File(fu.getSpoolFileName()), fu.getClientFileName());
+            }
+        });
+        main.bindWidget("upload", fu);
     }
     
     private void saveAndShowPhoto(File file, String clientFileName) {
         try {
             byte[] data = FileUtils.readFileToByteArray(file);
-            String extension = clientFileName.substring(clientFileName.lastIndexOf('.'));
+            String extension = clientFileName.substring(clientFileName.lastIndexOf('.')+1);
             Image i = new Image(data, "image/" + extension);
             updatePhoto(i, bar.getId());
             bar.setPicture(i);
+            showPhoto(i);
         } catch (IOException e) {
             e.printStackTrace();
         }
