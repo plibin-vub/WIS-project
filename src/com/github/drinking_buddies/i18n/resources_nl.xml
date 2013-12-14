@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messages>
+	<message id="app.title">Drinking buddies</message>
+	
+	<message id="start-form.login">Inloggen</message>
+	<message id="start-form.search-beer">Zoek een bier op</message>
+	<message id="start-form.search-bar">Zoek een café op</message>
+	
+	<message id="beer-form.brewed-by">Brouwerij</message>
+	<message id="beer-form.alcohol">Alcohol</message>
+	<message id="beer-form.favored-by">Favoriet van</message>
+	<message id="beer-form.score">Score</message>
+	<message id="beer-form.add-to-favorites">Aan favorieten toevoegen</message>
+	<message id="beer-form.tags">Etiket</message>
+	<message id="beer-form.add-tag">Etiket toevoegen</message>
+	<message id="beer-form.in-which-bar-can-i-find">In welke cafés kan ik {1} vinden?</message>
+	<message id="beer-form.reviews">Recensie</message>
+	<message id="beer-form.add-review">Recensie toevoegen</message>
+	<message id="beer-form.add-to-favorites.status">Status</message>
+	<message id="beer-form.add-to-favorites.added">We hebben "{1}" aan je favorieten toegevoegd!</message>
+	<message id="beer-form.add-to-favorites.not-added">We hebben "{1}" niet opnieuw aan je favorieten toegevoegd!<br/>Het was reeds opgenomen in je lijst van favoriete bieren.</message>
+	
+	<message id="add-tag-dialog.title">Voeg een nieuw etiket toe aan "{1}"</message>
+	<message id="add-tag-dialog.add-new">Voeg een nieuw etiket toe</message>
+	<message id="add-tag-dialog.provide-new-tag-name">Voer een nieuwe etiket-naam in</message>
+	<message id="add-tag-dialog.select-existing">Selecteer een bestaand etiket</message>
+	<message id="add-tag-dialog.ok">OK</message>
+	<message id="add-tag-dialog.cancel">Annuleren</message>
+	
+	<message id="add-review-dialog.title">Een recensie voor "{1}" toevoegen</message>
+	<message id="add-review-dialog.color">Kleur</message>
+	<message id="add-review-dialog.smell">Geur</message>
+	<message id="add-review-dialog.taste">Smaak</message>
+	<message id="add-review-dialog.feel">Gevoel in de mond</message>
+	<message id="add-review-dialog.text">Recensie</message>
+	<message id="add-review-dialog.ok">OK</message>
+	<message id="add-review-dialog.cancel">Annuleren</message>
+	
+	<message id="review.average-score">Score</message>
+	<message id="review.posted-by">Geplaatst door</message>
+	<message id="review.color">Kleur</message>
+	<message id="review.smell">Smaak</message>
+	<message id="review.taste">Gevoel in de mond</message>
+	<message id="review.feel">Recensie</message>
+	<message id="review.expand/comment">Uitklappen/Opmerking maken</message>
+	<message id="review.collapse">Inklappen</message>
+	
+	<message id="comments.all-comments">Alle opmerkingen</message>
+	<message id="comments.please-log-in">Gelieve in te loggen alvorens een opmerking te maken</message>
+	
+	<message id="add-comment.leave-a-new-comment">Schrijf een nieuwe bemerking!</message>
+	<message id="add-comment.clear">Wissen</message>
+	<message id="add-comment.post">Plaats opmerking</message>
+	
+	<message id="comment.posted-by">Geplaatst door</message>
+	
+	<message id="beer-search.select-beer">Selecteer een bier</message>
+	<message id="beer-search.find-beer">Zoek een bier</message>
+	<message id="beer-search.results">Resultaten</message>
+	<message id="beer-search.no-results">Excuseer, we hebben geen resulaten gevonden voor je zoekopdracht.</message>
+	
+	
+	<message id="bar-search.select-bar">Selecteer een café</message>
+	<message id="bar-search.find-bar">Zoek een café</message>
+	<message id="bar-search.results">Resultaten</message>
+	<message id="bar-search.no-results">Excuseer, we hebben geen resulaten gevonden voor je zoekopdracht.</message>
+	<message id="bar-search.add-bar">Voeg een nieuw café toe</message>
+	
+	<message id="logged-in-user.logged-in-as">Ingelogd als</message>
+	
+	<message id="user-form.is-drinking-in">drinkt in "{1}" (gelegen te {2}, {3})</message>
+	<message id="user-form.find-nearby-friends">Zoek vrienden in de buurt</message>
+	<message id="user-form.find-nearby-bars">Zoek cafés in de buurt</message>
+	<message id="user-form.favorite-beers">Favoriete bieren</message>
+	<message id="user-form.favorite-bars">Favoriete cafés</message>
+	<message id="user-form.share-location">Locatie delen</message>
+	<message id="user-form.stop-share-location">Locatie niet langer delen</message>
+	<message id="user-form.friend-import">Laad je Facebook vrienden in</message>
+	
+	<message id="new-bar-form.title">Voeg een café toe</message>
+	<message id="new-bar-form.name">Café naam</message>
+	<message id="new-bar-form.website">Website van het café</message>
+	<message id="new-bar-form.address">Adres van het café</message>
+	<message id="new-bar-form.street">Straat</message>
+	<message id="new-bar-form.zipcode">Postcode</message>
+	<message id="new-bar-form.number">Huisnummer</message>
+	<message id="new-bar-form.city">Stad</message>
+	<message id="new-bar-form.country">Land</message>
+	<message id="new-bar-form.ok">Opslaan</message>
+	<message id="new-bar-form.cancel">Annuleren</message>
+	
+	<message id="bar-form.name">Café naam</message>
+	<message id="bar-form.website">Website</message>
+	<message id="bar-form.address">Adres</message>
+	<message id="bar-form.favored-by">Favoriet van</message>
+	<message id="bar-form.score">Score</message>
+	<message id="bar-form.beerlist-tile">Beschikbare bieren</message>
+	<message id="bar-form.add-beer">Bieren toevoegen</message>
+	<message id="bar-form.change-score">Score aanpassen</message>
+	<message id="bar-form.upload">Uploaden</message>
+	<message id="bar-form.add-to-favorites.status">Status</message>
+	<message id="bar-form.add-to-favorites.added">We voegden "{1}" toe aan je favorieten!</message>
+	<message id="bar-form.add-to-favorites.not-added">We voegden "{1}" niet opnieuw toe aan je favorieten!<br/>Het was reeds opgenomen in je lijst van favoriete cafés.</message>
+		
+	<message id="add-beer-dialog.title">Voeg een bier toe aan de beschikbare bieren van dit café</message>
+	<message id="add-beer-dialog.add-beer">Voeg een bier toe</message>
+	<message id="add-beer-dialog.cancel">Annuleren</message>
+	
+	<message id="nearby-bars-form.title">Zoek een café in de buurt</message>
+	<message id="nearby-bars-form.location">Zoek een plaats</message>
+	<message id="nearby-bars-form.radius">Straal</message>
+	<message id="nearby-bars-form.beer">Bier op tap</message>
+	<message id="nearby-bars-form.search">Cafés zoeken</message>
+    <message id="nearby-bars-form.beer-not-found">Je bier is niet gevonden</message>
+	
+	<message id="friends-bars-form.title">Zoek een café waar vrienden van je zijn</message>
+	<message id="friends-bars-form.location">Zoek op plaats</message>
+	<message id="friends-bars-form.radius">Straal</message>
+	<message id="friends-bars-form.search">Cafés zoeken</message>
+</messages>
