@@ -21,6 +21,7 @@ CREATE TABLE bar(
    id 				INTEGER 	PRIMARY KEY,
    name 			TEXT		NOT NULL,
    photo			BLOB,
+   photo_mime_type	TEXT,
    website 			TEXT,
    address_id		INTEGER		NOT NULL,
    location_x 		REAL,
