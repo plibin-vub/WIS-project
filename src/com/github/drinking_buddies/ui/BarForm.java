@@ -93,6 +93,7 @@ public class BarForm extends WContainerWidget {
         double score = Double.parseDouble(new DecimalFormat("#.##").format(bar.getScore()));
         sb.setValue(score);
         sb.setSingleStep(1);
+        sb.setEnabled(Application.getInstance().getLoggedInUser() != null);
         main.bindWidget("score", sb);
         final WPushButton changeScore = new WPushButton(tr("bar-form.change-score"));
         main.bindWidget("change-score", changeScore);
@@ -119,57 +120,63 @@ public class BarForm extends WContainerWidget {
             beerList.getElementAt(row, 0).addWidget(beerListItem);
             row++;
         }
-        final WPushButton addBeer = new WPushButton(tr("bar-form.add-beer"));
-        beerList.getElementAt(row, 0).addWidget(addBeer);
-        addBeer.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
-            public void trigger(WMouseEvent arg) {
-                AddBeerListItemDialog dialog = new AddBeerListItemDialog(bar.getId());
-                dialog.beerAdded().addListener(BarForm.this, new Signal1.Listener<Beer>() {
-                    public void trigger(Beer beer) {
-                        BeerListItemWidget beerListItem = new BeerListItemWidget(beer);
-                        beerList.getElementAt(row, 0).removeWidget(addBeer);
-                        beerList.getElementAt(row, 0).refresh();
-                        beerList.getElementAt(row, 0).addWidget(beerListItem);
-                        row++;
-                        beerList.getElementAt(row, 0).addWidget(addBeer);
-                    }
-                });
-                dialog.show();
-            }       
-        });
+        if (Application.getInstance().getLoggedInUser() != null) {
+            final WPushButton addBeer = new WPushButton(tr("bar-form.add-beer"));
+            beerList.getElementAt(row, 0).addWidget(addBeer);
+            addBeer.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
+                public void trigger(WMouseEvent arg) {
+                    AddBeerListItemDialog dialog = new AddBeerListItemDialog(bar.getId());
+                    dialog.beerAdded().addListener(BarForm.this, new Signal1.Listener<Beer>() {
+                        public void trigger(Beer beer) {
+                            BeerListItemWidget beerListItem = new BeerListItemWidget(beer);
+                            beerList.getElementAt(row, 0).removeWidget(addBeer);
+                            beerList.getElementAt(row, 0).refresh();
+                            beerList.getElementAt(row, 0).addWidget(beerListItem);
+                            row++;
+                            beerList.getElementAt(row, 0).addWidget(addBeer);
+                        }
+                    });
+                    dialog.show();
+                }       
+            });
+        }
         main.bindWidget("beer-list", beerList);
         main.bindWidget("comments", new BarCommentsWidget(bar,comments, app.getLoggedInUser(),null));
-        WPushButton addToFavorites = new WPushButton(tr("bar-form.add-to-favorites"));
-        //connect a listener to the button
-        addToFavorites.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
-            public void trigger(WMouseEvent arg) {
-                boolean added = addToFavorites(bar);
-                
-                String prefix = "bar-form.add-to-favorites.";
-                WString status = tr(prefix + "status");
-                
-                final WMessageBox mb;
-                if (added) {
-                    mb = new WMessageBox(status, 
-                            tr(prefix + "added").arg(bar.getName()), 
-                            Icon.Information,
-                            EnumSet.of(StandardButton.Ok));
-                } else {
-                   mb = new WMessageBox(status, 
-                            tr(prefix+"not-added").arg(bar.getName()),
-                            Icon.Warning,
-                            EnumSet.of(StandardButton.Ok));
-                }
-                mb.setModal(true);
-                mb.buttonClicked().addListener(BarForm.this, new Signal1.Listener<StandardButton>() {
-                    public void trigger(StandardButton sb) {
-                        mb.done(DialogCode.Accepted);
+        if (Application.getInstance().getLoggedInUser() != null) {
+            WPushButton addToFavorites = new WPushButton(tr("bar-form.add-to-favorites"));
+            //connect a listener to the button
+            addToFavorites.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
+                public void trigger(WMouseEvent arg) {
+                    boolean added = addToFavorites(bar);
+                    
+                    String prefix = "bar-form.add-to-favorites.";
+                    WString status = tr(prefix + "status");
+                    
+                    final WMessageBox mb;
+                    if (added) {
+                        mb = new WMessageBox(status, 
+                                tr(prefix + "added").arg(bar.getName()), 
+                                Icon.Information,
+                                EnumSet.of(StandardButton.Ok));
+                    } else {
+                       mb = new WMessageBox(status, 
+                                tr(prefix+"not-added").arg(bar.getName()),
+                                Icon.Warning,
+                                EnumSet.of(StandardButton.Ok));
                     }
-                });
-                mb.show();
-            }
-        });
-        main.bindWidget("add-to-favorites", addToFavorites);
+                    mb.setModal(true);
+                    mb.buttonClicked().addListener(BarForm.this, new Signal1.Listener<StandardButton>() {
+                        public void trigger(StandardButton sb) {
+                            mb.done(DialogCode.Accepted);
+                        }
+                    });
+                    mb.show();
+                }
+            });
+            main.bindWidget("add-to-favorites", addToFavorites);
+        } else {
+            main.bindWidget("add-to-favorites", null);
+        }
     }
     
     private boolean addToFavorites(Bar bar) {

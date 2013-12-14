@@ -65,14 +65,18 @@ public class BarSearchForm extends WContainerWidget {
             }
         });
         
-        WPushButton addBarButton = new WPushButton(tr("bar-search.add-bar"));
-        main.bindWidget("add-bar", addBarButton);
-        addBarButton.clicked().addListener(this, new Signal.Listener() {
-            public void trigger() {
-                AddBarDialog dialog = new AddBarDialog(BarSearchForm.this);
-                dialog.show();
-            }
-        });
+        if (Application.getInstance().getLoggedInUser() != null) {
+            WPushButton addBarButton = new WPushButton(tr("bar-search.add-bar"));
+            main.bindWidget("add-bar", addBarButton);
+            addBarButton.clicked().addListener(this, new Signal.Listener() {
+                public void trigger() {
+                    AddBarDialog dialog = new AddBarDialog(BarSearchForm.this);
+                    dialog.show();
+                }
+            });
+        } else {
+            main.bindWidget("add-bar", null);
+        }
         
         if (needle != null) {
             try {

@@ -58,38 +58,42 @@ public class BeerForm extends WContainerWidget {
         //we bind the beer's picture url to the template
         main.bindString("picture-url", beer.getPictureUrl());
         
-        //add the "add to favorites" button to the template
-        WPushButton addToFavorites = new WPushButton(tr("beer-form.add-to-favorites"));
-        //connect a listener to the button
-        addToFavorites.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
-            public void trigger(WMouseEvent arg) {
-                boolean added = addToFavorites(beer);
-                
-                String prefix = "beer-form.add-to-favorites.";
-                WString status = tr(prefix + "status");
-                
-                final WMessageBox mb;
-                if (added) {
-                    mb = new WMessageBox(status, 
-                            tr(prefix + "added").arg(beer.getName()), 
-                            Icon.Information,
-                            EnumSet.of(StandardButton.Ok));
-                } else {
-                   mb = new WMessageBox(status, 
-                            tr(prefix+"not-added").arg(beer.getName()),
-                            Icon.Warning,
-                            EnumSet.of(StandardButton.Ok));
-                }
-                mb.setModal(true);
-                mb.buttonClicked().addListener(BeerForm.this, new Signal1.Listener<StandardButton>() {
-                    public void trigger(StandardButton sb) {
-                        mb.done(DialogCode.Accepted);
+        if (Application.getInstance().getLoggedInUser() != null) {
+            //add the "add to favorites" button to the template
+            WPushButton addToFavorites = new WPushButton(tr("beer-form.add-to-favorites"));
+            //connect a listener to the button
+            addToFavorites.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
+                public void trigger(WMouseEvent arg) {
+                    boolean added = addToFavorites(beer);
+                    
+                    String prefix = "beer-form.add-to-favorites.";
+                    WString status = tr(prefix + "status");
+                    
+                    final WMessageBox mb;
+                    if (added) {
+                        mb = new WMessageBox(status, 
+                                tr(prefix + "added").arg(beer.getName()), 
+                                Icon.Information,
+                                EnumSet.of(StandardButton.Ok));
+                    } else {
+                       mb = new WMessageBox(status, 
+                                tr(prefix+"not-added").arg(beer.getName()),
+                                Icon.Warning,
+                                EnumSet.of(StandardButton.Ok));
                     }
-                });
-                mb.show();
-            }
-        });
-        main.bindWidget("add-to-favorites", addToFavorites);
+                    mb.setModal(true);
+                    mb.buttonClicked().addListener(BeerForm.this, new Signal1.Listener<StandardButton>() {
+                        public void trigger(StandardButton sb) {
+                            mb.done(DialogCode.Accepted);
+                        }
+                    });
+                    mb.show();
+                }
+            });
+            main.bindWidget("add-to-favorites", addToFavorites);
+        } else {
+            main.bindWidget("add-to-favorites", null);
+        }
         
         //set the url and text, used in the "in which bars can I find beer-xxx" anchor
         main.bindString("find-bars-url", Application.getInstance().resolveRelativeUrl("/find_nearby_bars/" + beer.getName()));
@@ -101,43 +105,51 @@ public class BeerForm extends WContainerWidget {
         }
         main.bindWidget("tags", tagContainer);
         
-        //add the "add tag" button to the main template
-        WPushButton addTag = new WPushButton(tr("beer-form.add-tag"));
-        addTag.addStyleClass("btn-small");
-        //connect a listener to the button
-        addTag.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
-            public void trigger(WMouseEvent arg) {
-                AddTagDialog dialog = new AddTagDialog(beer, BeerForm.this);
-                dialog.tagAdded().addListener(BeerForm.this, new Signal1.Listener<Tag>() {
-                    public void trigger(Tag tag) {
-                        tagAdded(tag);
-                    }
-                });
-                dialog.show();
-            }
-        });
-        main.bindWidget("add-tag", addTag);
+        if (Application.getInstance().getLoggedInUser() != null) {
+            //add the "add tag" button to the main template
+            WPushButton addTag = new WPushButton(tr("beer-form.add-tag"));
+            addTag.addStyleClass("btn-small");
+            //connect a listener to the button
+            addTag.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
+                public void trigger(WMouseEvent arg) {
+                    AddTagDialog dialog = new AddTagDialog(beer, BeerForm.this);
+                    dialog.tagAdded().addListener(BeerForm.this, new Signal1.Listener<Tag>() {
+                        public void trigger(Tag tag) {
+                            tagAdded(tag);
+                        }
+                    });
+                    dialog.show();
+                }
+            });
+            main.bindWidget("add-tag", addTag);
+        } else {
+            main.bindWidget("add-tag", null);
+        }
         
         for (Review r : reviews) {
             addReviewWidget(r);
         }
         main.bindWidget("reviews", reviewContainer);
         
-        //add the "add review" button to the main template
-        WPushButton addReview = new WPushButton(tr("beer-form.add-review"));
-        //connect a listener to the button
-        addReview.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
-            public void trigger(WMouseEvent arg) {
-                AddReviewDialog dialog = new AddReviewDialog(beer, BeerForm.this);
-                dialog.reviewAdded().addListener(BeerForm.this, new Signal1.Listener<Review>() {
-                    public void trigger(Review review) {
-                        reviewAdded(review);
-                    }
-                });
-                dialog.show();
-            }
-        });
-        main.bindWidget("add-review", addReview);
+        if (Application.getInstance().getLoggedInUser() != null) {
+            //add the "add review" button to the main template
+            WPushButton addReview = new WPushButton(tr("beer-form.add-review"));
+            //connect a listener to the button
+            addReview.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
+                public void trigger(WMouseEvent arg) {
+                    AddReviewDialog dialog = new AddReviewDialog(beer, BeerForm.this);
+                    dialog.reviewAdded().addListener(BeerForm.this, new Signal1.Listener<Review>() {
+                        public void trigger(Review review) {
+                            reviewAdded(review);
+                        }
+                    });
+                    dialog.show();
+                }
+            });
+            main.bindWidget("add-review", addReview);
+        } else {
+            main.bindWidget("add-review", null);
+        }
         
         updateReviewScore();
     }
