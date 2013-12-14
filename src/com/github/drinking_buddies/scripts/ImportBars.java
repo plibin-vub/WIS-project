@@ -23,9 +23,10 @@ import com.github.drinking_buddies.webservices.google.Geocoding;
 import com.github.drinking_buddies.webservices.google.Geocoding.GoogleGeoCodeResponse.location;
 import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 
+//utility function to import bars from the oude markt Leuven in batch (from a csv file)
 public class ImportBars {
     public static void main(String[] args) throws SQLException, IOException {
-        FileInputStream fstream = new FileInputStream("/Users/plibin0/Dropbox/vub/vub2013-2014/semester1/web information systems/project/data/bars-oudemarkt.csv");
+        FileInputStream fstream = new FileInputStream(args[0]);
         DataInputStream in = new DataInputStream(fstream);
         BufferedReader br = new BufferedReader(new InputStreamReader(in));
         String strLine;
