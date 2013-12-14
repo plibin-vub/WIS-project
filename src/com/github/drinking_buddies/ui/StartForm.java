@@ -96,7 +96,7 @@ public class StartForm extends WContainerWidget {
                         String url = SearchUtils.getBarURL(barSearch.getText());
                         Application app = Application.getInstance();
                         if (url == null) {
-                            app.searchBeers(barSearch.getText());       
+                            app.searchBars(barSearch.getText());       
                         } else {
                            app.internalRedirect(Application.BARS_URL + "/" + url); 
                         }
