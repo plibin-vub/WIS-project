@@ -142,7 +142,7 @@ public class FriendsBarsForm extends WContainerWidget {
                         .fetch();
             for (Record record : r) {
                 GeoLocation loc = GeoLocation.fromRadians(record.getValue(BAR.LOCATION_X),record.getValue(BAR.LOCATION_Y));
-                addBarToMap(map,loc.getLatitudeInDegrees(),loc.getLongitudeInDegrees(),record.getValue(BAR.NAME)+" "+record.getValue(BUDDY.BUDDY_ID.count()));
+                addBarToMap(map,loc.getLatitudeInDegrees(),loc.getLongitudeInDegrees(),record.getValue(BAR.NAME)+" "+(record.getValue(BUDDY.BUDDY_ID.count())-1));
                 Address address=new Address(0, record.getValue(ADDRESS.STREET),  record.getValue(ADDRESS.NUMBER),  record.getValue(ADDRESS.ZIPCODE),  record.getValue(ADDRESS.CITY),  record.getValue(ADDRESS.COUNTRY));
                 Bar bar = new Bar(0,record.getValue(BAR.NAME),0,0,record.getValue(BAR.WEBSITE),null,address,record.getValue(BAR.URL));
                 new BarResultWidget(bar, ResultsContainer);

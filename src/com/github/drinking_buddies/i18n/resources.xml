@@ -74,6 +74,7 @@
 	<message id="user-form.favorite-beers">Favorite beers</message>
 	<message id="user-form.favorite-bars">Favorite bars</message>
 	<message id="user-form.share-location">Share location</message>
+	<message id="user-form.stop-share-location">Stop sharing location</message>
 	<message id="user-form.friend-import">Import your friends from facebook</message>
 	
 	<message id="new-bar-form.title">Add a new bar</message>
@@ -97,6 +98,9 @@
 	<message id="bar-form.add-beer">+ add a beer</message>
 	<message id="bar-form.change-score">Change Score</message>
 	<message id="bar-form.upload">Upload</message>
+	<message id="bar-form.add-to-favorites.status">Status</message>
+	<message id="bar-form.add-to-favorites.added">We added "{1}" to your favorites!</message>
+	<message id="bar-form.add-to-favorites.not-added">We did not add "{1}" to your favorites again!<br/>It already belongs to your list of favorite bars.</message>
 		
 	<message id="add-beer-dialog.title">Add beer to list of available beers at the bar</message>
 	<message id="add-beer-dialog.add-beer">Add beer</message>

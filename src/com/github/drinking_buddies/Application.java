@@ -202,7 +202,7 @@ public class Application extends WApplication {
                 getRoot().addWidget(new BeerSearchForm());
             }
         } else if ("users".equals(parts[0])) {
-            if (parts.length > 1 || true) {
+            if (parts.length > 1 ) {
                  String url = parts[1];
                  Connection conn = null;
                  try {
@@ -215,7 +215,22 @@ public class Application extends WApplication {
                                  .where(USER.URL.equal(url))
                                  .fetchOne();
                      if (r != null) {
-                         getRoot().addWidget(new UserForm(new User(r), null));
+                         Record barRecord
+                         = dsl
+                         .select(BAR.ID,BAR.NAME,BAR.WEBSITE,BAR.URL,BAR.PHOTO, BAR.PHOTO_MIME_TYPE, ADDRESS.ID,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY)
+                         .from(BAR,ADDRESS)
+                         .where(BAR.ID.eq(r.getValue(USER.BAR_ID)))
+                         .and(ADDRESS.ID.eq(BAR.ADDRESS_ID))
+                         .fetchOne();
+                         Bar bar=null;
+                         if(barRecord!=null){
+                             Address address=new Address(barRecord.getValue(ADDRESS.ID), barRecord.getValue(ADDRESS.STREET), barRecord.getValue(ADDRESS.NUMBER)
+                                     , barRecord.getValue(ADDRESS.ZIPCODE), barRecord.getValue(ADDRESS.CITY), barRecord.getValue(ADDRESS.COUNTRY));
+                             bar = new Bar(barRecord.getValue(BAR.ID),barRecord.getValue(BAR.NAME),0,0 , barRecord.getValue(BAR.WEBSITE),null, address,barRecord.getValue(BAR.URL)) ;
+                             
+                         }
+                         
+                         getRoot().addWidget(new UserForm(new User(r), bar));
                      } else {
                          throw new RuntimeException("Unknown user URL");
                      }

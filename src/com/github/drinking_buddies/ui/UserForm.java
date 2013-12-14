@@ -1,5 +1,6 @@
 package com.github.drinking_buddies.ui;
 
+import static com.github.drinking_buddies.jooq.Tables.ADDRESS;
 import static com.github.drinking_buddies.jooq.Tables.USER;
 import static com.github.drinking_buddies.jooq.Tables.BUDDY;
 import static com.github.drinking_buddies.jooq.Tables.BAR;
@@ -12,15 +13,20 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.jooq.DSLContext;
+import org.jooq.InsertResultStep;
+import org.jooq.Record;
 import org.jooq.Record1;
 import org.jooq.Record3;
 import org.jooq.Result;
 
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.db.DBUtils;
+import com.github.drinking_buddies.entities.Address;
 import com.github.drinking_buddies.entities.Bar;
 import com.github.drinking_buddies.entities.Beer;
 import com.github.drinking_buddies.entities.User;
+import com.github.drinking_buddies.jooq.tables.records.UserRecord;
+import com.github.drinking_buddies.jooq.utils.SearchUtils;
 import com.github.drinking_buddies.jwt.ShareLocationHandler;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 import com.github.drinking_buddies.webservices.facebook.Facebook;
@@ -30,8 +36,10 @@ import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 
 import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.Signal2;
+import eu.webtoolkit.jwt.WAnchor;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WImage;
+import eu.webtoolkit.jwt.WLink;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WString;
 import eu.webtoolkit.jwt.WTemplate;
@@ -46,6 +54,10 @@ public class UserForm extends WContainerWidget {
     private User user;
     
     private WTemplate main;
+
+    private WPushButton share;
+
+    private WPushButton stopShare;
     
     public UserForm(User user, Bar currentBar) {
         this.user = user;
@@ -55,8 +67,79 @@ public class UserForm extends WContainerWidget {
         main.bindString("user-pic-url", user.getLargeImageUrl());
         main.bindString("first-name", user.getFirstName());
         main.bindString("last-name", user.getLastName());
+        
+        if (isLoggedInUser(user)) {
+            share = new WPushButton(tr("user-form.share-location"));
+            stopShare = new WPushButton(tr("user-form.stop-share-location"));
+            stopShare.clicked().addListener(this, new Signal.Listener() {
+                    public void trigger() {
+                        removeUserBar(); 
+                    }
+        
+    
+            });
+            ShareLocationHandler slh = new ShareLocationHandler(main, share);
+            main.bindWidget("share-location", share);
+            main.bindWidget("stop-share-location", stopShare);
+            slh.locationShared().addListener(this, new Signal2.Listener<String, String>() {
+                public void trigger(String arg1, String arg2) {
+                    Integer barId=SearchUtils.getClosesedBarId(Double.parseDouble(arg1), Double.parseDouble(arg2)) ;
+                    if(barId!=null){
+                        updateUserWithBar(barId);
+                        
+                    }
+                    System.err.println(arg1+"-"+arg2+" barId:"+barId);
+                }
+            });
+            
+            WPushButton friendImport = new WPushButton(tr("user-form.friend-import"));
+            main.bindWidget("friend-import", friendImport);
+            friendImport.clicked().addListener(this, new Signal.Listener() {
+                public void trigger() {
+                                friendImport(); 
+                        }
+                    
+                
+            });
+        } else {
+            main.bindWidget("share-location", null);
+            main.bindWidget("stop-share-location", null);
+            main.bindWidget("friend-import", null);
+        }
+        setDrinkingInBar(currentBar);
+        updateFavorites(main);
+        
+        WAnchor anchor=new WAnchor(new WLink(WLink.Type.InternalPath,"/"+ Application.FIND_NEARBY_FRIENDS_URL),tr("user-form.find-nearby-friends"));
+        main.bindWidget("find-nearby-friends", anchor);
+        WAnchor findBars=new WAnchor(new WLink(WLink.Type.InternalPath,"/"+ Application.FIND_NEARBY_BARS_URL),tr("user-form.find-nearby-bars"));
+        main.bindWidget("find-nearby-bars", findBars);
+    }
+    
+    protected void removeUserBar() {
+        Application app = Application.getInstance();
+        Connection conn = app.getConnection();
+        DSLContext dsl = DBUtils.createDSLContext(conn);
+        int userId = app.getLoggedInUser().getId();
+        try{
+            dsl.update(USER).set(USER.BAR_ID,0).where(USER.ID.eq(app.getLoggedInUser().getId())).execute();  
+            conn.commit();
+            setDrinkingInBar(null);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            app.closeConnection(conn);
+        }
+    }
+
+    public void setDrinkingInBar(Bar currentBar){
         if (currentBar == null) {
             main.bindWidget("is-drinking-in", null);
+            if(isLoggedInUser(user)){
+                stopShare.hide();
+                share.show();
+            }
+           
         } else {
             WString drinking = tr("user-form.is-drinking-in");
             drinking
@@ -66,37 +149,44 @@ public class UserForm extends WContainerWidget {
             WTemplate t = new WTemplate(tr("is-drinking-in"));
             t.bindString("text", drinking);
             main.bindWidget("is-drinking-in", t);
+            if(isLoggedInUser(user)){
+                share.hide();
+                stopShare.show();
+            }
         }
-        
-        if (isLoggedInUser(user)) {
-            WPushButton b = new WPushButton(tr("user-form.share-location"));
-            ShareLocationHandler slh = new ShareLocationHandler(main, b);
-            main.bindWidget("share-location", b);
-            
-            slh.locationShared().addListener(this, new Signal2.Listener<String, String>() {
-                public void trigger(String arg1, String arg2) {
-                       System.err.println(arg1+"-"+arg2);
-                }
-            });
-        } else {
-            main.bindWidget("share-location", null);
-        }
-        
-        updateFavorites(main);
-        
-        main.bindString("find-nearby-friends-url", Application.FIND_NEARBY_FRIENDS_URL);
-        main.bindString("find-nearby-bars-url", Application.FIND_NEARBY_BARS_URL);
-        WPushButton friendImport = new WPushButton(tr("user-form.friend-import"));
-        main.bindWidget("friend-import", friendImport);
-        friendImport.clicked().addListener(this, new Signal.Listener() {
-            public void trigger() {
-                            friendImport(); 
-                    }
-                
-            
-        });
     }
     
+    protected void updateUserWithBar(Integer barId) {
+        Application app = Application.getInstance();
+        Connection conn = app.getConnection();
+        DSLContext dsl = DBUtils.createDSLContext(conn);
+        int userId = app.getLoggedInUser().getId();
+        try{
+            dsl.update(USER).set(USER.BAR_ID,barId).where(USER.ID.eq(app.getLoggedInUser().getId())).execute();  
+            conn.commit();
+            Record barRecord
+            = dsl
+            .select(BAR.ID,BAR.NAME,BAR.WEBSITE,BAR.URL,BAR.PHOTO, BAR.PHOTO_MIME_TYPE, ADDRESS.ID,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY)
+            .from(BAR,ADDRESS)
+            .where(BAR.ID.eq(barId))
+            .and(ADDRESS.ID.eq(BAR.ADDRESS_ID))
+            .fetchOne();
+            Bar bar=null;
+            if(barRecord!=null){
+                Address address=new Address(barRecord.getValue(ADDRESS.ID), barRecord.getValue(ADDRESS.STREET), barRecord.getValue(ADDRESS.NUMBER)
+                        , barRecord.getValue(ADDRESS.ZIPCODE), barRecord.getValue(ADDRESS.CITY), barRecord.getValue(ADDRESS.COUNTRY));
+                bar = new Bar(barRecord.getValue(BAR.ID),barRecord.getValue(BAR.NAME),0,0 , barRecord.getValue(BAR.WEBSITE),null, address,barRecord.getValue(BAR.URL)) ;
+                
+            }
+            setDrinkingInBar(bar);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            app.closeConnection(conn);
+        }
+    }
+
     protected void friendImport() {
         Application app = Application.getInstance();
         Connection conn = app.getConnection();
@@ -111,7 +201,7 @@ public class UserForm extends WContainerWidget {
                    dsl.insertInto(BUDDY, BUDDY.USER_ID, BUDDY.BUDDY_ID).values(userId, r.getValue(USER.ID)).execute();
                }else{
                    Person p = fb.getUser(friend.getId());
-                   int newUser = dsl
+                   UserRecord newUser = dsl
                    .insertInto(USER,
                                USER.OAUTH_NAME,
                                USER.OAUTH_PROVIDER,
@@ -124,16 +214,18 @@ public class UserForm extends WContainerWidget {
                             p.getFirst_name(),
                             p.getLast_name(),
                             createUserURL(p)
-                            ).returning()
-                    .execute();
-                   dsl.insertInto(BUDDY, BUDDY.USER_ID, BUDDY.BUDDY_ID).values(userId, newUser).execute();
+                            ).returning().fetchOne()
+                    ;
+                   dsl.insertInto(BUDDY, BUDDY.USER_ID, BUDDY.BUDDY_ID).values(userId, newUser.getId()).execute();
                }
             }
             conn.commit();
             
         } catch (RestException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (SQLException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
             app.closeConnection(conn);
