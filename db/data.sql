@@ -9805,6 +9805,8 @@ INSERT INTO "beer" VALUES(9812,'worthy_adversary','Worthy Adversary','6XWJDG');
 INSERT INTO "beer" VALUES(9813,'x6_winter_warmer_wit','x6 Winter Warmer Wit','L6BLfe');
 INSERT INTO "beer" VALUES(9814,'yard_sale','Yard Sale','xvszQV');
 INSERT INTO "beer" VALUES(9815,'yule_bock','Yule Bock','9bsnpC');
+INSERT INTO "beer" VALUES(9816,'westmalle_tripel','Westmalle Tripel','yuxw75');
+INSERT INTO "beer" VALUES(9817,'westmalle_dubbel','Westmalle Dubbel','xsJWJ6');
 INSERT INTO "bar" VALUES(3,'Test1',NULL,'qsdf',3,8.8776874542236328125e-01,8.19517672061920166015e-02,'test1');
 INSERT INTO "bar" VALUES(4,'abc',NULL,'qsmdlfj',4,8.90263915061950683593e-01,7.96571969985961914062e-02,'abc');
 INSERT INTO "address" VALUES(3,'Waversebaan','28','3001','Heverlee','Belgium');
