@@ -269,7 +269,9 @@ public class Application extends WApplication {
                          BigDecimal score= BarQueries.getAvgScore(dsl, id);
                          Address address=new Address(r.getValue(ADDRESS.ID), r.getValue(ADDRESS.STREET), r.getValue(ADDRESS.NUMBER)
                                  , r.getValue(ADDRESS.ZIPCODE), r.getValue(ADDRESS.CITY), r.getValue(ADDRESS.COUNTRY));
-                         Image barPhoto = new Image(r.getValue(BAR.PHOTO), r.getValue(BAR.PHOTO_MIME_TYPE));
+                         Image barPhoto = null;
+                         if (r.getValue(BAR.PHOTO) != null)
+                             barPhoto = new Image(r.getValue(BAR.PHOTO), r.getValue(BAR.PHOTO_MIME_TYPE));
                          double scoreValue=0;
                          if(score!=null){
                              scoreValue=score.doubleValue();
