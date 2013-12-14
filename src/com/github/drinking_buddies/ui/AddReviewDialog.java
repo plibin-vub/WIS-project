@@ -20,6 +20,7 @@ import com.github.drinking_buddies.ui.utils.TemplateUtils;
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WDialog;
 import eu.webtoolkit.jwt.WDoubleValidator;
+import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLineEdit;
 import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WObject;
@@ -40,6 +41,8 @@ public class AddReviewDialog extends WDialog {
     public AddReviewDialog(final Beer beer, WObject parent) {
         super(tr("add-review-dialog.title").arg(beer.getName()), parent);
         
+        this.resize(new WLength(600), WLength.Auto);
+        
         final WTemplate main = new WTemplate(tr("add-review-dialog"), this.getContents());
         TemplateUtils.configureDefault(Application.getInstance(), main);
         
@@ -58,6 +61,7 @@ public class AddReviewDialog extends WDialog {
         
         final WTextArea text = new WTextArea();
         main.bindWidget("text", text);
+        text.setWidth(new WLength(550));
         
         WPushButton ok = new WPushButton(tr("add-review-dialog.ok"));
         main.bindWidget("ok", ok);
