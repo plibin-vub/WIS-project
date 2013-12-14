@@ -11,7 +11,7 @@ package com.github.drinking_buddies.jooq.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Bar extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jooq.tables.records.BarRecord> {
 
-	private static final long serialVersionUID = -20944622;
+	private static final long serialVersionUID = -1450217079;
 
 	/**
 	 * The singleton instance of <code>bar</code>
@@ -40,6 +40,11 @@ public class Bar extends org.jooq.impl.TableImpl<com.github.drinking_buddies.joo
 	 * The column <code>bar.photo</code>. 
 	 */
 	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.BarRecord, byte[]> PHOTO = createField("photo", org.jooq.impl.SQLDataType.BLOB, this);
+
+	/**
+	 * The column <code>bar.photo_mime_type</code>. 
+	 */
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.BarRecord, java.lang.String> PHOTO_MIME_TYPE = createField("photo_mime_type", org.jooq.impl.SQLDataType.CLOB, this);
 
 	/**
 	 * The column <code>bar.website</code>. 
