@@ -11,6 +11,7 @@ public class User {
     private String oAuthName;
     private String oAuthProvider;
     private String url;
+    private String token;
     
     public User(Record r) {
         id = r.getValue(USER.ID);
@@ -51,5 +52,13 @@ public class User {
     
     public void setUrl(String url) {
         this.url = url;
+    }
+    
+    public String getToken() {
+        return token;
+    }
+    
+    public void setToken(String token) {
+        this.token = token;
     }
 }

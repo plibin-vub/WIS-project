@@ -153,7 +153,9 @@ public class StartForm extends WContainerWidget {
             conn.commit();
             
             if (r != null) {
-                app.login(new User(r));
+                User user = new User(r);
+                user.setToken(token.getValue());
+                app.login(user);
             } else {
                 throw new RuntimeException("Error occured when logging in!");
             }

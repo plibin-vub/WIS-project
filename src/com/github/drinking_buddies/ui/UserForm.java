@@ -1,12 +1,14 @@
 package com.github.drinking_buddies.ui;
 
 import static com.github.drinking_buddies.jooq.Tables.USER;
+import static com.github.drinking_buddies.jooq.Tables.BUDDY;
 import static com.github.drinking_buddies.jooq.Tables.BAR;
 import static com.github.drinking_buddies.jooq.Tables.BEER;
 import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BAR;
 import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BEER;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.jooq.DSLContext;
@@ -23,6 +25,7 @@ import com.github.drinking_buddies.jwt.ShareLocationHandler;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 import com.github.drinking_buddies.webservices.facebook.Facebook;
 import com.github.drinking_buddies.webservices.facebook.Friend;
+import com.github.drinking_buddies.webservices.facebook.Person;
 import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 
 import eu.webtoolkit.jwt.Signal;
@@ -100,14 +103,38 @@ public class UserForm extends WContainerWidget {
         DSLContext dsl = DBUtils.createDSLContext(conn);
         int userId = app.getLoggedInUser().getId();
         try{
-            String token=dsl.select(USER.OAUTH_NAME).from(USER).where(USER.ID.eq(userId)).fetchOne().getValue(USER.OAUTH_NAME);
-            Facebook fb=new Facebook(token);
+            Facebook fb=new Facebook(app.getLoggedInUser().getToken());
             List<Friend> friends=fb.getFriends();
             for (Friend friend : friends) {
-                dsl.select(USER.ID).from(USER).where(USER.FIRST_NAME.eq(friend.getName())).fetchOne().getValue(USER.ID);
+               Record1<Integer> r = dsl.select(USER.ID).from(USER).where(USER.OAUTH_NAME.eq(friend.getId())).fetchAny();
+               if(r!=null){
+                   dsl.insertInto(BUDDY, BUDDY.USER_ID, BUDDY.BUDDY_ID).values(userId, r.getValue(USER.ID)).execute();
+               }else{
+                   Person p = fb.getUser(friend.getId());
+                   int newUser = dsl
+                   .insertInto(USER,
+                               USER.OAUTH_NAME,
+                               USER.OAUTH_PROVIDER,
+                               USER.FIRST_NAME,
+                               USER.LAST_NAME,
+                               USER.URL
+                               )
+                    .values(p.getId(),
+                            "facebook",
+                            p.getFirst_name(),
+                            p.getLast_name(),
+                            createUserURL(p)
+                            ).returning()
+                    .execute();
+                   dsl.insertInto(BUDDY, BUDDY.USER_ID, BUDDY.BUDDY_ID).values(userId, newUser).execute();
+               }
             }
+            conn.commit();
             
         } catch (RestException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
@@ -115,6 +142,13 @@ public class UserForm extends WContainerWidget {
         }
        
         
+    }
+    
+    private String createUserURL(Person p) {
+        //in order to be complete, 
+        //we should check that this URL is not in the database yet:
+        //if that would be the case we could add an incrementing number to assure uniqueness
+        return p.getFirst_name().toLowerCase().replace(" ", "_") + "." + p.getLast_name().toLowerCase().replace(" ", "_");
     }
 
     private void updateFavorites(WTemplate main) {
