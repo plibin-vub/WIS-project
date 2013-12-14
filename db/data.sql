@@ -10235,4 +10235,6 @@ Highly recommended for any Belgian beer fan.
 Visiting the brewery is also worth the while!','2013-12-14 19:39:47');
 INSERT INTO "bar" VALUES(48,'In de vrede',NULL,NULL,NULL,48,0.888285994529724,0.0475079528987408,'in_de_vrede');
 INSERT INTO "beer2_bar" VALUES(6521,48);
+INSERT INTO "bar" VALUES(50,'The capital',NULL,NULL,NULL,50,0.888009071350098,0.0820348709821701,'the_capital');
+INSERT INTO "beer2_bar" VALUES(6521,50);
 commit;
