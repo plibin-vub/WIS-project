@@ -9873,4 +9873,9 @@ INSERT INTO "beer_tag" VALUES(3,'Blond tripel');
 INSERT INTO "beer2_beer_tag" VALUES(1,9816);
 INSERT INTO "beer2_beer_tag" VALUES(2,9816);
 INSERT INTO "beer2_beer_tag" VALUES(3,9816);
+
+INSERT INTO "review" VALUES(1,9816,1,4.5,4.80000019073486,4.90000009536743,4.5,'A really nice trappist.
+Golden blonde, with a thick and dense white head.
+Peach and citrus, some biscuit malt, spice, and that signature indescribable Belgian yeast aroma.
+I really love the tripels that aren''t too focused on being sweet.','2013-12-14 10:54:26');
 commit;
