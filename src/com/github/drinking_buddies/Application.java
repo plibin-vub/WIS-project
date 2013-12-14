@@ -425,8 +425,8 @@ public class Application extends WApplication {
     private JSignal2<String,String> pingSignal() { return pingSignal; }
     
     private void show404() {
-        //getRoot().addWidget(new WText("404"));
-        
+        getRoot().clear();
+        getRoot().addWidget(new WText("404: Could not find the resource you specified!"));
     }
 
     public static Application getInstance() {
