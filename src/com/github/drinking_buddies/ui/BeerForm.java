@@ -92,7 +92,7 @@ public class BeerForm extends WContainerWidget {
         main.bindWidget("add-to-favorites", addToFavorites);
         
         //set the url and text, used in the "in which bars can I find beer-xxx" anchor
-        main.bindString("find-bars-url", Application.getInstance().resolveRelativeUrl("/find-bars-with-beer/" + beer.getName()));
+        main.bindString("find-bars-url", Application.getInstance().resolveRelativeUrl("/find_nearby_bars/" + beer.getName()));
         main.bindString("find-bars-text", tr("beer-form.in-which-bar-can-i-find").arg(beer.getName()));
                
         //add tagwidgets to the main template

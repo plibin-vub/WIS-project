@@ -59,21 +59,22 @@
 						<div>${tr:beer-form.favored-by}: ${favored-by}</div>
 						<div>${tr:beer-form.score}: ${score} / ${highest-score}</div>
 						<a target="_blank" href="${find-bars-url}">${find-bars-text}</a>
+						<div style="padding-bottom:2px">${add-to-favorites}</div>
+						<object type="text/html" data="${facebook}"></object>
 			</div>	
 			<div class="span6" >	
-					<img src="${picture-url}" />
+					<img src="${picture-url}" style="height:150px"/>
 				</div>
 		</div>
 		<div class="row-fluid">
-			<div style="padding-bottom:2px">${add-to-favorites}</div>
-			<object type="text/html" data="${facebook}"></object>
-			<div class="container-fluid span12" >
-					<div class="span1">${tr:beer-form.tags}:</div> <div>${tags}</div> <div class="span1">${add-tag}</div>
+
+			<div class="row-fluid" >
+					<h3>${tr:beer-form.tags}:</h3> <div>${tags}</div> <div class="span1">${add-tag}</div>
 			</div>
 		</div>
 		<div class="row-fluid">
-			<div>${tr:beer-form.reviews}:</div>
-			${add-review}
+			<h3>${tr:beer-form.reviews}:</h3>
+			<div style="padding-bottom:5px">${add-review}</div>
 			${reviews}
 		</div>
 		</div>
@@ -255,7 +256,7 @@
 				${text}
 			</div>
 			<div class="pull-right">	
-				${cancel} ${post}
+				${clear} ${post}
 			</div>
 			</div>
 		</div>
@@ -288,9 +289,6 @@
 			</div>
 						
 					<div class="span4">
-						<div class="row-fluid">
-						<div class="span4">${tr:bar-form.website}:</div><div class="span8"> ${website}</div>
-						</div>
 						<div class="row-fluid">
 						<div class="span4">${tr:bar-form.address}:</div><div class="span8"> ${address1}</div>
 						</div>
@@ -340,9 +338,6 @@
 				<label class="control-label" for="inputName">${tr:new-bar-form.name}:</label> ${bar}
 				</div>
 				<div class="control-group">
-				<label class="control-label" for="inputWebsite">${tr:new-bar-form.website}:</label> ${website}
-				</div>
-				<div class="control-group">
 				<label class="control-label" for="inputStreet">${tr:new-bar-form.street}:</label> ${street} 
 				</div>
 				<div class="control-group">
@@ -390,7 +385,7 @@
 	<div class="center">${header}
 		
 		
-		<span>${tr:bar-search.select-bar}:</span>
+		<h2>${tr:bar-search.select-bar}:</h2>
 		<div class="input-append">${field}  ${find}</div>
 		${results}
 		${add-bar}

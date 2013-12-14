@@ -2,14 +2,15 @@ package com.github.drinking_buddies.ui;
 
 
 
+import static com.github.drinking_buddies.jooq.Tables.BAR;
 import static com.github.drinking_buddies.jooq.Tables.BAR2_BAR_SCORE;
 import static com.github.drinking_buddies.jooq.Tables.BAR_SCORE;
-import static com.github.drinking_buddies.jooq.Tables.BAR;
 
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -82,7 +83,8 @@ public class BarForm extends WContainerWidget {
         sb.setRange(0, 10);
         sb.setDecimals(2);
         sb.addStyleClass("input-mini");
-        sb.setValue(bar.getScore());
+        double score = Double.parseDouble(new DecimalFormat("#.##").format(bar.getScore()));
+        sb.setValue(score);
         sb.setSingleStep(1);
         main.bindWidget("score", sb);
         final WPushButton changeScore = new WPushButton(tr("bar-form.change-score"));

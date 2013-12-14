@@ -13,7 +13,7 @@
 	<message id="beer-form.add-to-favorites">Add to favorites</message>
 	<message id="beer-form.tags">Tags</message>
 	<message id="beer-form.add-tag">Add tag</message>
-	<message id="beer-form.in-which-bar-can-i-find">In which bars can I find {1}</message>
+	<message id="beer-form.in-which-bar-can-i-find">In which bars can I find {1}?</message>
 	<message id="beer-form.reviews">Reviews</message>
 	<message id="beer-form.add-review">Add review</message>
 	<message id="beer-form.add-to-favorites.status">Status</message>
@@ -49,7 +49,7 @@
 	<message id="comments.please-log-in">Please log in to post a comment</message>
 	
 	<message id="add-comment.leave-a-new-comment">Leave a new comment!</message>
-	<message id="add-comment.cancel">Cancel</message>
+	<message id="add-comment.clear">Clear</message>
 	<message id="add-comment.post">Post</message>
 	
 	<message id="comment.posted-by">Posted by</message>

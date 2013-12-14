@@ -19,7 +19,7 @@ public class AddCommentWidget extends WTemplate {
     
     private WTextArea text;
     private WPushButton post;
-    private WPushButton cancel;
+    private WPushButton clear;
     
     public AddCommentWidget(User poster) {
         this(poster, null);
@@ -44,9 +44,9 @@ public class AddCommentWidget extends WTemplate {
                 }
             }
         });
-        cancel = new WPushButton(tr("add-comment.cancel"));
-        this.bindWidget("cancel", cancel);
-        cancel.clicked().addListener(this, new Signal1.Listener<WMouseEvent>(){
+        clear = new WPushButton(tr("add-comment.clear"));
+        this.bindWidget("clear", clear);
+        clear.clicked().addListener(this, new Signal1.Listener<WMouseEvent>(){
             public void trigger(WMouseEvent arg0) {
                 text.setText("");
             }            
