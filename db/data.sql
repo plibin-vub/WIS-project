@@ -9867,4 +9867,5 @@ INSERT INTO "bar2_bar_score" VALUES(4,28);
 INSERT INTO "bar2_bar_score" VALUES(4,29);
 INSERT INTO "bar2_bar_score" VALUES(4,30);
 INSERT INTO "user" VALUES(1,'Pieter','Libin','1044231673','facebook','pieter.libin',NULL);
+INSERT INTO "user" VALUES(2,'Tom','De Bie','788972961','facebook','tom.de_bie',NULL);
 commit;
