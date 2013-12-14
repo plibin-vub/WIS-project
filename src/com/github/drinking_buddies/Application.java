@@ -246,8 +246,8 @@ public class Application extends WApplication {
                                  .and(ADDRESS.ID.eq(BAR.ADDRESS_ID))
                                  .fetchOne();
                          if(r==null){
-                             //TODO show error message in stead of 404
-                             show404();
+                             getRoot().clear();
+                             getRoot().addWidget(new WText("Could not find bar with url \"" + barURL + "\""));
                              return;
                          }
                          int id=r.getValue(BAR.ID);

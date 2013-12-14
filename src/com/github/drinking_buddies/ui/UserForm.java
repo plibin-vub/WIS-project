@@ -132,10 +132,8 @@ public class UserForm extends WContainerWidget {
             conn.commit();
             
         } catch (RestException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
             app.closeConnection(conn);
