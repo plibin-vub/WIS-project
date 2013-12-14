@@ -208,7 +208,7 @@ public class Application extends WApplication {
                 getRoot().addWidget(new BeerSearchForm());
             }
         } else {
-            //show 404
+            show404();
         }
         if ("users".equals(parts[0])) {
             
@@ -237,7 +237,7 @@ public class Application extends WApplication {
                  }
             }
         } else {
-            //show 404
+            show404();
         }
         if (BARS_URL.equals(parts[0])) {
             if(parts.length>1) {
