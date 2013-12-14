@@ -6514,7 +6514,7 @@ INSERT INTO "beer" VALUES(6517,'town_of_mendon_new_york_bicentenniale','Town of 
 INSERT INTO "beer" VALUES(6518,'toxic_sludge','Toxic Sludge','rJa6Ml');
 INSERT INTO "beer" VALUES(6519,'toyon_brut','Toyon Brut','QsGPS1');
 INSERT INTO "beer" VALUES(6520,'traffic_light','Traffic Light','vhzrJb');
-INSERT INTO "beer" VALUES(6521,'trappist_westvleteren_xii','Trappist Westvleteren XII','OkLgE4');
+INSERT INTO "beer" VALUES(6521,'westvleteren_xii','Westvleteren XII','OkLgE4');
 INSERT INTO "beer" VALUES(6522,'travelling_jon''s_best_bitter','Travelling Jon''s Best Bitter','X7QIcw');
 INSERT INTO "beer" VALUES(6523,'traverse_ale','Traverse Ale','9QurFK');
 INSERT INTO "beer" VALUES(6524,'trickster_twilight','Trickster Twilight','JfReA2');
