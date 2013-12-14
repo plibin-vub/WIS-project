@@ -309,7 +309,7 @@
 						</div>
 					</div>
 					<div class="span4">
-						<div>${tr:bar-form.beerlist-tile}</div>
+						<h4>${tr:bar-form.beerlist-tile}:</h4>
 						${beer-list}	
 					</div>	
 		</div>
@@ -332,30 +332,47 @@
 	</message>
 	
 	<message id="new-bar-form">	
-		<form class="form-horizontal">
 			<div>
 				<div class="control-group">
-				<label class="control-label" for="inputName">${tr:new-bar-form.name}:</label> ${bar}
+				<label class="control-label" for="inputName">${tr:new-bar-form.name}:</label> 
+				<span class="controls">
+				${bar}
+				</span>
 				</div>
 				<div class="control-group">
-				<label class="control-label" for="inputStreet">${tr:new-bar-form.street}:</label> ${street} 
+				<label class="control-label" for="inputStreet">${tr:new-bar-form.street}:</label> 
+				<span class="controls">
+				${street} 
+				</span>
 				</div>
 				<div class="control-group">
-				<label class="control-label" for="inputNumber">${tr:new-bar-form.number}:</label> ${number} 
+				<label class="control-label" for="inputNumber">${tr:new-bar-form.number}:</label> 
+				<span class="controls">
+				${number} 
+				</span>
 				</div>
 				<div class="control-group">
-				<label class="control-label" for="inputZipcode">${tr:new-bar-form.zipcode}:</label> ${zipcode} 
+				<label class="control-label" for="inputZipcode">${tr:new-bar-form.zipcode}:</label> 
+				<span class="controls">
+				${zipcode} 
+				</span>
 				</div>
 				<div class="control-group">
-				<label class="control-label" for="inputCity">${tr:new-bar-form.city}:</label> ${city}
+				<label class="control-label" for="inputCity">${tr:new-bar-form.city}:</label> 
+				<span class="controls">
+				${city}
+				</span>
 				</div>
 				<div class="control-group">
-				<label class="control-label" for="inputCountry">${tr:new-bar-form.country}:</label> ${country}
+				<label class="control-label" for="inputCountry">${tr:new-bar-form.country}:</label> 
+				<span class="controls">
+				${country}
+				</span>
 				</div>
-				<div class="controls">${ok} ${cancel}</div>
+				<div class="form-actions">
+					<div class="controls">${ok} ${cancel}</div>
+				</div>		
 			</div>
-			
-		</form>
 	</message>
 	
 	<message id="beer-search-form">

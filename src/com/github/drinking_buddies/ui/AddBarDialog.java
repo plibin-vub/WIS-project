@@ -13,7 +13,6 @@ import org.jooq.Result;
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Address;
-import com.github.drinking_buddies.entities.Review;
 import com.github.drinking_buddies.geolocation.GeoLocation;
 import com.github.drinking_buddies.jooq.tables.records.AddressRecord;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
@@ -26,7 +25,7 @@ import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.StandardButton;
 import eu.webtoolkit.jwt.WDialog;
-import eu.webtoolkit.jwt.WDoubleValidator;
+import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLineEdit;
 import eu.webtoolkit.jwt.WMessageBox;
 import eu.webtoolkit.jwt.WMouseEvent;
@@ -40,6 +39,9 @@ import eu.webtoolkit.jwt.WValidator.State;
 public class AddBarDialog extends WDialog {
     public AddBarDialog(WObject parent) {
         super(tr("new-bar-form.title").arg("Add new Bar"), parent);
+        
+        resize(new WLength(400), WLength.Auto);
+        
         final WTemplate main = new WTemplate(tr("new-bar-form"),
                 this.getContents());
         TemplateUtils.configureDefault(Application.getInstance(), main);
