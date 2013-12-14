@@ -241,7 +241,7 @@ public class BarForm extends WContainerWidget {
             conn = app.getConnection();
             DSLContext dsl = DBUtils.createDSLContext(conn);
             BarScoreRecord r = dsl.insertInto(BAR_SCORE,BAR_SCORE.POST_TIME,BAR_SCORE.SCORE,BAR_SCORE.USER_ID)
-            .values(DateUtils.javaDateToSqliteFormat(new Date()),(new Double(value)).intValue(),1).returning().fetchOne();
+            .values(DateUtils.javaDateToSqliteFormat(new Date()),(float)value,1).returning().fetchOne();
             dsl.insertInto(BAR2_BAR_SCORE,BAR2_BAR_SCORE.BAR_ID,BAR2_BAR_SCORE.BAR_SCORE_ID)
             .values(id,r.getId()).execute();
             conn.commit();

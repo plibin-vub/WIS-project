@@ -11,7 +11,7 @@ package com.github.drinking_buddies.jooq.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BarScore extends org.jooq.impl.TableImpl<com.github.drinking_buddies.jooq.tables.records.BarScoreRecord> {
 
-	private static final long serialVersionUID = -1067623662;
+	private static final long serialVersionUID = 1988852416;
 
 	/**
 	 * The singleton instance of <code>bar_score</code>
@@ -34,7 +34,7 @@ public class BarScore extends org.jooq.impl.TableImpl<com.github.drinking_buddie
 	/**
 	 * The column <code>bar_score.score</code>. 
 	 */
-	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.BarScoreRecord, java.lang.Integer> SCORE = createField("score", org.jooq.impl.SQLDataType.INTEGER, this);
+	public final org.jooq.TableField<com.github.drinking_buddies.jooq.tables.records.BarScoreRecord, java.lang.Float> SCORE = createField("score", org.jooq.impl.SQLDataType.REAL, this);
 
 	/**
 	 * The column <code>bar_score.post_time</code>. 

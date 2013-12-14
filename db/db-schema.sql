@@ -119,7 +119,7 @@ CREATE TABLE bar2_bar_comment (
 
 CREATE TABLE bar_score (
    id			INTEGER		PRIMARY KEY,
-   score		INTEGER,
+   score		REAL,
    post_time	CHAR(16),
    user_id		INTEGER,
    FOREIGN KEY (user_id) REFERENCES user(id)
