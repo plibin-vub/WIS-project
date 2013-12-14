@@ -3,22 +3,18 @@ package com.github.drinking_buddies;
 import static com.github.drinking_buddies.jooq.Tables.ADDRESS;
 import static com.github.drinking_buddies.jooq.Tables.BAR;
 import static com.github.drinking_buddies.jooq.Tables.BEER;
-import static com.github.drinking_buddies.jooq.Tables.BEER2_BEER_TAG;
 import static com.github.drinking_buddies.jooq.Tables.BEER2_BAR;
+import static com.github.drinking_buddies.jooq.Tables.BEER2_BEER_TAG;
 import static com.github.drinking_buddies.jooq.Tables.BEER_TAG;
 import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BAR;
 import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BEER;
 import static com.github.drinking_buddies.jooq.Tables.REVIEW;
-import static com.github.drinking_buddies.jooq.Tables.REVIEW_COMMENT;
 import static com.github.drinking_buddies.jooq.Tables.USER;
-import static com.github.drinking_buddies.jooq.Tables.BAR_COMMENT;
-import static com.github.drinking_buddies.jooq.Tables.BAR2_BAR_COMMENT;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -28,7 +24,6 @@ import org.jooq.Record;
 import org.jooq.Record2;
 import org.jooq.Record3;
 import org.jooq.Result;
-import org.jooq.TableLike;
 
 import com.github.drinking_buddies.config.Configuration;
 import com.github.drinking_buddies.db.DBUtils;
@@ -41,6 +36,7 @@ import com.github.drinking_buddies.entities.Review;
 import com.github.drinking_buddies.entities.Tag;
 import com.github.drinking_buddies.entities.User;
 import com.github.drinking_buddies.jooq.queries.BarQueries;
+import com.github.drinking_buddies.jooq.utils.SearchUtils;
 import com.github.drinking_buddies.ui.BarForm;
 import com.github.drinking_buddies.ui.BarSearchForm;
 import com.github.drinking_buddies.ui.BeerForm;
@@ -49,11 +45,9 @@ import com.github.drinking_buddies.ui.FriendsBarsForm;
 import com.github.drinking_buddies.ui.NearbyBarsForm;
 import com.github.drinking_buddies.ui.StartForm;
 import com.github.drinking_buddies.ui.UserForm;
-import com.github.drinking_buddies.ui.utils.DateUtils;
 import com.github.drinking_buddies.webservices.brewerydb.BreweryDb;
 import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 
-import eu.webtoolkit.jwt.JSignal1;
 import eu.webtoolkit.jwt.JSignal2;
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.Signal2;
@@ -236,9 +230,9 @@ public class Application extends WApplication {
             if(parts.length>1) {
                 final String barURL = parts[1];
                 Bar bar=null;
+                List<Comment> comments = null;
                 ArrayList<Beer> beers=new ArrayList<Beer>();     
                      Connection conn = null;
-                     List<Comment> comments = new ArrayList<Comment>();
                     try {
                          conn = DBUtils.getConnection();
                          DSLContext dsl = DBUtils.createDSLContext(conn);
@@ -281,29 +275,9 @@ public class Application extends WApplication {
                              scoreValue=score.doubleValue();
                          }
                          bar = new Bar(id,r.getValue(BAR.NAME),favoredBy,scoreValue , r.getValue(BAR.WEBSITE),barPhoto, address,barURL) ;
+
+                         comments = SearchUtils.getBarComments(dsl, bar.getId());
                          
-                         Result<Record> commentResults 
-                         = dsl
-                             .select()
-                             .from(BAR_COMMENT,BAR2_BAR_COMMENT)
-                             .where(BAR2_BAR_COMMENT.BAR_ID.equal(bar.getId())).and(BAR2_BAR_COMMENT.BAR_COMMENT_ID.eq(BAR_COMMENT.ID))
-                             .orderBy(BAR_COMMENT.TIMESTAMP, BAR_COMMENT.ID)
-                             .fetch();
-                     
-                     for (Record comment : commentResults) {
-                         String text = comment.getValue(BAR_COMMENT.TEXT);
-                         Date postDate = DateUtils.sqliteDateToJavaDate(comment.getValue(BAR_COMMENT.TIMESTAMP));
-                         
-                         Record userRecord
-                         = dsl
-                             .select()
-                             .from(USER)
-                             .where(USER.ID.eq(comment.getValue(BAR_COMMENT.USER_ID)))
-                             .fetchOne();   
-                         User poster = new User(userRecord);
-                         
-                         comments.add(new Comment(text, poster, postDate));
-                     }
                          }
                   
                       catch (Exception e) {
@@ -312,7 +286,6 @@ public class Application extends WApplication {
                      } finally {
                          DBUtils.closeConnection(conn);
                      }
-
                 getRoot().addWidget(new BarForm(bar,comments,beers));
             } else {
                 getRoot().addWidget(new BarSearchForm());
