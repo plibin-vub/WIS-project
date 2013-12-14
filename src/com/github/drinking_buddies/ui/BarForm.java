@@ -81,6 +81,7 @@ public class BarForm extends WContainerWidget {
         main.bindString("url", "aa1");
         final WDoubleSpinBox sb = new WDoubleSpinBox();
         sb.setRange(0, 10);
+        sb.setDecimals(2);
         sb.addStyleClass("input-mini");
         sb.setValue(bar.getScore());
         sb.setSingleStep(1);
