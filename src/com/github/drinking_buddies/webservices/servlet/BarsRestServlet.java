@@ -29,6 +29,8 @@ import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Address;
 import com.github.drinking_buddies.entities.Comment;
 import com.github.drinking_buddies.jooq.queries.BarQueries;
+import com.github.drinking_buddies.jooq.utils.SearchUtils;
+import com.github.drinking_buddies.ui.utils.EncodingUtils;
 import com.google.gson.Gson;
 
 
@@ -96,7 +98,19 @@ public class BarsRestServlet extends RestServlet {
         }
     }
 
+    private static class Image {
+        public Image(byte[] data, String mimeType) {
+            this.uri = new DataURI(EncodingUtils.byteArrayToBase64(data));
+            this.mimeType = mimeType;
+        }
+        
+        private DataURI uri;
+        private String mimeType;
+    }
     private static class DataURI {
+        public DataURI(String base64Data) {
+            uri = "data:image/png;base64," + base64Data;
+        }
         private String uri;
     }
     private static class FullBar {
@@ -105,7 +119,7 @@ public class BarsRestServlet extends RestServlet {
         private String webSite;
         private String averageScore;
         private Address address;
-        private DataURI image;
+        private Image image;
         private List<Comment> comments = new ArrayList<Comment>();
     }
     private void streamBar(OutputStream os, Format format, String barURL) {
@@ -117,7 +131,7 @@ public class BarsRestServlet extends RestServlet {
                 
                 Record r 
                     = dsl
-                        .select(BAR.ID,BAR.NAME,BAR.URL,BAR.WEBSITE,BAR.PHOTO,ADDRESS.ID,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY)
+                        .select(BAR.ID,BAR.NAME,BAR.URL,BAR.WEBSITE,BAR.PHOTO, BAR.PHOTO_MIME_TYPE, ADDRESS.ID,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY)
                         .from(BAR,ADDRESS)
                         .where(BAR.URL.eq(barURL))
                         .and(ADDRESS.ID.eq(BAR.ADDRESS_ID))
@@ -137,7 +151,8 @@ public class BarsRestServlet extends RestServlet {
                 fb.address = address;
                 fb.webSite = r.getValue(BAR.WEBSITE);
                 fb.averageScore = formatScore(BarQueries.getAvgScore(dsl, r.getValue(BAR.ID)).doubleValue());
-                //TODO comments + image
+                fb.comments = SearchUtils.getBarComments(dsl, r.getValue(BAR.ID));
+                fb.image = new Image(r.getValue(BAR.PHOTO), r.getValue(BAR.PHOTO_MIME_TYPE));
                 
                 Gson gson = new Gson();
                 appendUTF8(os, gson.toJson(fb));
