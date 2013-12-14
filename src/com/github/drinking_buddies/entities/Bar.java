@@ -50,6 +50,7 @@ public class Bar {
     public void setUrl(String url) {
         this.url = url;
     }
-    
-    
+    public void setPicture(Image picture) {
+        this.picture = picture;
+    }
 }

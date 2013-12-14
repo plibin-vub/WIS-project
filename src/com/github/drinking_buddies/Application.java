@@ -207,11 +207,7 @@ public class Application extends WApplication {
             } else {
                 getRoot().addWidget(new BeerSearchForm());
             }
-        } else {
-            //show 404
-        }
-        if ("users".equals(parts[0])) {
-            
+        } else if ("users".equals(parts[0])) {
             if (parts.length > 1 || true) {
                  String url = parts[1];
                  Connection conn = null;
@@ -236,10 +232,7 @@ public class Application extends WApplication {
                      DBUtils.closeConnection(conn);
                  }
             }
-        } else {
-            //show 404
-        }
-        if (BARS_URL.equals(parts[0])) {
+        } else if (BARS_URL.equals(parts[0])) {
             if(parts.length>1) {
                 final String barURL = parts[1];
                 Bar bar=null;
@@ -253,7 +246,7 @@ public class Application extends WApplication {
            
                          Record r 
                              = dsl
-                                 .select(BAR.ID,BAR.NAME,BAR.WEBSITE,BAR.PHOTO,ADDRESS.ID,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY)
+                                 .select(BAR.ID,BAR.NAME,BAR.WEBSITE,BAR.PHOTO, BAR.PHOTO_MIME_TYPE, ADDRESS.ID,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY)
                                  .from(BAR,ADDRESS)
                                  .where(BAR.URL.eq(barURL))
                                  .and(ADDRESS.ID.eq(BAR.ADDRESS_ID))
@@ -282,7 +275,7 @@ public class Application extends WApplication {
                          BigDecimal score= BarQueries.getAvgScore(dsl, id);
                          Address address=new Address(r.getValue(ADDRESS.ID), r.getValue(ADDRESS.STREET), r.getValue(ADDRESS.NUMBER)
                                  , r.getValue(ADDRESS.ZIPCODE), r.getValue(ADDRESS.CITY), r.getValue(ADDRESS.COUNTRY));
-                         Image barPhoto = null; //TODO
+                         Image barPhoto = new Image(r.getValue(BAR.PHOTO), r.getValue(BAR.PHOTO_MIME_TYPE));
                          double scoreValue=0;
                          if(score!=null){
                              scoreValue=score.doubleValue();
@@ -324,10 +317,7 @@ public class Application extends WApplication {
             } else {
                 getRoot().addWidget(new BarSearchForm());
             }
-          } else {
-              show404();
-          }
-          if (FIND_NEARBY_BARS_URL.equals(parts[0])) {
+          } else if (FIND_NEARBY_BARS_URL.equals(parts[0])) {
               final String beerName;
               if (parts.length > 1) {
                   final String beerURL = parts[1];
@@ -391,7 +381,7 @@ public class Application extends WApplication {
                   
               });
               
-          }if (FIND_NEARBY_FRIENDS_URL.equals(parts[0])) {
+          } else if (FIND_NEARBY_FRIENDS_URL.equals(parts[0])) {
               this.doJavaScript("getLocation();\r\n"
                       + "function getLocation()\r\n" + 
                       "  {\r\n" + 
@@ -422,6 +412,8 @@ public class Application extends WApplication {
                   
               });
               
+          } else {
+              show404();
           }
           
     }
@@ -433,8 +425,8 @@ public class Application extends WApplication {
     private JSignal2<String,String> pingSignal() { return pingSignal; }
     
     private void show404() {
-        //getRoot().addWidget(new WText("404"));
-        
+        getRoot().clear();
+        getRoot().addWidget(new WText("404: Could not find the resource you specified!"));
     }
 
     public static Application getInstance() {
