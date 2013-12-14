@@ -60,7 +60,7 @@
 						<div>${tr:beer-form.score}: ${score} / ${highest-score}</div>
 						<a target="_blank" href="${find-bars-url}">${find-bars-text}</a>
 						<div style="padding-bottom:2px">${add-to-favorites}</div>
-						<object type="text/html" data="${facebook}"></object>
+						<object class="facebook-like" type="text/html" data="${facebook}"></object>
 			</div>	
 			<div class="span6" >	
 					<img src="${picture-url}" style="height:150px"/>
@@ -283,7 +283,7 @@
 		<div class="row-fluid">
 			<div class="span4">${photo} ${tr:bar-form.upload}: ${upload}
 			<div class="div-row">
-		   <object type="text/html" data="${facebook}"></object>
+		   <object type="text/html" data="${facebook}" class="facebook-like"></object>
 			<div class="controls">${add-to-favorites}</div>
 		   </div>
 			</div>

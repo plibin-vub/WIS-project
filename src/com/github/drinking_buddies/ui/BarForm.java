@@ -67,7 +67,7 @@ public class BarForm extends WContainerWidget {
         showPhoto(bar.getPicture());
         
         // we bind to some of the template's variables
-        main.bindString("facebook","http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fdrinking_buddies.github.com%2Fdb%2Fbars%2F"+bar.getUrl()+"&width&layout=standard&action=like&show_faces=true&share=true&height=80&appId=620305514675365");
+        main.bindString("facebook","http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fdrinking_buddies.github.com%2Fdb%2Fbars%2F"+bar.getUrl()+"&width&layout=button_count&action=like&show_faces=true&share=true&height=80&appId=620305514675365");
         main.bindString("bar", bar.getName());
         String addressLine1 = bar.getAddress().getStreet() + " "
                 + bar.getAddress().getNumber();
