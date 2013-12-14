@@ -24,7 +24,6 @@ public class BarResultWidget extends WTemplate {
         this.bindString("address2", addressLine2);
         String addressLine3 = bar.getAddress().getCountry();
         this.bindString("address3", addressLine3);
-        this.bindString("website", bar.getWebsite());
         this.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
             public void trigger(WMouseEvent arg) {
                 Application app = Application.getInstance();

@@ -48,10 +48,6 @@ public class AddBarDialog extends WDialog {
         main.bindWidget("bar", name);
         name.setId("inputName");
         name.setValidator(createManditoryValidator());
-        final WLineEdit website = new WLineEdit();
-        main.bindWidget("website", website);
-        website.setId("inputWebsite");
-        website.setValidator(createWebsiteValidator());
         final WLineEdit street = new WLineEdit();
         main.bindWidget("street", street);
         street.setId("inputStreet");
@@ -77,9 +73,6 @@ public class AddBarDialog extends WDialog {
                 if(name.validate()!= State.Valid){
                     showError("Invalid Name");
                 }
-                if(website.validate()!= State.Valid){
-                    showError("Invalid website");
-                }
                 if(zipcode.validate()!= State.Valid){
                     showError("Invalid zipcode");
                 }
@@ -88,7 +81,7 @@ public class AddBarDialog extends WDialog {
                 }
                 String url = saveBar(street.getText(), number.getText(),
                         zipcode.getText(), city.getText(), country.getText(),
-                        name.getText(), website.getText());
+                        name.getText(), null);
                 if(url!=null){
                     Application app = Application.getInstance();
                     app.internalRedirect(url);

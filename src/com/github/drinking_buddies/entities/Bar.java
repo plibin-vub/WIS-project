@@ -5,7 +5,6 @@ public class Bar {
     private String name;
     private int favoredBy;
     private double score;
-    private String website;
     private Image picture;
     private Address address;
     private String url;
@@ -19,7 +18,6 @@ public class Bar {
         this.score = score;
         this.picture = picture;
         this.address = address;
-        this.website=website;
         this.url=url;
     }
     public int getId() {
@@ -39,9 +37,6 @@ public class Bar {
     }
     public Address getAddress() {
         return address;
-    }
-    public CharSequence getWebsite() {
-        return website;
     }
     public String getUrl() {
        
