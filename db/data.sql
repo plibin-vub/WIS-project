@@ -10224,4 +10224,15 @@ INSERT INTO "favorite_bar" VALUES(15,24);
 INSERT INTO "favorite_bar" VALUES(45,24);
 INSERT INTO "favorite_bar" VALUES(42,24);
 INSERT INTO "favorite_bar" VALUES(52,24);
+INSERT INTO "review" VALUES(1,9816,1,4.5,4.80000019073486,4.90000009536743,4.5,'A really nice trappist.
+Golden blonde, with a thick and dense white head.
+Peach and citrus, some biscuit malt, spice, and that signature indescribable Belgian yeast aroma.
+I really love the tripels that aren''t too focused on being sweet.','2013-12-14 10:54:26');
+INSERT INTO "review" VALUES(2,6521,1,4.5,5.0,5.0,4.5,'Delicious.
+One inch off-white head recedes quickly to a cap and thick collar throughout. Deep ruby red body color with light purple hues around the edges.
+More with the raisins but finishes with a taste of cherries. Well balanced hop profile to malts but yeast dominates as it should.
+Highly recommended for any Belgian beer fan.
+Visiting the brewery is also worth the while!','2013-12-14 19:39:47');
+INSERT INTO "bar" VALUES(48,'In de vrede',NULL,NULL,NULL,48,0.888285994529724,0.0475079528987408,'in_de_vrede');
+INSERT INTO "beer2_bar" VALUES(6521,48);
 commit;
