@@ -55,7 +55,7 @@ public class ReviewWidget extends WTemplate {
     }
     
     private void expand() {
-        this.bindString("text", review.getText());
+        this.bindString("text", review.getText().replace("\n", "<br/>"));
         showEllipsis(false);
         WPushButton control = new WPushButton(tr("review.collapse"));
         control.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
