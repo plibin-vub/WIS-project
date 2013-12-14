@@ -4,6 +4,7 @@ import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.entities.User;
 
 import eu.webtoolkit.jwt.AlignmentFlag;
+import eu.webtoolkit.jwt.WAnchor;
 import eu.webtoolkit.jwt.WImage;
 import eu.webtoolkit.jwt.WLink;
 import eu.webtoolkit.jwt.WNavigationBar;
@@ -36,6 +37,7 @@ public class TemplateUtils {
             tt.addFunction("tr", WTemplate.Functions.tr);
             tt.bindString("first-name", u.getFirstName());
             tt.bindString("last-name", u.getLastName());
+            //WAnchor anchor=new WAnchor(new WLink(type, value));
             tt.bindString("url", app.makeAbsoluteUrl("db/users/"+u.getUrl()));
             userLoggedIn.bindWidget("logged-in-user", tt);
         } else {

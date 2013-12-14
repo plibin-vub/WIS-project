@@ -7,17 +7,23 @@ import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BAR;
 import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BEER;
 
 import java.sql.Connection;
+import java.util.List;
 
 import org.jooq.DSLContext;
+import org.jooq.Record1;
 import org.jooq.Record3;
 import org.jooq.Result;
 
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Bar;
+import com.github.drinking_buddies.entities.Beer;
 import com.github.drinking_buddies.entities.User;
 import com.github.drinking_buddies.jwt.ShareLocationHandler;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
+import com.github.drinking_buddies.webservices.facebook.Facebook;
+import com.github.drinking_buddies.webservices.facebook.Friend;
+import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 
 import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.Signal2;
@@ -77,8 +83,40 @@ public class UserForm extends WContainerWidget {
         
         main.bindString("find-nearby-friends-url", Application.FIND_NEARBY_FRIENDS_URL);
         main.bindString("find-nearby-bars-url", Application.FIND_NEARBY_BARS_URL);
+        WPushButton friendImport = new WPushButton(tr("user-form.friend-import"));
+        main.bindWidget("friend-import", friendImport);
+        friendImport.clicked().addListener(this, new Signal.Listener() {
+            public void trigger() {
+                            friendImport(); 
+                    }
+                
+            
+        });
     }
     
+    protected void friendImport() {
+        Application app = Application.getInstance();
+        Connection conn = app.getConnection();
+        DSLContext dsl = DBUtils.createDSLContext(conn);
+        int userId = app.getLoggedInUser().getId();
+        try{
+            String token=dsl.select(USER.OAUTH_NAME).from(USER).where(USER.ID.eq(userId)).fetchOne().getValue(USER.OAUTH_NAME);
+            Facebook fb=new Facebook(token);
+            List<Friend> friends=fb.getFriends();
+            for (Friend friend : friends) {
+                dsl.select(USER.ID).from(USER).where(USER.FIRST_NAME.eq(friend.getName())).fetchOne().getValue(USER.ID);
+            }
+            
+        } catch (RestException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            app.closeConnection(conn);
+        }
+       
+        
+    }
+
     private void updateFavorites(WTemplate main) {
         Application app = Application.getInstance();
         
