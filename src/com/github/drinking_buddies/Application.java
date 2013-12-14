@@ -207,11 +207,7 @@ public class Application extends WApplication {
             } else {
                 getRoot().addWidget(new BeerSearchForm());
             }
-        } else {
-            show404();
-        }
-        if ("users".equals(parts[0])) {
-            
+        } else if ("users".equals(parts[0])) {
             if (parts.length > 1 || true) {
                  String url = parts[1];
                  Connection conn = null;
@@ -236,10 +232,7 @@ public class Application extends WApplication {
                      DBUtils.closeConnection(conn);
                  }
             }
-        } else {
-            show404();
-        }
-        if (BARS_URL.equals(parts[0])) {
+        } else if (BARS_URL.equals(parts[0])) {
             if(parts.length>1) {
                 final String barURL = parts[1];
                 Bar bar=null;
@@ -324,10 +317,7 @@ public class Application extends WApplication {
             } else {
                 getRoot().addWidget(new BarSearchForm());
             }
-          } else {
-              show404();
-          }
-          if (FIND_NEARBY_BARS_URL.equals(parts[0])) {
+          } else if (FIND_NEARBY_BARS_URL.equals(parts[0])) {
               final String beerName;
               if (parts.length > 1) {
                   final String beerURL = parts[1];
@@ -391,7 +381,7 @@ public class Application extends WApplication {
                   
               });
               
-          }if (FIND_NEARBY_FRIENDS_URL.equals(parts[0])) {
+          } else if (FIND_NEARBY_FRIENDS_URL.equals(parts[0])) {
               this.doJavaScript("getLocation();\r\n"
                       + "function getLocation()\r\n" + 
                       "  {\r\n" + 
@@ -422,6 +412,8 @@ public class Application extends WApplication {
                   
               });
               
+          } else {
+              show404();
           }
           
     }
