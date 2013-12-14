@@ -175,9 +175,9 @@
 			<div class="span6">
 			<div class="name row-fluid" id="title"><div>${first-name} ${last-name}</div>
 		</div>
-			<div class="row-fluid"><div>${friend-import}</div></div>
-			<div class="row-fluid"><div>${is-drinking-in}</div></div>
-			<div class="row-fluid"><div>${share-location}</div></div>
+			<div class="row-fluid padding5"><div>${is-drinking-in}</div></div>
+			<div class="row-fluid padding5"><div>${share-location}${stop-share-location}</div></div>
+			<div class="row-fluid padding5"><div>${friend-import}</div></div>
 		</div>
 			
 		</div>
@@ -186,10 +186,10 @@
 		</div>
 		<div class="row-fluid center"></div>
 		<div class="row-fluid center">
-			<a  target="_blank" href="${app.base.url}/${find-nearby-friends-url}">${tr:user-form.find-nearby-friends}</a>
+			${find-nearby-friends}
 		</div>
 		<div class="row-fluid center">
-			<a  target="_blank" href="${app.base.url}/${find-nearby-bars-url}">${tr:user-form.find-nearby-bars}</a>
+			${find-nearby-bars}
 		</div>
 	</div>
 	</message>
@@ -484,8 +484,8 @@
 				<div class="controls">${search}</div>
 			</form>
 			<div class="row">
-				<div class="map">${map}</div>
-			 	<div class="results">${results}</div>
+				<div class="map container">${map}</div>
+			 	<div class="results container">${results}</div>
 			</div>
 			</div>
 	</message>

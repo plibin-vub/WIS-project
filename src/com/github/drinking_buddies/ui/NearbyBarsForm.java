@@ -88,8 +88,6 @@ public class NearbyBarsForm extends WContainerWidget{
         if(beerName!=null){
             beerSearch.setText(beerName);
         }
-        
-       // final AutocompletePopup beerPopup = new AutocompletePopup(new BeerAutocompleteDatabaseModel(10), beerSearch, main);
         main.bindWidget("beer", beerSearch);
         search.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
             public void trigger(WMouseEvent arg) {

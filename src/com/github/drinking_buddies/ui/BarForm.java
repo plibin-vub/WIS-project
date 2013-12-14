@@ -5,6 +5,7 @@ package com.github.drinking_buddies.ui;
 import static com.github.drinking_buddies.jooq.Tables.BAR;
 import static com.github.drinking_buddies.jooq.Tables.BAR2_BAR_SCORE;
 import static com.github.drinking_buddies.jooq.Tables.BAR_SCORE;
+import static com.github.drinking_buddies.jooq.Tables.FAVORITE_BAR;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -25,18 +27,23 @@ import com.github.drinking_buddies.entities.Bar;
 import com.github.drinking_buddies.entities.Beer;
 import com.github.drinking_buddies.entities.Comment;
 import com.github.drinking_buddies.entities.Image;
+import com.github.drinking_buddies.entities.User;
 import com.github.drinking_buddies.jooq.tables.records.BarScoreRecord;
 import com.github.drinking_buddies.ui.comments.BarCommentsWidget;
 import com.github.drinking_buddies.ui.utils.DateUtils;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
+import eu.webtoolkit.jwt.Icon;
 import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.Signal1;
+import eu.webtoolkit.jwt.StandardButton;
 import eu.webtoolkit.jwt.WContainerWidget;
+import eu.webtoolkit.jwt.WDialog.DialogCode;
 import eu.webtoolkit.jwt.WDoubleSpinBox;
 import eu.webtoolkit.jwt.WFileUpload;
 import eu.webtoolkit.jwt.WImage;
 import eu.webtoolkit.jwt.WMemoryResource;
+import eu.webtoolkit.jwt.WMessageBox;
 import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WStandardItemModel;
@@ -132,6 +139,76 @@ public class BarForm extends WContainerWidget {
         });
         main.bindWidget("beer-list", beerList);
         main.bindWidget("comments", new BarCommentsWidget(bar,comments, app.getLoggedInUser(),null));
+        WPushButton addToFavorites = new WPushButton(tr("bar-form.add-to-favorites"));
+        //connect a listener to the button
+        addToFavorites.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
+            public void trigger(WMouseEvent arg) {
+                boolean added = addToFavorites(bar);
+                
+                String prefix = "bar-form.add-to-favorites.";
+                WString status = tr(prefix + "status");
+                
+                final WMessageBox mb;
+                if (added) {
+                    mb = new WMessageBox(status, 
+                            tr(prefix + "added").arg(bar.getName()), 
+                            Icon.Information,
+                            EnumSet.of(StandardButton.Ok));
+                } else {
+                   mb = new WMessageBox(status, 
+                            tr(prefix+"not-added").arg(bar.getName()),
+                            Icon.Warning,
+                            EnumSet.of(StandardButton.Ok));
+                }
+                mb.setModal(true);
+                mb.buttonClicked().addListener(BarForm.this, new Signal1.Listener<StandardButton>() {
+                    public void trigger(StandardButton sb) {
+                        mb.done(DialogCode.Accepted);
+                    }
+                });
+                mb.show();
+            }
+        });
+        main.bindWidget("add-to-favorites", addToFavorites);
+    }
+    
+    private boolean addToFavorites(Bar bar) {
+        Application app = Application.getInstance();
+        Connection conn = null;
+        try {
+            conn = app.getConnection();
+            
+            User user = app.getLoggedInUser();
+            
+            DSLContext dsl = DBUtils.createDSLContext(conn);
+            long count =
+                    dsl
+                        .select()
+                        .from(FAVORITE_BAR)
+                        .where(FAVORITE_BAR.USER_ID.equal(user.getId()))
+                        .and(FAVORITE_BAR.BAR_ID.equal(bar.getId()))
+                        .fetchCount();
+            
+            if (count > 0) {
+                //did not add the beer to the user's favorites,
+                //since it already is a favorite
+                return false;
+            } else {
+                dsl
+                    .insertInto(FAVORITE_BAR,
+                                FAVORITE_BAR.BAR_ID,
+                                FAVORITE_BAR.USER_ID)
+                    .values(bar.getId(),
+                            user.getId())
+                    .execute();
+                conn.commit();
+                return true;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            app.closeConnection(conn);
+        }
     }
     
     private void showPhoto(Image image) {

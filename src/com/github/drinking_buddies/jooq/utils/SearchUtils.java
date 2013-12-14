@@ -6,12 +6,14 @@ import static com.github.drinking_buddies.jooq.Tables.BAR_COMMENT;
 import static com.github.drinking_buddies.jooq.Tables.BEER;
 import static com.github.drinking_buddies.jooq.Tables.USER;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Record1;
@@ -22,7 +24,10 @@ import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Comment;
 import com.github.drinking_buddies.entities.User;
+import com.github.drinking_buddies.geolocation.GeoLocation;
 import com.github.drinking_buddies.ui.utils.DateUtils;
+
+import eu.webtoolkit.jwt.WGoogleMap.Coordinate;
 
 public class SearchUtils {   
     //will be null if:
@@ -122,5 +127,45 @@ public class SearchUtils {
             comments.add(new Comment(text, poster, postDate));
         }
         return comments;
+    }
+    
+    public static Integer getClosesedBarId(double lat, double lng) {
+        Application app = Application.getInstance();
+        Connection conn = app.getConnection();
+        DSLContext dsl = DBUtils.createDSLContext(conn);
+        double radius = 1;
+        try {
+            GeoLocation location=GeoLocation.fromDegrees(lat, lng);
+            GeoLocation[] boundingCoordinates=location.boundingCoordinates(radius, GeoLocation.RADIUS_EARTH);
+            Coordinate rightBottom=new Coordinate(boundingCoordinates[1].getLatitudeInDegrees(),boundingCoordinates[1].getLongitudeInDegrees());
+            Coordinate topLeft=new Coordinate(boundingCoordinates[0].getLatitudeInDegrees(),boundingCoordinates[0].getLongitudeInDegrees());
+            Condition condition1=BAR.LOCATION_X.ge(new Float(boundingCoordinates[0].getLatitudeInRadians())).and(BAR.LOCATION_X.le(new Float(boundingCoordinates[1].getLatitudeInRadians())));
+            Condition condition2;
+            if(boundingCoordinates[0].getLongitudeInRadians() >
+            boundingCoordinates[1].getLongitudeInRadians()){
+                condition2=BAR.LOCATION_Y.ge(new Float(boundingCoordinates[0].getLatitudeInRadians())).or(BAR.LOCATION_Y.le(new Float(boundingCoordinates[1].getLatitudeInRadians())));
+            }else{
+                condition2=BAR.LOCATION_Y.ge(new Float(boundingCoordinates[0].getLongitudeInRadians())).and(BAR.LOCATION_Y.le(new Float(boundingCoordinates[1].getLongitudeInRadians())));
+            }
+            Condition condition3=BAR.LOCATION_X.sin().multiply(Math.sin(location.getLatitudeInRadians()))
+                    .plus(BAR.LOCATION_X.cos().multiply(Math.cos(location.getLatitudeInRadians())).
+                            multiply(BAR.LOCATION_Y.subtract(location.getLongitudeInRadians()).cos())).le(new BigDecimal(Math.cos(radius / GeoLocation.RADIUS_EARTH)));
+
+            Record1<Integer> r = dsl.select(BAR.ID)
+                    .from(BAR)
+                    .where(condition1.and(condition2).and(condition3))
+                    .fetchAny();
+            if(r!=null){
+               return r.getValue(BAR.ID);
+            }else{
+               return null;
+            }
+        } catch (Exception e) {
+            DBUtils.rollback(conn);
+            throw new RuntimeException(e);
+        } finally {
+            app.closeConnection(conn);
+        }
+            
     }
 }

@@ -58,6 +58,17 @@ body
 	border-radius:25px;
 }
 
+.padding5{
+	padding:5px;
+}
+
+.map{
+	width:400px;
+}
+.results{
+	margin-left:400px;
+}
+
 .name{
 	margin-bottom:20px;
 }
