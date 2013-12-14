@@ -32,6 +32,7 @@ public class AddCommentWidget extends WTemplate {
         this.bindString("poster-img", poster.getSmallImageUrl());
         text = new WTextArea();
         text.setPlaceholderText(tr("add-comment.leave-a-new-comment"));
+        text.addStyleClass("span11 comment-input");
         this.bindWidget("text", text);
         post = new WPushButton(tr("add-comment.post"));
         this.bindWidget("post", post);

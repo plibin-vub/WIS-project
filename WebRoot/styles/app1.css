@@ -1,20 +1,64 @@
 body
 {
-	
 	background-color:#d0e4fe;
 }
 
-#bar-title{
+.beer-from{
+	padding-left:20px;
+	padding-right:20px;
+}
+
+.user-from{
+	padding-top:70px;
+}
+
+.nearby-bars-form{
+	padding-top:40px;
+	padding-left:50px;
+	padding-right:50px;
+}
+
+.result{
+	margin:50px;
+	box-shadow: 10px 10px 5px #888888;
+	border:2px solid;
+}
+
+.results{
+	margin-right:20px;
+}
+
+.map{
+	float: left;
+	padding-right:20px;
+}
+
+#title{
 	text-shadow: 3px 10px 10px rgba(0, 0, 0, 0.75);
 	font-size: 300%;
 	text-align: center;
+	padding-bottom: 20px;
 }
 
 .center{
 	text-align: center;
 }
 
-@media(min-width: 980px){body {padding-top:62px;}}
+.tag{
+	margin: 5px;
+}
+
+.comment-text{
+	padding-bottom:10px;
+}
+
+.review{
+	padding:10px;
+	border:2px solid;
+	border-radius:25px;
+}
+
+@media(min-width: 979px){body {padding-top:62px;}}
 
 .Wt-invalid  {
   border-color: #b94a48;
@@ -26,3 +70,20 @@ body
 .personal-info{
 	font-size: 200%;
 }
+
+.start-form button {
+	width: 30%;
+	
+	margin: 2px;
+	padding: 0px;
+}
+
+.start-form input {
+	width: 30%;
+	margin: 2px;
+	padding: 0px;
+	margin-top: 20px;
+}
+
+
+	

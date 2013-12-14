@@ -48,66 +48,56 @@
 	
 	<message id="beer-form">
 		${header}
-		
-		
-		<div class="div-row">
-			<table>
-				<tr>
-					<td>
-						<div>${beer}</div>
+		<div class="beer-from">
+		<div class="row-fluid">
+		 	<h1 id="title" >${beer}</h1>
+		</div>
+		<div class="row-fluid">
+			<div class="span6" >
 						<div>${tr:beer-form.brewed-by}: ${brewery}</div>
 						<div>${tr:beer-form.alcohol}: ${alcohol} °</div>
 						<div>${tr:beer-form.favored-by}: ${favored-by}</div>
 						<div>${tr:beer-form.score}: ${score} / ${highest-score}</div>
-					</td>
-					<td>
-						<img src="${picture-url}" />
-					</td>
-				</tr>
-			</table>	
+						<a target="_blank" href="${find-bars-url}">${find-bars-text}</a>
+			</div>	
+			<div class="span6" >	
+					<img src="${picture-url}" />
+				</div>
 		</div>
-		<div class="div-row">
-			<span>TODO: facebook like</span>
-			<span>TODO: facebook share</span>
-			${add-to-favorites}
+		<div class="row-fluid">
+			<div style="padding-bottom:2px">${add-to-favorites}</div>
+			<object type="text/html" data="${facebook}"></object>
+			<div class="container-fluid span12" >
+					<div class="span1">${tr:beer-form.tags}:</div> <div>${tags}</div> <div class="span1">${add-tag}</div>
+			</div>
 		</div>
-		<a target="_blank" href="${find-bars-url}">${find-bars-text}</a>
-		<div class="div-row">
-			<table>
-				<tr>
-					<td>${tr:beer-form.tags}:</td> <td>${tags}</td>
-				</tr>
-				<tr>
-					<td></td> <td>${add-tag}</td>
-				</tr>
-			</table>
-		</div>
-		<div class="div-row">
+		<div class="row-fluid">
 			<div>${tr:beer-form.reviews}:</div>
 			${add-review}
 			${reviews}
 		</div>
+		</div>
 	</message>
 	
 	<message id="tag">
-		<div class="tag">${text}</div>
+		<span class="label label-info tag pull-left">${text}</span>
 	</message>
 	
 	<message id="review">
-		<div class="review">
-			<div class="div-row">
-				<div class="average-score">${tr:review.average-score}:${average-score}</div>
-				<div class="poster">${tr:review.posted-by}: ${poster}</div>
+		<div class="review span12">
+			<div class="row-fluid">
+				<div class="average-score pull-left"><strong>${tr:review.average-score}:${average-score}</strong></div>
+				<div class="poster pull-right">${tr:review.posted-by}: ${poster}</div>
 			</div>
-			<div class="div-row">
-				<div class="score">${tr:review.color}:${color-score}</div>
-				<div class="score">${tr:review.smell}:${smell-score}</div>
-				<div class="score">${tr:review.taste}:${taste-score}</div>
-				<div class="score">${tr:review.feel}:${feel-score}</div>
+			<div class="row-fluid">
+				<div class="score span1">${tr:review.color}:${color-score}</div>
+				<div class="score span1">${tr:review.smell}:${smell-score}</div>
+				<div class="score span1">${tr:review.taste}:${taste-score}</div>
+				<div class="score span1">${tr:review.feel}:${feel-score}</div>
 			</div>
-			<div class="div-row">${text}</div>
-			<div class="div-row">${control}</div>
-			<div class="div-row">${comments}</div>
+			<div class="row-fluid">${text}</div>
+			<div class="row-fluid">${control}</div>
+			<div class="row-fluid">${comments}</div>
 		</div>
 	</message>
 	
@@ -178,11 +168,11 @@
 	<message id="user-form">
 		${header}
 		
-	
+		<div class="user-from">
 		<div class="personal-info">
 			<img src="${user-pic-url}" class="span3 offset3"/>
 			<div class="span6">
-			<div class="name row-fluid"><div>${first-name} ${last-name}</div>
+			<div class="name row-fluid" id="title"><div>${first-name} ${last-name}</div>
 			</div>
 			
 			<div class="row-fluid"><div>${is-drinking-in}</div></div>
@@ -190,9 +180,17 @@
 			</div>
 			
 		</div>
+		<div class="row-fluid offset2 span8">
 		${favorites}
-		<a target="_blank" href="${app.base.url}/${find-nearby-friends-url}">${tr:user-form.find-nearby-friends}</a>
-		<a target="_blank" href="${app.base.url}/${find-nearby-bars-url}">${tr:user-form.find-nearby-bars}</a>
+		</div>
+		<div class="row-fluid center"></div>
+		<div class="row-fluid center">
+			<a  target="_blank" href="${app.base.url}/${find-nearby-friends-url}">${tr:user-form.find-nearby-friends}</a>
+		</div>
+		<div class="row-fluid center">
+			<a  target="_blank" href="${app.base.url}/${find-nearby-bars-url}">${tr:user-form.find-nearby-bars}</a>
+		</div>
+	</div>
 	</message>
 	
 	<message id="is-drinking-in">
@@ -200,7 +198,7 @@
 	</message>
 	
 	<message id="user-favorites">
-		<table class="favorites table table-striped">
+		<table class="favorites table table-bordered">
 			<tr>
 				<td colspan="2">${tr:user-form.favorite-beers}</td>
 				<td colspan="2">${tr:user-form.favorite-bars}</td>
@@ -255,7 +253,8 @@
 			
 			<div class="row-fluid">
 				${text}
-				<break/>
+			</div>
+			<div class="pull-right">	
 				${cancel} ${post}
 			</div>
 			</div>
@@ -267,18 +266,18 @@
 		<div>
 			
 			<div class="row-fluid">
-			
+				<div class="row-fluid">
 				<span>${tr:comment.posted-by}:${poster-name}</span> <span>${posted-x-time-ago}</span>
-				<break/>
+				</div>
+				<div class="row-fluid offset1 comment-text">${text}</div>
 			</div>
-			<div class="row-fluid offset1">${text}</div>
 		</div>
 	</message>
 	
 	<message id="bar-form">
 		${header}	
 		<div class="row-fluid">
-			<h1 id="bar-title" >${bar}</h1>
+			<h1 id="title" >${bar}</h1>
 		</div>
 		<div class="row-fluid">
 			<div class="span4">${picture}
@@ -414,36 +413,70 @@
 	
 	<message id="logged-in-user">
 		<p class="navbar-text pull-right">
-              ${tr:logged-in-user.logged-in-as} <a href="#" class="navbar-link">${first-name} ${last-name}</a>
+              ${tr:logged-in-user.logged-in-as} <a href="${url}" class="navbar-link">${first-name} ${last-name}</a>
         </p>
 	</message>
 	
 	<message id="nearby-bars-form">
-			<div class="header">
+			${header}
+			<div class="nearby-bars-form">
+			<div id="title">
 				${tr:nearby-bars-form.title}
 			</div>
-				
-			<div>${tr:nearby-bars-form.location}: ${location}</div>
-			<div>${tr:nearby-bars-form.radius}: ${radius} </div>
-			<div>${tr:nearby-bars-form.beer}: ${beer} </div>
-			<div>${search}</div>
-			<table>
-			<tr>
-			<td>${map}</td><td>${results}</td>
-			</tr>
-			</table>
+			<form class="form-horizontal">	
+				<div class="control-group">
+				<label class="control-label" for="inputName">${tr:nearby-bars-form.location}:</label> ${location}
+				</div>
+				<div class="control-group">
+				<label class="control-label" for="inputName">${tr:nearby-bars-form.radius}:</label> ${radius}
+				</div>
+				<div class="control-group">
+				<label class="control-label" for="inputName">${tr:nearby-bars-form.beer}:</label> ${beer} ${warning}
+				</div>
+				<div class="controls">${search}</div>
+			</form>
+			<div class="row">
+				<div class="map">${map}</div>
+			 	<div class="results">${results}</div>
+			</div>
+			</div>
 	</message>
 	
 	<message id="bar-result">
-		<div>${bar}</div>
+	 <div class="result">
+	 	<div>${bar}</div>
 		<div>${tr:bar-form.website}: ${website}</div>
 		<div>${tr:bar-form.address}: ${address1}</div>
 		<div> ${address2}</div>
 		<div> ${address3}</div>
+	</div>
+		
 		
 		
 	</message>
 	
+	
+	<message id="friends-bars-form">
+			${header}
+			<div class="nearby-bars-form">
+			<div id="title">
+				${tr:friends-bars-form.title}
+			</div>
+			<form class="form-horizontal">	
+				<div class="control-group">
+				<label class="control-label" for="inputName">${tr:friends-bars-form.location}:</label> ${location}
+				</div>
+				<div class="control-group">
+				<label class="control-label" for="inputName">${tr:friends-bars-form.radius}:</label> ${radius}
+				</div>
+				<div class="controls">${search}</div>
+			</form>
+			<div class="row">
+				<div class="map">${map}</div>
+			 	<div class="results">${results}</div>
+			</div>
+			</div>
+	</message>
 	
 	
 	

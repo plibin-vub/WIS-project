@@ -39,6 +39,28 @@ public class SearchUtils {
         }
     }
     
+    public static Integer getBeerId(String beerName) throws SQLException {
+        Application app = Application.getInstance();
+        Connection conn = app.getConnection();
+        DSLContext dsl = DBUtils.createDSLContext(conn);
+        try {
+            Record1<Integer> b = 
+                    dsl
+                        .select(BEER.ID)
+                        .from(BEER)
+                        .where(BEER.NAME.equal(beerName))
+                        .fetchOne();
+            if (b == null)
+                return null;
+            else
+                return b.value1();
+        } catch (InvalidResultException ire) {
+            return null;
+        } finally {
+            DBUtils.closeConnection(conn);
+        }
+    }
+    
     //will be null if:
     // - the bar does not exists
     // - the bar name is not complete (so there are multiple matches)

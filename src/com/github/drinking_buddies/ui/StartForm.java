@@ -166,6 +166,6 @@ public class StartForm extends WContainerWidget {
         //in order to be complete, 
         //we should check that this URL is not in the database yet:
         //if that would be the case we could add an incrementing number to assure uniqueness
-        return p.getFirst_name().toLowerCase() + "." + p.getLast_name().toLowerCase();
+        return p.getFirst_name().toLowerCase().replace(" ", "_") + "." + p.getLast_name().toLowerCase().replace(" ", "_");
     }
 }

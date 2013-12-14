@@ -45,6 +45,7 @@ import com.github.drinking_buddies.ui.BarForm;
 import com.github.drinking_buddies.ui.BarSearchForm;
 import com.github.drinking_buddies.ui.BeerForm;
 import com.github.drinking_buddies.ui.BeerSearchForm;
+import com.github.drinking_buddies.ui.FriendsBarsForm;
 import com.github.drinking_buddies.ui.NearbyBarsForm;
 import com.github.drinking_buddies.ui.StartForm;
 import com.github.drinking_buddies.ui.UserForm;
@@ -52,7 +53,10 @@ import com.github.drinking_buddies.ui.utils.DateUtils;
 import com.github.drinking_buddies.webservices.brewerydb.BreweryDb;
 import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 
+import eu.webtoolkit.jwt.JSignal1;
+import eu.webtoolkit.jwt.JSignal2;
 import eu.webtoolkit.jwt.Signal1;
+import eu.webtoolkit.jwt.Signal2;
 import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WBootstrapTheme;
 import eu.webtoolkit.jwt.WEnvironment;
@@ -194,7 +198,8 @@ public class Application extends WApplication {
                             beer_from_brewerydb.getMainBrewery(), 
                             favoredBy, 
                             beer_from_brewerydb.getAbv(),
-                            beer_from_brewerydb.getMediumLabelUrl());
+                            beer_from_brewerydb.getMediumLabelUrl(),beerURL);
+                    
                     getRoot().addWidget(new BeerForm(b, tags, reviews));
                 } catch (RestException e) {
                     e.printStackTrace();
@@ -208,8 +213,7 @@ public class Application extends WApplication {
         if ("users".equals(parts[0])) {
             
             if (parts.length > 1 || true) {
-               // String url = parts[1];
-                 String url="tom.de bie";
+                 String url = parts[1];
                  Connection conn = null;
                  try {
                      conn = DBUtils.getConnection();
@@ -323,11 +327,110 @@ public class Application extends WApplication {
           } else {
               show404();
           }
-          if ("nearby_bars".equals(parts[0])) {
-              getRoot().addWidget(new NearbyBarsForm());
+          if (FIND_NEARBY_BARS_URL.equals(parts[0])) {
+              final String beerName;
+              if (parts.length > 1) {
+                  final String beerURL = parts[1];
+                  
+                  
+                  Connection conn = null;
+                  try {
+                      conn = DBUtils.getConnection();
+                      DSLContext dsl = DBUtils.createDSLContext(conn);
+                      
+                      Record r 
+                          = dsl
+                              .select(BEER.ID, BEER.NAME, BEER.WEBSERVICE_NAME)
+                              .from(BEER)
+                              .where(BEER.URL.eq(beerURL))
+                              .fetchOne();
+                      if(r==null){
+                          beerName=null;
+                      }else{
+                          beerName = r.getValue(BEER.NAME);
+
+                      }
+                 }catch (Exception e) {
+                     e.printStackTrace();
+                     throw new RuntimeException(e);
+                 } finally {
+                     DBUtils.closeConnection(conn);
+                 }
+              }else{
+                  beerName=null;
+              }
+              
+              
+              this.doJavaScript("getLocation();\r\n"
+                      + "function getLocation()\r\n" + 
+                      "  {\r\n" + 
+                      "  if (navigator.geolocation)\r\n" + 
+                      "    {\r\n" + 
+                      "    navigator.geolocation.getCurrentPosition(showPosition,showError);\r\n" + 
+                      "    }\r\n" + 
+                      "  else{x.innerHTML=\"Geolocation is not supported by this browser.\";}\r\n" + 
+                      "  }\r\n" + 
+                      "function showPosition(position)\r\n" + 
+                      "  {\r\n" + 
+                      " Wt.emit(Wt, {name: 'pingSignal', event: null, eventObject: null}, position.coords.latitude,position.coords.longitude); "+
+                      "  }"+
+                      "function showError(position)\r\n" + 
+                      "  {\r\n" + 
+                      " Wt.emit(Wt, {name: 'pingSignal', event: null, eventObject: null},\"50.8833\" ,\"4.7000\"); "+
+                      "  }");
+              
+              pingSignal = new JSignal2<String,String>(this, "pingSignal") { };
+              pingSignal.addListener(this, new Signal2.Listener<String,String>(){
+
+                  @Override
+                  public void trigger(String arg,String arg2) {
+                      lat=arg;
+                      len=arg2;
+                      getRoot().addWidget(new NearbyBarsForm(lat,len, beerName));
+                  }
+                  
+              });
+              
+          }if (FIND_NEARBY_FRIENDS_URL.equals(parts[0])) {
+              this.doJavaScript("getLocation();\r\n"
+                      + "function getLocation()\r\n" + 
+                      "  {\r\n" + 
+                      "  if (navigator.geolocation)\r\n" + 
+                      "    {\r\n" + 
+                      "    navigator.geolocation.getCurrentPosition(showPosition,showError);\r\n" + 
+                      "    }\r\n" + 
+                      "  else{x.innerHTML=\"Geolocation is not supported by this browser.\";}\r\n" + 
+                      "  }\r\n" + 
+                      "function showPosition(position)\r\n" + 
+                      "  {\r\n" + 
+                      " Wt.emit(Wt, {name: 'friendsLocation', event: null, eventObject: null}, position.coords.latitude,position.coords.longitude); "+
+                      "  }"+
+                      "function showError(position)\r\n" + 
+                      "  {\r\n" + 
+                      " Wt.emit(Wt, {name: 'friendsLocation', event: null, eventObject: null},\"50.8833\" ,\"4.7000\"); "+
+                      "  }");
+              
+              friendsLocation = new JSignal2<String,String>(this, "friendsLocation") { };
+              friendsLocation.addListener(this, new Signal2.Listener<String,String>(){
+
+                  @Override
+                  public void trigger(String arg,String arg2) {
+                      lat=arg;
+                      len=arg2;
+                      getRoot().addWidget(new FriendsBarsForm(lat,len));
+                  }
+                  
+              });
+              
           }
+          
     }
-    
+    private String lat = "50.8833";
+    private String len = "4.7000";
+    private JSignal2<String,String> friendsLocation;
+    private JSignal2<String,String> friendsLocation() { return friendsLocation; }
+    private JSignal2<String,String> pingSignal;
+    private JSignal2<String,String> pingSignal() { return pingSignal; }
     
     private void show404() {
         //getRoot().addWidget(new WText("404"));

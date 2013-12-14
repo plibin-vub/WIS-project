@@ -36,6 +36,7 @@ public class TemplateUtils {
             tt.addFunction("tr", WTemplate.Functions.tr);
             tt.bindString("first-name", u.getFirstName());
             tt.bindString("last-name", u.getLastName());
+            tt.bindString("url", app.makeAbsoluteUrl("db/users/"+u.getUrl()));
             userLoggedIn.bindWidget("logged-in-user", tt);
         } else {
             userLoggedIn.bindWidget("logged-in-user", null);

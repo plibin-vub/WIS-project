@@ -54,6 +54,7 @@ public class BeerForm extends WContainerWidget {
         main.bindString("alcohol", beer.getAlcohol()+"");
         main.bindInt("favored-by", beer.getFavoredBy());
         main.bindInt("highest-score", Review.highestScore);
+        main.bindString("facebook","http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fdrinking_buddies.github.com%2Fdb%2Fbeers%2F"+beer.getUrl()+"&width&layout=standard&action=like&show_faces=true&share=true&height=80&appId=620305514675365");
         //we bind the beer's picture url to the template
         main.bindString("picture-url", beer.getPictureUrl());
         
@@ -102,6 +103,7 @@ public class BeerForm extends WContainerWidget {
         
         //add the "add tag" button to the main template
         WPushButton addTag = new WPushButton(tr("beer-form.add-tag"));
+        addTag.addStyleClass("btn-small");
         //connect a listener to the button
         addTag.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
             public void trigger(WMouseEvent arg) {

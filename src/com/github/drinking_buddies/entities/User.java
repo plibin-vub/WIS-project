@@ -10,6 +10,7 @@ public class User {
     private String lastName;
     private String oAuthName;
     private String oAuthProvider;
+    private String url;
     
     public User(Record r) {
         id = r.getValue(USER.ID);
@@ -17,6 +18,7 @@ public class User {
         lastName = r.getValue(USER.LAST_NAME);
         oAuthName = r.getValue(USER.OAUTH_NAME);
         oAuthProvider = r.getValue(USER.OAUTH_PROVIDER);
+        url=r.getValue(USER.URL);          
     }
 
     public String getFirstName() {
@@ -41,5 +43,13 @@ public class User {
         if ("facebook".equals(oAuthProvider))
             return "http://graph.facebook.com/" + oAuthName + "/picture?type=large";
         return null;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+    
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

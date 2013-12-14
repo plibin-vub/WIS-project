@@ -100,5 +100,16 @@
 	<message id="add-beer-dialog.add-beer">Add beer</message>
 	<message id="add-beer-dialog.cancel">Cancel</message>
 	
+	<message id="nearby-bars-form.title">Find nearby bars</message>
+	<message id="nearby-bars-form.location">Search location</message>
+	<message id="nearby-bars-form.radius">Radius</message>
+	<message id="nearby-bars-form.beer">Beer on tap:</message>
+	<message id="nearby-bars-form.search">Find bars</message>
+		<message id="nearby-bars-form.beer-not-found">Beer not found, no beer used in search</message>
 	
+	<message id="friends-bars-form.title">Find bars with friends</message>
+	<message id="friends-bars-form.location">Search location</message>
+	<message id="friends-bars-form.radius">Radius</message>
+	<message id="friends-bars-form.search">Find bars</message>
+
 </messages>
