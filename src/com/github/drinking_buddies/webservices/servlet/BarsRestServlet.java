@@ -80,7 +80,7 @@ public class BarsRestServlet extends RestServlet {
                     SimpleBar b = new SimpleBar();
                     b.name = r.getValue(BAR.NAME);
                     b.url = r.getValue(BAR.URL);
-                    appendUTF8(os, "  " + gson.toJson(b) + "\n");
+                    appendUTF8(os, "  " + gson.toJson(b) + ",\n");
                 }
                 appendUTF8(os, " ]\n}");
             } catch (UnsupportedEncodingException e) {

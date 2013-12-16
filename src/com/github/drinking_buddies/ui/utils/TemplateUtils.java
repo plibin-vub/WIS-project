@@ -4,6 +4,7 @@ import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.entities.User;
 
 import eu.webtoolkit.jwt.AlignmentFlag;
+import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.WAnchor;
 import eu.webtoolkit.jwt.WImage;
 import eu.webtoolkit.jwt.WLink;
@@ -21,13 +22,18 @@ public class TemplateUtils {
         setHeader(app, t);
     }
     
-    public static void setHeader(Application app, WTemplate t) {
+    public static void setHeader(final Application app, WTemplate t) {
         WTemplate userLoggedIn = new WTemplate(WString.tr("header-user"));
         WNavigationBar navigation = new WNavigationBar();
 //        navigation.setTitle("Drinking Buddies", new WLink(
 //                "#"));
-        
-        navigation.addWidget(new WImage(new WLink("pics/header.png")));
+        WImage image = new WImage(new WLink("pics/header.png"));
+        image.clicked().addListener(t, new Signal.Listener(){
+                public void trigger() {
+                    app.internalRedirect("/");
+                }
+        });
+        navigation.addWidget(image);
         navigation.setResponsive(false);
         navigation.addStyleClass("navbar-inverse");
         navigation.addStyleClass("navbar-fixed-top");

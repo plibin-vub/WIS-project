@@ -22,6 +22,12 @@ public class User {
         url=r.getValue(USER.URL);          
     }
 
+    public User(String firstName, String lastName, String url) {
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.url=url;
+    }
+
     public String getFirstName() {
         return firstName;
     }

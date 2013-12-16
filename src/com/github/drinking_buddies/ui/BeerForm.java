@@ -22,6 +22,8 @@ import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.StandardButton;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WDialog.DialogCode;
+import eu.webtoolkit.jwt.WAnchor;
+import eu.webtoolkit.jwt.WLink;
 import eu.webtoolkit.jwt.WMessageBox;
 import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WPushButton;
@@ -96,8 +98,8 @@ public class BeerForm extends WContainerWidget {
         }
         
         //set the url and text, used in the "in which bars can I find beer-xxx" anchor
-        main.bindString("find-bars-url", Application.getInstance().resolveRelativeUrl("/find_nearby_bars/" + beer.getName()));
-        main.bindString("find-bars-text", tr("beer-form.in-which-bar-can-i-find").arg(beer.getName()));
+        WAnchor anchor=new WAnchor(new WLink(WLink.Type.InternalPath,"/"+Application.FIND_NEARBY_BARS_URL+"/"+beer.getUrl() ),tr("beer-form.in-which-bar-can-i-find").arg(beer.getName()));
+        main.bindWidget("find-bars-text", anchor);
                
         //add tagwidgets to the main template
         for (Tag t : tags) {

@@ -13,6 +13,7 @@ import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Record10;
+import org.jooq.Record9;
 import org.jooq.Result;
 
 import com.github.drinking_buddies.Application;
@@ -160,15 +161,15 @@ public class NearbyBarsForm extends WContainerWidget{
             Condition condition3=BAR.LOCATION_X.sin().multiply(Math.sin(location.getLatitudeInRadians()))
                     .plus(BAR.LOCATION_X.cos().multiply(Math.cos(location.getLatitudeInRadians())).
                             multiply(BAR.LOCATION_Y.subtract(location.getLongitudeInRadians()).cos())).le(new BigDecimal(Math.cos(radius / GeoLocation.RADIUS_EARTH)));
-            Result<Record10<String, String, String, Float, Float, String, String, String, String, String>> r;
+            Result<Record9<String, String, Float, Float, String, String, String, String, String>> r;
             if(BeerId!=null){
-                r=dsl.select(BAR.NAME,BAR.WEBSITE,BAR.URL,BAR.LOCATION_X,BAR.LOCATION_Y,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY)
+                r=dsl.select(BAR.NAME,BAR.URL,BAR.LOCATION_X,BAR.LOCATION_Y,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY)
                         .from(BAR).join(ADDRESS).on(BAR.ADDRESS_ID.eq(ADDRESS.ID)).join(BEER2_BAR).on(BEER2_BAR.BAR_ID.eq(BAR.ID))
                         .where(condition1.and(condition2).and(condition3).and(BEER2_BAR.BEER_ID.eq(BeerId)))
                         .fetch();
             }
             else{
-                r=dsl.select(BAR.NAME,BAR.WEBSITE,BAR.URL,BAR.LOCATION_X,BAR.LOCATION_Y,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY)
+                r=dsl.select(BAR.NAME,BAR.URL,BAR.LOCATION_X,BAR.LOCATION_Y,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY)
                         .from(BAR).join(ADDRESS).on(BAR.ADDRESS_ID.eq(ADDRESS.ID))
                         .where(condition1.and(condition2).and(condition3))
                         .fetch();
@@ -178,7 +179,7 @@ public class NearbyBarsForm extends WContainerWidget{
                 GeoLocation loc = GeoLocation.fromRadians(record.getValue(BAR.LOCATION_X),record.getValue(BAR.LOCATION_Y));
                 addBarToMap(map,loc.getLatitudeInDegrees(),loc.getLongitudeInDegrees(),record.getValue(BAR.NAME));
                 Address address=new Address(0, record.getValue(ADDRESS.STREET),  record.getValue(ADDRESS.NUMBER),  record.getValue(ADDRESS.ZIPCODE),  record.getValue(ADDRESS.CITY),  record.getValue(ADDRESS.COUNTRY));
-                Bar bar = new Bar(0,record.getValue(BAR.NAME),0,0,record.getValue(BAR.WEBSITE),null,address,record.getValue(BAR.URL));
+                Bar bar = new Bar(0,record.getValue(BAR.NAME),0,0,null,null,address,record.getValue(BAR.URL));
                 new BarResultWidget(bar, ResultsContainer);
             }
         } catch (Exception e) {

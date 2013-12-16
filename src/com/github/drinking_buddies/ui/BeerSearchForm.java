@@ -18,8 +18,10 @@ import com.github.drinking_buddies.ui.autocompletion.AutocompletePopup;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
 import eu.webtoolkit.jwt.Signal;
+import eu.webtoolkit.jwt.WAnchor;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WLineEdit;
+import eu.webtoolkit.jwt.WLink;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WTemplate;
 
@@ -87,8 +89,8 @@ public class BeerSearchForm extends WContainerWidget {
             for (BeerUrl bu : beers) {
                 WTemplate entry = new WTemplate(tr("beer-search-result"), resultEntries);
                 TemplateUtils.configureDefault(Application.getInstance(), entry);
-                entry.bindString("relative-url", Application.BEERS_URL + "/" + bu.url);
-                entry.bindString("name", bu.name);
+                WAnchor anchor=new WAnchor(new WLink(WLink.Type.InternalPath, "/"+Application.BEERS_URL+"/"+bu.url),bu.name);
+                entry.bindWidget("name", anchor);
             }
         } else {
             WTemplate noResults = new WTemplate(tr("no-beer-search-results"));

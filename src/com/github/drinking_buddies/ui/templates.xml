@@ -181,7 +181,7 @@
 		</div>
 			
 		</div>
-		<div class="row-fluid offset2 span8">
+		<div class="row-fluid span8">
 		${favorites}
 		</div>
 		<div class="row-fluid center"></div>
@@ -391,7 +391,7 @@
 	</message>
 	
 	<message id="beer-search-result">
-		<a href="${app.base.url}/${relative-url}">${name}</a>
+		${name}
 	</message>
 	
 	<message id="no-beer-search-results">
@@ -416,11 +416,11 @@
 	</message>
 	
 	<message id="bar-search-result">
-		<a href="${app.base.url}/${relative-url}">${name}</a>
+		${name}
 	</message>
 	
 	<message id="no-bar-search-results">
-		<span>${tr:bar-search.no-results}</span>
+		<h3>Sorry, we could not find any results for your search.</h3>
 	</message>
 	
 	<message id="logged-in-user">
@@ -457,10 +457,10 @@
 	<message id="bar-result">
 	 <div class="result">
 	 	<div>${bar}</div>
-		<div>${tr:bar-form.website}: ${website}</div>
 		<div>${tr:bar-form.address}: ${address1}</div>
 		<div> ${address2}</div>
 		<div> ${address3}</div>
+		<div>${friends}</div>
 	</div>
 		
 		

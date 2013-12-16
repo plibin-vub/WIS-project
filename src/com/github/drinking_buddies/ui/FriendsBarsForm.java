@@ -7,17 +7,22 @@ import static com.github.drinking_buddies.jooq.Tables.USER;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Record11;
+import org.jooq.Record14;
+import org.jooq.Record15;
 import org.jooq.Result;
 
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Address;
 import com.github.drinking_buddies.entities.Bar;
+import com.github.drinking_buddies.entities.User;
 import com.github.drinking_buddies.geolocation.GeoLocation;
 import com.github.drinking_buddies.jwt.DBGoogleMap;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
@@ -135,17 +140,34 @@ public class FriendsBarsForm extends WContainerWidget {
             Condition condition3=BAR.LOCATION_X.sin().multiply(Math.sin(location.getLatitudeInRadians()))
                     .plus(BAR.LOCATION_X.cos().multiply(Math.cos(location.getLatitudeInRadians())).
                             multiply(BAR.LOCATION_Y.subtract(location.getLongitudeInRadians()).cos())).le(new BigDecimal(Math.cos(radius / GeoLocation.RADIUS_EARTH)));
-            Result<Record11<String, String, String, Float, Float, String, String, String, String, String, Integer>> r;
-                r=dsl.select(BAR.NAME,BAR.WEBSITE,BAR.URL,BAR.LOCATION_X,BAR.LOCATION_Y,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY,BUDDY.BUDDY_ID.count())
+            Result<Record15<Integer, String, String, String, Float, Float, String, String, String, String, String, Integer, String, String, String>> r;
+                r=dsl.selectDistinct(BAR.ID,BAR.NAME,BAR.WEBSITE,BAR.URL,BAR.LOCATION_X,BAR.LOCATION_Y,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY,BUDDY.BUDDY_ID,USER.FIRST_NAME,USER.LAST_NAME,USER.URL)
                         .from(BAR).join(ADDRESS).on(BAR.ADDRESS_ID.eq(ADDRESS.ID)).join(USER).on(USER.BAR_ID.eq(BAR.ID)).join(BUDDY).on(BUDDY.BUDDY_ID.eq(USER.ID))
-                        .where(condition1.and(condition2).and(condition3).and(BUDDY.USER_ID.eq(userId))).groupBy(BAR.ID)
+                        .where(condition1.and(condition2).and(condition3).and(BUDDY.USER_ID.eq(userId))).orderBy(BAR.ID)
                         .fetch();
+            Integer currentBar=-1;
+            ArrayList<User> friends=null;
+            Bar bar = null;
+            GeoLocation loc = null;
             for (Record record : r) {
-                GeoLocation loc = GeoLocation.fromRadians(record.getValue(BAR.LOCATION_X),record.getValue(BAR.LOCATION_Y));
-                addBarToMap(map,loc.getLatitudeInDegrees(),loc.getLongitudeInDegrees(),record.getValue(BAR.NAME)+" "+(record.getValue(BUDDY.BUDDY_ID.count())-1));
-                Address address=new Address(0, record.getValue(ADDRESS.STREET),  record.getValue(ADDRESS.NUMBER),  record.getValue(ADDRESS.ZIPCODE),  record.getValue(ADDRESS.CITY),  record.getValue(ADDRESS.COUNTRY));
-                Bar bar = new Bar(0,record.getValue(BAR.NAME),0,0,record.getValue(BAR.WEBSITE),null,address,record.getValue(BAR.URL));
-                new BarResultWidget(bar, ResultsContainer);
+                if(record.getValue(BAR.ID)==currentBar){
+                    friends.add(new User(record.getValue(USER.FIRST_NAME),record.getValue(USER.LAST_NAME),record.getValue(USER.URL)));
+                }else{
+                    if(bar!=null){
+                        addBarToMap(map,loc.getLatitudeInDegrees(),loc.getLongitudeInDegrees(),bar.getName()+"/n friends:"+(friends.size()));
+                        new BarResultWidget(bar,friends, ResultsContainer);
+                    }
+                    friends=new ArrayList<User>();
+                    friends.add(new User(record.getValue(USER.FIRST_NAME),record.getValue(USER.LAST_NAME),record.getValue(USER.URL)));
+                    loc = GeoLocation.fromRadians(record.getValue(BAR.LOCATION_X),record.getValue(BAR.LOCATION_Y));
+                    Address address = new Address(0, record.getValue(ADDRESS.STREET),  record.getValue(ADDRESS.NUMBER),  record.getValue(ADDRESS.ZIPCODE),  record.getValue(ADDRESS.CITY),  record.getValue(ADDRESS.COUNTRY));
+                    bar = new Bar(record.getValue(BAR.ID),record.getValue(BAR.NAME),0,0,record.getValue(BAR.WEBSITE),null,address,record.getValue(BAR.URL));
+                    currentBar=bar.getId();
+                }
+            }
+            if(bar!=null){
+                addBarToMap(map,loc.getLatitudeInDegrees(),loc.getLongitudeInDegrees(),bar.getName()+"/n friends:"+(friends.size()));
+                new BarResultWidget(bar,friends, ResultsContainer);
             }
         } catch (Exception e) {
             DBUtils.rollback(conn);

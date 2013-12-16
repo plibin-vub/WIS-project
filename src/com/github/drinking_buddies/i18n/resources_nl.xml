@@ -98,6 +98,7 @@
 	<message id="bar-form.add-beer">Bieren toevoegen</message>
 	<message id="bar-form.change-score">Score aanpassen</message>
 	<message id="bar-form.upload">Uploaden</message>
+	<message id="bar-form.add-to-favorites">Toevoegen aan favorieten</message>
 	<message id="bar-form.add-to-favorites.status">Status</message>
 	<message id="bar-form.add-to-favorites.added">We voegden "{1}" toe aan je favorieten!</message>
 	<message id="bar-form.add-to-favorites.not-added">We voegden "{1}" niet opnieuw toe aan je favorieten!<br/>Het was reeds opgenomen in je lijst van favoriete cafés.</message>

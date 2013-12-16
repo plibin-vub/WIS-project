@@ -12,9 +12,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.io.FileUtils;
 import org.jooq.DSLContext;
@@ -34,10 +36,12 @@ import com.github.drinking_buddies.ui.utils.DateUtils;
 import com.github.drinking_buddies.ui.utils.TemplateUtils;
 
 import eu.webtoolkit.jwt.Icon;
+import eu.webtoolkit.jwt.Side;
 import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.StandardButton;
 import eu.webtoolkit.jwt.WContainerWidget;
+import eu.webtoolkit.jwt.WDate;
 import eu.webtoolkit.jwt.WDialog.DialogCode;
 import eu.webtoolkit.jwt.WDoubleSpinBox;
 import eu.webtoolkit.jwt.WFileUpload;
@@ -51,6 +55,8 @@ import eu.webtoolkit.jwt.WString;
 import eu.webtoolkit.jwt.WTable;
 import eu.webtoolkit.jwt.WTableView;
 import eu.webtoolkit.jwt.WTemplate;
+import eu.webtoolkit.jwt.chart.Axis;
+import eu.webtoolkit.jwt.chart.AxisScale;
 import eu.webtoolkit.jwt.chart.ChartType;
 import eu.webtoolkit.jwt.chart.SeriesType;
 import eu.webtoolkit.jwt.chart.WCartesianChart;
@@ -62,6 +68,8 @@ public class BarForm extends WContainerWidget {
     private Bar bar;
     private Application app;
     private int row;
+
+    private boolean showChart=true;
     public BarForm(final Bar bar, List<Comment> comments, List<Beer> beers) {
         this.bar = bar;
         
@@ -90,7 +98,7 @@ public class BarForm extends WContainerWidget {
         sb.setRange(0, 10);
         sb.setDecimals(2);
         sb.addStyleClass("input-mini");
-        double score = Double.parseDouble(new DecimalFormat("#.##").format(bar.getScore()));
+        double score = Double.parseDouble(new DecimalFormat("#.##",DecimalFormatSymbols.getInstance(Locale.US)).format(bar.getScore()));
         sb.setValue(score);
         sb.setSingleStep(1);
         sb.setEnabled(Application.getInstance().getLoggedInUser() != null);
@@ -103,14 +111,23 @@ public class BarForm extends WContainerWidget {
                 changeScore.show();
             }
         });
-        final WCartesianChart chart = getChart(bar.getId());
-        main.bindWidget("score-chart", chart);
-        chart.resize(350, 150);
+        
+        WCartesianChart chart = getChart(bar.getId());
+        if(showChart){
+            main.bindWidget("score-chart",chart );
+        }else{
+            main.bindEmpty("score-chart");
+        }
+       
         changeScore.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
             public void trigger(WMouseEvent arg) {
                 changeScore.hide();
                 setScore(sb.getValue(),bar.getId());
-                getModel(bar.getId());
+                
+                getChart(bar.getId());
+                if(showChart){
+                    main.bindWidget("score-chart", getChart(bar.getId()));
+                }
             }       
         });
         final WTable beerList = new WTable();
@@ -258,6 +275,7 @@ public class BarForm extends WContainerWidget {
     }
 
     private WStandardItemModel getModel(int id ) {
+        
         WStandardItemModel model = new WStandardItemModel(10,2);
         model.setHeaderData(0, new WString("Date"));
         model.setHeaderData(1, new WString("Score"));
@@ -266,12 +284,17 @@ public class BarForm extends WContainerWidget {
         try {
             conn = app.getConnection();
             DSLContext dsl = DBUtils.createDSLContext(conn);
-            Result<Record2<BigDecimal, String>> r=dsl.select(BAR_SCORE.SCORE.avg(),BAR_SCORE.POST_TIME.substring(0,17))
+            Result<Record2<BigDecimal, String>> r=dsl.select(BAR_SCORE.SCORE.avg(),BAR_SCORE.POST_TIME.substring(0,8))
                     .from(BAR_SCORE)
                     .join(BAR2_BAR_SCORE)
                     .on(BAR2_BAR_SCORE.BAR_SCORE_ID.equal(BAR_SCORE.ID))
                     .where(BAR2_BAR_SCORE.BAR_ID.eq(id))
-                    .groupBy(BAR_SCORE.POST_TIME.substring(0,17)).orderBy(BAR_SCORE.POST_TIME.substring(0,17).asc()).fetch();
+                    .groupBy(BAR_SCORE.POST_TIME.substring(0,8)).orderBy(BAR_SCORE.POST_TIME.substring(0,8).asc()).fetch();
+            if(r.size()<=1){
+                showChart=false;
+            }else{
+                showChart=true;
+            }
             BigDecimal sum=new BigDecimal(0);
             int index=0;
             for (int i = 0; i < r.size(); i++) {
@@ -279,7 +302,8 @@ public class BarForm extends WContainerWidget {
                 
                
                 if(i>r.size()-10){
-                    model.setData(index,0, index);//r.get(i).getValue(BAR_SCORE.POST_TIME.substring(0,17)));
+                    WDate date=WDate.fromString(r.get(i).getValue(BAR_SCORE.POST_TIME.substring(0,8)),"yyyy-MM");
+                    model.setData(index,0,  date);
                     model.setData(index,1, sum.divide(BigDecimal.valueOf(i+1),BigDecimal.ROUND_HALF_EVEN));
                     index++;
                 }
@@ -341,14 +365,14 @@ public class BarForm extends WContainerWidget {
 
     private WCartesianChart getChart(int id) {
         WContainerWidget container = new WContainerWidget();
-        WTableView table = new WTableView(container);
-        table.setModel(getModel(id));
         WCartesianChart chart = new WCartesianChart(container);
         chart.setModel(getModel(id));
         chart.setXSeriesColumn(0);
         chart.setType(ChartType.ScatterPlot);
         WDataSeries s = new WDataSeries(1, SeriesType.CurveSeries);
         chart.addSeries(s);
+        chart.getAxis(Axis.XAxis).setScale(AxisScale.DateScale);
+        chart.resize(350, 150);
         //chart.resize(new WLength(350), new WLength(100));
         return chart;
     }
