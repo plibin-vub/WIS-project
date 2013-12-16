@@ -263,14 +263,16 @@
 	</message>
 	
 	<message id="comment-widget">
-		<div class="span1"><img src="${poster-img}"/></div>
-		<div>
-			
-			<div class="row-fluid">
+		<div class="row-fluid" style="padding:5px">
+			<div class="span1"><img src="${poster-img}"/></div>
+			<div class="span11">
+				
 				<div class="row-fluid">
-				<span>${tr:comment.posted-by}:${poster-name}</span> <span>${posted-x-time-ago}</span>
+					<div class="row-fluid">
+					<span>${tr:comment.posted-by}:${poster-name}</span> <span>${posted-x-time-ago}</span>
+					</div>
+					<div class="row-fluid comment-text">${text}</div>
 				</div>
-				<div class="row-fluid offset1 comment-text">${text}</div>
 			</div>
 		</div>
 	</message>
