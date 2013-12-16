@@ -10219,6 +10219,7 @@ One inch off-white head recedes quickly to a cap and thick collar throughout. De
 More with the raisins but finishes with a taste of cherries. Well balanced hop profile to malts but yeast dominates as it should.
 Highly recommended for any Belgian beer fan.
 Visiting the brewery is also worth the while!','2013-12-14 19:39:47');
+INSERT INTO "review" VALUES(3,9816,2,4.0,3.5,2.0,3.5,'The appearance is a golden copper color. This is one foamy beer and creates a huge head. There is a subtle spicy aroma and I picked up coriander spice with a slight orange zest. There is definatley upfront spice with a peppery bitter aftertaste that I found a little disagreable. It''s the aftertaste that ruins this beer for me. As for mouthfeel, this is a highly carbonated Belgian ale.','2013-12-15 14:28:45');
 INSERT INTO "bar" VALUES(48,'In de vrede',NULL,NULL,NULL,48,0.888285994529724,0.0475079528987408,'in_de_vrede');
 INSERT INTO "address" VALUES(48,'Donkerstraat','13','8640','West-Vleteren','Belgium');
 INSERT INTO "beer2_bar" VALUES(6521,48);
@@ -10248,4 +10249,6 @@ INSERT INTO "bar2_bar_score" VALUES(24,8);
 INSERT INTO "bar2_bar_score" VALUES(24,9);
 INSERT INTO "bar2_bar_score" VALUES(24,10);
 INSERT INTO "bar2_bar_score" VALUES(24,11);
+INSERT INTO "review_comment" VALUES(1,1,9,'I like your review, but I dont taste the peach.','2013-12-15 14:27:38');
+INSERT INTO "review_comment" VALUES(2,1,6,'I think the double is better.','2013-12-15 14:34:04');
 commit;
