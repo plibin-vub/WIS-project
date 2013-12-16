@@ -154,7 +154,7 @@ public class FriendsBarsForm extends WContainerWidget {
                     friends.add(new User(record.getValue(USER.FIRST_NAME),record.getValue(USER.LAST_NAME),record.getValue(USER.URL)));
                 }else{
                     if(bar!=null){
-                        addBarToMap(map,loc.getLatitudeInDegrees(),loc.getLongitudeInDegrees(),bar.getName()+"/n friends:"+(friends.size()));
+                        addBarToMap(map,loc.getLatitudeInDegrees(),loc.getLongitudeInDegrees(),bar.getName()+" friends:"+(friends.size()));
                         new BarResultWidget(bar,friends, ResultsContainer);
                     }
                     friends=new ArrayList<User>();
@@ -166,7 +166,7 @@ public class FriendsBarsForm extends WContainerWidget {
                 }
             }
             if(bar!=null){
-                addBarToMap(map,loc.getLatitudeInDegrees(),loc.getLongitudeInDegrees(),bar.getName()+"/n friends:"+(friends.size()));
+                addBarToMap(map,loc.getLatitudeInDegrees(),loc.getLongitudeInDegrees(),bar.getName()+" friends:"+(friends.size()));
                 new BarResultWidget(bar,friends, ResultsContainer);
             }
         } catch (Exception e) {
