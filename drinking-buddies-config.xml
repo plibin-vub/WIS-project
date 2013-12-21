@@ -1,17 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration>
+  <!-- database configuration -->
   <database>
-    <jdbcUrl>jdbc:sqlite:./DrinkingBuddies.db</jdbcUrl>
-    <userName></userName>
-    <password></password>
+    	<!-- provide the JDBC database URL for the DrinkingBuddies database -->
+    	<jdbcUrl>jdbc:sqlite:\my\db-location\DrinkingBuddies.db</jdbcUrl>
+    	<!-- provide a userName for the database 
+		(can be left empty if no userName was configured)-->
+    	<userName></userName>
+    	<!-- provide a password for the database 
+		(can be left empty if no password was configured)-->
+    	<password></password>
   </database>
   
+  <!-- wt configuration -->
   <wt>
-	<locale>en</locale>
+  	<!-- OAuth configurations -->
   	<authProperties>
-  		<property name="facebook-oauth2-redirect-endpoint" value="http://localhost:8080/db/oauth2callback/"/>
-        <property name="facebook-oauth2-app-id" value="620305514675365"/>
-        <property name="facebook-oauth2-app-secret" value="eeae19291543913f6a028071ddf81b72"/>
+  		<!-- Facebook OAuth Redirect Endpoint:
+			if you followed the INSTALL.md/INSTALL.html file;
+			you should put here the value of "Site URL" you wrote down -->
+  		<property 
+			name="facebook-oauth2-redirect-endpoint" 
+			value="http://localhost:8080/db/oauth2callback/"/>
+  		<!-- Facebook OAuth Application Id:
+			if you followed the INSTALL.md/INSTALL.html file;
+			you should put here the value of "App ID" you wrote down -->
+        	<property 
+			name="facebook-oauth2-app-id" 
+			value="620305514675365"/>
+  		<!-- Facebook OAuth Application Secret:
+			if you followed the INSTALL.md/INSTALL.html file;
+			you should put here the value of "App Secret" you wrote down -->
+        	<property name="facebook-oauth2-app-secret" 
+			value="eeae19291543913f6a028071ddf81b72"/>
   	</authProperties>
   </wt>
 </configuration>

@@ -21,4 +21,4 @@ Installation:
  * create an account at: http://www.brewerydb.com
  * after registration, write down your API key
  * NOTE: for development purposes you can use the settings as configured in the example configuration file ($WIS-project\drinking-buddies-config.xml)
- 
+* create a configuration file based on the example XML file $WIS-project\drinking-buddies-config.xml
