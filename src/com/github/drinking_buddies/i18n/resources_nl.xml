@@ -113,9 +113,11 @@
 	<message id="nearby-bars-form.beer">Bier op tap</message>
 	<message id="nearby-bars-form.search">Cafés zoeken</message>
     <message id="nearby-bars-form.beer-not-found">Je bier is niet gevonden</message>
+    <message id="nearby-bars-form.location-not-found">Locatie niet gevonden</message>
 	
 	<message id="friends-bars-form.title">Zoek een café waar vrienden van je zijn</message>
 	<message id="friends-bars-form.location">Zoek op plaats</message>
 	<message id="friends-bars-form.radius">Straal</message>
 	<message id="friends-bars-form.search">Cafés zoeken</message>
+	<message id="friends-bars-form.location-not-found">Locatie niet gevonden</message>
 </messages>

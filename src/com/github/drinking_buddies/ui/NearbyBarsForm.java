@@ -8,6 +8,7 @@ import static com.github.drinking_buddies.jooq.Tables.BEER;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.EnumSet;
 
 import org.jooq.Condition;
 import org.jooq.DSLContext;
@@ -29,16 +30,19 @@ import com.github.drinking_buddies.ui.utils.TemplateUtils;
 import com.github.drinking_buddies.webservices.google.Geocoding;
 import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 
+import eu.webtoolkit.jwt.Icon;
 import eu.webtoolkit.jwt.JSignal;
 import eu.webtoolkit.jwt.JSignal1;
 import eu.webtoolkit.jwt.Signal;
 import eu.webtoolkit.jwt.Signal1;
+import eu.webtoolkit.jwt.StandardButton;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WDoubleSpinBox;
 import eu.webtoolkit.jwt.WGoogleMap.ApiVersion;
 import eu.webtoolkit.jwt.WGoogleMap.Coordinate;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLineEdit;
+import eu.webtoolkit.jwt.WMessageBox;
 import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WTemplate;
@@ -104,6 +108,10 @@ public class NearbyBarsForm extends WContainerWidget{
                     giveError();
                     return;
                 }
+                if(coordinates==null){
+                    giveError();
+                    return;
+                }
                 map.clearOverlays();
                 ResultsContainer.clear();
                 Integer beerId = null;
@@ -123,7 +131,21 @@ public class NearbyBarsForm extends WContainerWidget{
 
 
             private void giveError() {
-                // TODO Auto-generated method stub
+                final WMessageBox messageBox = new WMessageBox(
+                        "Error",
+                        tr("nearby-bars-form.location-not-found"),
+                        Icon.Warning, EnumSet.of(StandardButton.Ok));
+                messageBox.setModal(false);
+                messageBox.buttonClicked().addListener(main,
+                        new Signal1.Listener<StandardButton>() {
+                            @Override
+                            public void trigger(StandardButton arg) {
+                                if (messageBox != null)
+                                    messageBox.remove();
+                                
+                            }
+                        });
+                messageBox.show();
                 
             }   
         });

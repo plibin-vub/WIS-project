@@ -57,6 +57,7 @@ import eu.webtoolkit.jwt.WEnvironment;
 import eu.webtoolkit.jwt.WLink;
 import eu.webtoolkit.jwt.WText;
 import eu.webtoolkit.jwt.WXmlLocalizedStrings;
+import eu.webtoolkit.jwt.utils.JarUtils;
 
 public class Application extends WApplication {
 
@@ -65,6 +66,10 @@ public class Application extends WApplication {
     
     private User loggedInUser;
 
+    private static String getGeoLocationJS;
+    static {
+            getGeoLocationJS = JarUtils.getInstance().readTextFromJar("/com/github/drinking_buddies/jwt/get-location.js");
+    }
     
     public Application(WEnvironment env, ServletContext servletContext) {
         super(env);
@@ -341,26 +346,10 @@ public class Application extends WApplication {
               }
               
               
-              this.doJavaScript("getLocation();\r\n"
-                      + "function getLocation()\r\n" + 
-                      "  {\r\n" + 
-                      "  if (navigator.geolocation)\r\n" + 
-                      "    {\r\n" + 
-                      "    navigator.geolocation.getCurrentPosition(showPosition,showError);\r\n" + 
-                      "    }\r\n" + 
-                      "  else{x.innerHTML=\"Geolocation is not supported by this browser.\";}\r\n" + 
-                      "  }\r\n" + 
-                      "function showPosition(position)\r\n" + 
-                      "  {\r\n" + 
-                      " Wt.emit(Wt, {name: 'pingSignal', event: null, eventObject: null}, position.coords.latitude,position.coords.longitude); "+
-                      "  }"+
-                      "function showError(position)\r\n" + 
-                      "  {\r\n" + 
-                      " Wt.emit(Wt, {name: 'pingSignal', event: null, eventObject: null},\"50.8833\" ,\"4.7000\"); "+
-                      "  }");
+              this.doJavaScript(getGeoLocationJS.replace("${signal-name}", "currentLocation"));
               
-              pingSignal = new JSignal2<String,String>(this, "pingSignal") { };
-              pingSignal.addListener(this, new Signal2.Listener<String,String>(){
+              currentLocation = new JSignal2<String,String>(this, "currentLocation") { };
+              currentLocation.addListener(this, new Signal2.Listener<String,String>(){
 
                   @Override
                   public void trigger(String arg,String arg2) {
@@ -372,23 +361,7 @@ public class Application extends WApplication {
               });
               
           } else if (FIND_NEARBY_FRIENDS_URL.equals(parts[0])) {
-              this.doJavaScript("getLocation();\r\n"
-                      + "function getLocation()\r\n" + 
-                      "  {\r\n" + 
-                      "  if (navigator.geolocation)\r\n" + 
-                      "    {\r\n" + 
-                      "    navigator.geolocation.getCurrentPosition(showPosition,showError);\r\n" + 
-                      "    }\r\n" + 
-                      "  else{x.innerHTML=\"Geolocation is not supported by this browser.\";}\r\n" + 
-                      "  }\r\n" + 
-                      "function showPosition(position)\r\n" + 
-                      "  {\r\n" + 
-                      " Wt.emit(Wt, {name: 'friendsLocation', event: null, eventObject: null}, position.coords.latitude,position.coords.longitude); "+
-                      "  }"+
-                      "function showError(position)\r\n" + 
-                      "  {\r\n" + 
-                      " Wt.emit(Wt, {name: 'friendsLocation', event: null, eventObject: null},\"50.8833\" ,\"4.7000\"); "+
-                      "  }");
+              this.doJavaScript(getGeoLocationJS.replace("${signal-name}", "friendsLocation"));
               
               friendsLocation = new JSignal2<String,String>(this, "friendsLocation") { };
               friendsLocation.addListener(this, new Signal2.Listener<String,String>(){
@@ -411,8 +384,8 @@ public class Application extends WApplication {
     private String len = "4.7000";
     private JSignal2<String,String> friendsLocation;
     private JSignal2<String,String> friendsLocation() { return friendsLocation; }
-    private JSignal2<String,String> pingSignal;
-    private JSignal2<String,String> pingSignal() { return pingSignal; }
+    private JSignal2<String,String> currentLocation;
+    private JSignal2<String,String> currentLocation() { return currentLocation; }
     
     private void show404() {
         getRoot().clear();
