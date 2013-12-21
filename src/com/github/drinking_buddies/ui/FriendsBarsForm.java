@@ -8,6 +8,7 @@ import static com.github.drinking_buddies.jooq.Tables.USER;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 import org.jooq.Condition;
@@ -34,8 +35,11 @@ import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WDoubleSpinBox;
 import eu.webtoolkit.jwt.WGoogleMap.ApiVersion;
 import eu.webtoolkit.jwt.WGoogleMap.Coordinate;
+import eu.webtoolkit.jwt.Icon;
+import eu.webtoolkit.jwt.StandardButton;
 import eu.webtoolkit.jwt.WLength;
 import eu.webtoolkit.jwt.WLineEdit;
+import eu.webtoolkit.jwt.WMessageBox;
 import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WTemplate;
@@ -95,6 +99,10 @@ public class FriendsBarsForm extends WContainerWidget {
                     giveError();
                     return;
                 }
+                if(coordinates==null){
+                    giveError();
+                    return;
+                }
                 map.clearOverlays();
                 ResultsContainer.clear();
                 querryBars(map ,Double.valueOf(coordinates.lat), Double.valueOf(coordinates.lng),radius.getValue(),app.getLoggedInUser().getId());
@@ -102,7 +110,21 @@ public class FriendsBarsForm extends WContainerWidget {
 
 
             private void giveError() {
-                // TODO Auto-generated method stub
+                final WMessageBox messageBox = new WMessageBox(
+                        "Status",
+                        tr("friends-bars-form.location-not-found"),
+                        Icon.Warning, EnumSet.of(StandardButton.Ok));
+                messageBox.setModal(false);
+                messageBox.buttonClicked().addListener(main,
+                        new Signal1.Listener<StandardButton>() {
+                            @Override
+                            public void trigger(StandardButton arg) {
+                                if (messageBox != null)
+                                    messageBox.remove();
+                                
+                            }
+                        });
+                messageBox.show();
                 
             }   
         });

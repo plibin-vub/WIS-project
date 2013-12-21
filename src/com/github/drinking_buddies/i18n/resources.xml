@@ -113,10 +113,12 @@
 	<message id="nearby-bars-form.beer">Beer on tap</message>
 	<message id="nearby-bars-form.search">Find bars</message>
     <message id="nearby-bars-form.beer-not-found">Beer not found, no beer used in search</message>
+    <message id="nearby-bars-form.location-not-found">Location not found</message>
 	
 	<message id="friends-bars-form.title">Find bars with friends</message>
 	<message id="friends-bars-form.location">Search location</message>
 	<message id="friends-bars-form.radius">Radius</message>
 	<message id="friends-bars-form.search">Find bars</message>
+	<message id="friends-bars-form.location-not-found">Location not found</message>
 
 </messages>
