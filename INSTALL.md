@@ -5,8 +5,8 @@ Required software:
 * sqlite database 
 
 References:
-$WIS-project: refers to this project's directory
-$sqlite: refers to your sqlite binary 
+* $WIS-project: refers to this project's directory
+* $sqlite: refers to your sqlite binary 
 
 Installation:
 * initiate the database (/favorite_location/ can be any directory where you want to setup the database)
