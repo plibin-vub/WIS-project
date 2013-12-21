@@ -50,7 +50,7 @@
 	 webxml="WebRoot/WEB-INF/web.xml">
       <fileset dir="WebRoot"/>
       <lib dir="${lib.dir}" 
-	   includes="**/*.jar" 
+	   includes="*.jar" 
 	   excludes="servlet-api-*.jar">
       </lib>
       <classes dir="${build.dir}"/>
