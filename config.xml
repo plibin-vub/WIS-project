@@ -3,7 +3,7 @@
   <!-- database configuration -->
   <database>
     	<!-- provide the JDBC database URL for the DrinkingBuddies database -->
-    	<jdbcUrl>jdbc:sqlite:\my\db-location\DrinkingBuddies.db</jdbcUrl>
+    	<jdbcUrl>jdbc:sqlite:/my/db-location/DrinkingBuddies.db</jdbcUrl>
     	<!-- provide a userName for the database 
 		(can be left empty if no userName was configured)-->
     	<userName></userName>
