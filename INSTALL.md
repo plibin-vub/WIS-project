@@ -14,8 +14,7 @@ Installation:
  * $sqlite \favorite_location\DrinkingBuddies.db < $WIS-project\db\beers.sql
 * to be able to use Facebook OAuth, you need to register your instance of this application
  * register your application with Facebook: https://developers.facebook.com/apps
- * after registration, write down these values:
-  * App ID, App Secret, Site URL
+ * after registration, write down these values: App ID, App Secret, Site URL
  * NOTE: for development purposes you can use the settings as configured in the example configuration file ($WIS-project\drinking-buddies-config.xml) 
 * to be able to use the BreweryDB web services,
  * create an account at: http://www.brewerydb.com
