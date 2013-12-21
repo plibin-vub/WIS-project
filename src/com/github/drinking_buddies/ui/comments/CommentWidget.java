@@ -25,7 +25,7 @@ public class CommentWidget extends WTemplate {
         this.bindString("poster-img", comment.getPoster().getSmallImageUrl());
         this.bindString("text", comment.getText());
         
-        Locale l = new Locale(Application.getInstance().getConfiguration().getWt().getLocale());
+        Locale l = Application.getInstance().getEnvironment().getLocale();
         this.bindString("posted-x-time-ago", new PrettyTime(l).format(comment.getPostDate()));
     }
 }
