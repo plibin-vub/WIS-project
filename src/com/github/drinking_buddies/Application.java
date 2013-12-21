@@ -194,7 +194,8 @@ public class Application extends WApplication {
                 
                 com.github.drinking_buddies.webservices.brewerydb.Beer beer_from_brewerydb;
                 try {
-                    beer_from_brewerydb = BreweryDb.getBeer(beerWSName);
+                    String apiKey = this.getConfiguration().getBreweryDb().getApiKey();
+                    beer_from_brewerydb = BreweryDb.getBeer(apiKey, beerWSName);
                     Beer b = new Beer(id, 
                             beerName, 
                             beer_from_brewerydb.getMainBrewery(), 

@@ -35,4 +35,11 @@
 			value="eeae19291543913f6a028071ddf81b72"/>
   	</authProperties>
   </wt>
+  <!-- brewery-db configuration -->
+  <breweryDb>
+	<!-- BreweryDB API key:
+			if you followed the INSTALL.md/INSTALL.html file;
+			you should put here the value of "API Key" you wrote down -->
+	<apiKey>75cecd79b3bd1fdf0e36baab9c696004</apiKey>
+  </breweryDb>
 </configuration>

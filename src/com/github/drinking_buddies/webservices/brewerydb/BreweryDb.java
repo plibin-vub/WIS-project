@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.security.auth.login.Configuration;
+
 import org.apache.http.client.utils.URIUtils;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -20,20 +22,14 @@ import com.google.gson.Gson;
 
 //set of functions to interact with the brewery-db web service
 public class BreweryDb {
-
-    private static final String API_KEY = "75cecd79b3bd1fdf0e36baab9c696004";
     private static final String HOST = "api.brewerydb.com";
     private static final String BEERS_PATH = "/v2/beers";
 
-    public static void main(String[] args) throws RestException, SQLException {
-        loadBeersToDb();
-    }
-
-    public static Beer getBeer(String id) throws RestException {
+    public static Beer getBeer(String apiKey, String id) throws RestException {
         URI url;
         try {
             url = URIUtils.createURI("http", HOST, 80, BEERS_PATH, "key="
-                    + API_KEY + "&ids=" + id + "&withBreweries=y", null);
+                    + apiKey + "&ids=" + id + "&withBreweries=y", null);
         } catch (URISyntaxException e) {
             throw new IllegalArgumentException("id is not valid", e);
         }
@@ -44,7 +40,7 @@ public class BreweryDb {
         return beerResults.getData().get(0);
     }
 
-    public static List<BeerResults> getAllBeers() throws RestException {
+    public static List<BeerResults> getAllBeers(String apiKey) throws RestException {
         URI url;
         ArrayList<BeerResults> result = new ArrayList<BeerResults>();
         BeerResults beerResults;
@@ -53,7 +49,7 @@ public class BreweryDb {
             do {
                 try {
                     url = URIUtils.createURI("http", HOST, 80, BEERS_PATH,
-                            "key=" + API_KEY + "&availableId=" + i+"&p="+page, null);
+                            "key=" + apiKey + "&availableId=" + i+"&p="+page, null);
                     System.out.println(url);
                 } catch (URISyntaxException e) {
                     throw new IllegalArgumentException("id is not valid", e);
@@ -69,9 +65,9 @@ public class BreweryDb {
         return result;
     }
     
-    public static void loadBeersToDb() throws RestException, SQLException{
+    public static void loadBeersToDb(String apiKey) throws RestException, SQLException{
 //        BreweryDb b = new BreweryDb();
-        List<BeerResults> results = getAllBeers();
+        List<BeerResults> results = getAllBeers(apiKey);
         int totalskipped=0;
         Connection conn= DBUtils.getConnection();
         DSLContext dsl = DBUtils.createDSLContext(conn);

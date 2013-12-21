@@ -9,12 +9,18 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 public class Configuration {
     private Database database;
     private Wt wt;
+    private BreweryDb breweryDb;
 
-    public Configuration(String locale, Database database, Wt wt) {
+    public Configuration(String locale, Database database, Wt wt, BreweryDb breweryDb) {
         this.database = database;
         this.wt = wt;
+        this.breweryDb = breweryDb;
     }
 
+    public BreweryDb getBreweryDb() {
+        return breweryDb;
+    }
+    
     public Database getDatabase() {
         return database;
     }
