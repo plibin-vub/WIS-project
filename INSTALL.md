@@ -31,5 +31,5 @@ Installation:
 * install drinking-buddies.war in your servlet container
  * for this, consult you servlet container manual
 * you should now be able to access the application on the URL where you installed the war file on
- * NOTE 1: the context of the application is db, so to run the application you should use the url http://mydomain.com/install-url/db/ 
- * NOTE 2: You can change the default context (db) in $WIS-project/WebRoot/WEB-INF/web.xml; to do this, you should change the servlet mappings 
+ * NOTE 1: the context of the application is /db, so to run the application you should use the url http://mydomain.com/install-url/db/ 
+ * NOTE 2: You can change the default context (/db) in $WIS-project/WebRoot/WEB-INF/web.xml; to do this, you should change the servlet mappings 
