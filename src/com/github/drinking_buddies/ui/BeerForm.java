@@ -30,11 +30,11 @@ import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WString;
 import eu.webtoolkit.jwt.WTemplate;
 
-/**
- * The beer form UI component.
- * This form shows beer information and allows users to look at and provide reviews,
- * these reviews can also be commented upon.
- */
+
+ //The beer form UI component.
+ //This form shows beer information and allows users to look at and provide reviews (with a score),
+ //these reviews can also be commented upon.
+ //Users can also tag beers.
 public class BeerForm extends WContainerWidget {
     private WTemplate main;
     
@@ -43,6 +43,7 @@ public class BeerForm extends WContainerWidget {
     
     private List<Review> reviews;
   
+    //beer form ctor
     public BeerForm(final Beer beer, List<Tag> tags, List<Review> reviews) {
         this.reviews = reviews;
         
@@ -71,6 +72,7 @@ public class BeerForm extends WContainerWidget {
                     String prefix = "beer-form.add-to-favorites.";
                     WString status = tr(prefix + "status");
                     
+                    //inform the user with a message box
                     final WMessageBox mb;
                     if (added) {
                         mb = new WMessageBox(status, 
@@ -84,6 +86,8 @@ public class BeerForm extends WContainerWidget {
                                 EnumSet.of(StandardButton.Ok));
                     }
                     mb.setModal(true);
+                    //if the users clicks on the 'OK' button of the message box,
+                    //make the message box disappear
                     mb.buttonClicked().addListener(BeerForm.this, new Signal1.Listener<StandardButton>() {
                         public void trigger(StandardButton sb) {
                             mb.done(DialogCode.Accepted);
@@ -111,7 +115,8 @@ public class BeerForm extends WContainerWidget {
             //add the "add tag" button to the main template
             WPushButton addTag = new WPushButton(tr("beer-form.add-tag"));
             addTag.addStyleClass("btn-small");
-            //connect a listener to the button
+            //connect a listener to the button:
+            //when the "add tag" button is clicked, show the AddTagDialog
             addTag.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
                 public void trigger(WMouseEvent arg) {
                     AddTagDialog dialog = new AddTagDialog(beer, BeerForm.this);
@@ -128,6 +133,7 @@ public class BeerForm extends WContainerWidget {
             main.bindWidget("add-tag", null);
         }
         
+        //add reviews
         for (Review r : reviews) {
             addReviewWidget(r);
         }
@@ -137,6 +143,7 @@ public class BeerForm extends WContainerWidget {
             //add the "add review" button to the main template
             WPushButton addReview = new WPushButton(tr("beer-form.add-review"));
             //connect a listener to the button
+            //when the "add tag" button is clicked, show the AddReviewDialog
             addReview.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
                 public void trigger(WMouseEvent arg) {
                     AddReviewDialog dialog = new AddReviewDialog(beer, BeerForm.this);

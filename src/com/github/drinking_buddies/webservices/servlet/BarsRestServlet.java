@@ -31,7 +31,9 @@ import com.github.drinking_buddies.jooq.utils.SearchUtils;
 import com.github.drinking_buddies.ui.utils.EncodingUtils;
 import com.google.gson.Gson;
 
-
+//REST web service
+//This web service is implemented as a servlet that parses the URL 
+//and serves JSON text (based on the content of the URL).
 public class BarsRestServlet extends RestServlet {
     private Configuration configuration;
     
