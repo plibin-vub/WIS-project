@@ -70,7 +70,7 @@ public class Application extends WApplication {
 
     private static String getGeoLocationJS;
     static {
-            getGeoLocationJS = JarUtils.getInstance().readTextFromJar("/com/github/drinking_buddies/jwt/get-location.js");
+            getGeoLocationJS = JarUtils.getInstance().readTextFromJar("/com/github/drinking_buddies/get-location.js");
     }
     
     public Application(WEnvironment env, ServletContext servletContext) {
