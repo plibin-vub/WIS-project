@@ -1,10 +1,6 @@
 package com.github.drinking_buddies.entities;
 
-/**
- * An image data entity
- * 
- * @author plibin0
- */
+//Image POJO
 public class Image {
     private byte[] data;
     private String mimetype;

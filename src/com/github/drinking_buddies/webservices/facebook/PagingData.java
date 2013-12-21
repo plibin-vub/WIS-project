@@ -1,5 +1,6 @@
 package com.github.drinking_buddies.webservices.facebook;
 
+//Facebook PagingData POJO
 public class PagingData {
 
 	private String next;

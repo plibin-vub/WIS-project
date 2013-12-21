@@ -18,6 +18,7 @@ import com.github.drinking_buddies.webservices.rest.RestRequest;
 import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 import com.google.gson.Gson;
 
+//set of functions to interact with the brewery-db web service
 public class BreweryDb {
 
     private static final String API_KEY = "75cecd79b3bd1fdf0e36baab9c696004";

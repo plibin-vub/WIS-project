@@ -3,7 +3,7 @@ package com.github.drinking_buddies.webservices.facebook;
 import java.util.List;
 
 
-
+//Facebook FriendsPage POJO
 public class FriendsPage {
 	private List<Friend> data;
 	private PagingData paging;

@@ -8,6 +8,7 @@ import com.github.drinking_buddies.ui.utils.DateUtils;
 
 import static com.github.drinking_buddies.jooq.Tables.REVIEW;
 
+//Review POJO
 public class Review {
     public static final int highestScore = 5;
     

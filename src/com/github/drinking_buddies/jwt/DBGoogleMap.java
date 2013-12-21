@@ -5,6 +5,9 @@ import eu.webtoolkit.jwt.WGoogleMap;
 import eu.webtoolkit.jwt.WString;
 import eu.webtoolkit.jwt.WWebWidget;
 
+//Our own extension of JWt's WGoogleMap,
+//basically we add the possibility to add markers 
+//that when clicked show a popup text
 public class DBGoogleMap extends WGoogleMap {
     public DBGoogleMap() {
         super();
@@ -22,10 +25,9 @@ public class DBGoogleMap extends WGoogleMap {
         super(parent);
     }
 
-    /**
-     * Based on the original JWt code Adds a marker overlay to the map WITH a
-     * popup text (that appears when clicked on the marker).
-     */
+    
+    //Based on the original JWt code Adds a marker overlay to the map WITH a
+    //popup text (that appears when clicked on the marker).
     public void addMarker(WGoogleMap.Coordinate pos, CharSequence html) {
         String strm = null;
 
@@ -48,6 +50,7 @@ public class DBGoogleMap extends WGoogleMap {
         doGmJavaScript(strm);
     }
 
+    //Generate code to open an info window at a location.
     private String openInfoWindowJS(Coordinate pos, CharSequence myHtml) {
         String strm;
         strm = "var pos = new google.maps.LatLng(" + pos.getLatitude() + ", "

@@ -12,7 +12,10 @@ import eu.webtoolkit.jwt.WNavigationBar;
 import eu.webtoolkit.jwt.WString;
 import eu.webtoolkit.jwt.WTemplate;
 
+//some template utility functions
 public class TemplateUtils {
+    //default configuration of all templates:
+    //expose the tr function in templates and make some variables available
     public static void configureDefault(Application app, WTemplate t) {
         t.addFunction("tr", WTemplate.Functions.tr);
         t.bindString("app.url", app.resolveRelativeUrl(app.getBookmarkUrl("/")));
@@ -22,11 +25,12 @@ public class TemplateUtils {
         setHeader(app, t);
     }
     
+    //configure the application's header:
+    //- show the current user (can be clicked: navigates to the user's form)
+    //- allow the header to be clicked
     public static void setHeader(final Application app, WTemplate t) {
         WTemplate userLoggedIn = new WTemplate(WString.tr("header-user"));
         WNavigationBar navigation = new WNavigationBar();
-//        navigation.setTitle("Drinking Buddies", new WLink(
-//                "#"));
         WImage image = new WImage(new WLink("pics/header.png"));
         image.clicked().addListener(t, new Signal.Listener(){
                 public void trigger() {
@@ -34,6 +38,8 @@ public class TemplateUtils {
                 }
         });
         navigation.addWidget(image);
+        //navigation bar should not respond to screen size:
+        //this is only necessary if you have menu-items in the bar
         navigation.setResponsive(false);
         navigation.addStyleClass("navbar-inverse");
         navigation.addStyleClass("navbar-fixed-top");

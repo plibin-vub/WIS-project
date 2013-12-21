@@ -5,6 +5,7 @@ import java.io.IOException;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
+//some utility functions to encode from and to base64
 public class EncodingUtils {
     public static byte[] base64ToByteArray(String encodedBytes) throws IOException {
         BASE64Decoder decoder = new BASE64Decoder();

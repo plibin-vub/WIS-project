@@ -1,5 +1,6 @@
 package com.github.drinking_buddies.entities;
 
+//Address POJO
 public class Address {
     
     private int id;

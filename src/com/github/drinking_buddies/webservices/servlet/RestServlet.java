@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+//extend HttpServlet to make setting up a REST servlet easier
 public abstract class RestServlet extends HttpServlet {  
     public enum Format {
         JSON("application/json");

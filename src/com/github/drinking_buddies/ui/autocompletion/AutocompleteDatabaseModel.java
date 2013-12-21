@@ -5,12 +5,11 @@ import java.util.ArrayList;
 import eu.webtoolkit.jwt.WAbstractTableModel;
 import eu.webtoolkit.jwt.WModelIndex;
 
-/**
- * Database model that can be filtered, 
- * and keeps a limited number of results (to be configured upon construction).
- * This model is to be used to implement autocompletion.
- * The implementor needs to override the filterQuery method.
- */
+
+// Database model that can be filtered, 
+// and keeps a limited number of results (to be configured upon construction).
+// This model is to be used to implement autocompletion.
+// The implementor needs to override the filterQuery method.
 public abstract class AutocompleteDatabaseModel extends WAbstractTableModel {
     private final int limit;
     protected ArrayList<String> list;

@@ -58,6 +58,8 @@ import eu.webtoolkit.jwt.WLink;
 import eu.webtoolkit.jwt.WText;
 import eu.webtoolkit.jwt.WXmlLocalizedStrings;
 
+//This is the starting point of our application.
+//For each new session an Application object is created.
 public class Application extends WApplication {
 
     private ServletContext servletContext;
@@ -72,6 +74,8 @@ public class Application extends WApplication {
 
         this.useStyleSheet(new WLink("styles/app.css"));
         setTheme(new WBootstrapTheme());
+               
+        //load our resource bundles: templates and i18n XML files
         WXmlLocalizedStrings resources = new WXmlLocalizedStrings();
         resources.use("/com/github/drinking_buddies/ui/templates");
         resources.use("/com/github/drinking_buddies/i18n/resources");
@@ -79,6 +83,7 @@ public class Application extends WApplication {
         
         setTitle(tr("app.title"));
         
+        //this listener will be triggered when the internal path of the application changes
         this.internalPathChanged().addListener(this, new Signal1.Listener<String>(){
             @Override
             public void trigger(String internalPath) {
@@ -104,6 +109,7 @@ public class Application extends WApplication {
     public static String FIND_NEARBY_FRIENDS_URL = "find_nearby_friends";
     public static String FIND_NEARBY_BARS_URL = "find_nearby_bars";
     
+    //parse the internal path and show the corresponding forms
     private void handleInternalPath(String ip) {
         String[] parts = split(ip);
         
@@ -113,8 +119,9 @@ public class Application extends WApplication {
             getRoot().addWidget(new StartForm());
             return;
         }
-            
+        
         if (BEERS_URL.equals(parts[0])) {
+            //handle /beers/
             if (parts.length > 1) {
                 final String beerURL = parts[1];
                 
@@ -198,6 +205,7 @@ public class Application extends WApplication {
                 getRoot().addWidget(new BeerSearchForm());
             }
         } else if ("users".equals(parts[0])) {
+            //handle /users/
             if (parts.length > 1 ) {
                  String url = parts[1];
                  Connection conn = null;
@@ -238,6 +246,7 @@ public class Application extends WApplication {
                  }
             }
         } else if (BARS_URL.equals(parts[0])) {
+            //handle /bars/
             if(parts.length>1) {
                 final String barURL = parts[1];
                 Bar bar=null;

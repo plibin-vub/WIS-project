@@ -1,10 +1,6 @@
 package com.github.drinking_buddies.entities;
 
-/**
- * A beer data entity
- * 
- * @author plibin0
- */
+//Beer POJO
 public class Beer {
     private int id;
     private String name;

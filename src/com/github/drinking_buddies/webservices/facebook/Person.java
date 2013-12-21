@@ -1,5 +1,6 @@
 package com.github.drinking_buddies.webservices.facebook;
 
+//Facebook PagingData POJO
 public class Person {
 
 	private String id;
@@ -10,7 +11,6 @@ public class Person {
 	private String username;
 	private String gender;
 	private String updated_time;
-	private Location location;
 	public String getId() {
 		return id;
 	}
@@ -58,12 +58,6 @@ public class Person {
 	}
 	public void setUpdated_time(String updated_time) {
 		this.updated_time = updated_time;
-	}
-	public Location getLocation() {
-		return location;
-	}
-	public void setLocation(Location location) {
-		this.location = location;
 	}
 	
 }

@@ -9,6 +9,10 @@ import eu.webtoolkit.jwt.WObject;
 import eu.webtoolkit.jwt.WSuggestionPopup;
 import eu.webtoolkit.jwt.WWebWidget;
 
+//A popup that listens to a WLineEdit:
+//on every change in the text of the WLineEdit, 
+//it will ask the AutocompleteDatabaseModel to redo its filtering.
+//The contents of this model are than propagated to this popup.
 public class AutocompletePopup extends WSuggestionPopup {
     private String filter = null;
     

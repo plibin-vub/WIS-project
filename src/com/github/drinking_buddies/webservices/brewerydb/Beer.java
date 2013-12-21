@@ -2,6 +2,7 @@ package com.github.drinking_buddies.webservices.brewerydb;
 
 import java.util.Map;
 
+//Beer POJO used to combine all data received from the brewery db web service
 public class Beer {
     class Brewery {
         private String name;

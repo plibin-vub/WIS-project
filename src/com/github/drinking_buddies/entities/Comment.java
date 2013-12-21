@@ -2,6 +2,7 @@ package com.github.drinking_buddies.entities;
 
 import java.util.Date;
 
+//Comment POJO
 public class Comment {
     private String text;
     private User poster;

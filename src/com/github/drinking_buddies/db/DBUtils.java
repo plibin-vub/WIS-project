@@ -11,6 +11,7 @@ import org.jooq.impl.DSL;
 import com.github.drinking_buddies.config.Configuration;
 import com.github.drinking_buddies.config.Database;
 
+//some DB utilities; to create and close connections and rollback transactions
 public class DBUtils {
     public static Connection getConnection() throws SQLException {
         Database db = Configuration.loadConfiguration().getDatabase();

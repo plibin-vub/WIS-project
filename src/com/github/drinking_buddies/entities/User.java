@@ -4,6 +4,7 @@ import org.jooq.Record;
 
 import static com.github.drinking_buddies.jooq.Tables.USER;
 
+//User POJO
 public class User {
     private int id;
     private String firstName;

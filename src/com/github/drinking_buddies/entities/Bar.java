@@ -1,5 +1,6 @@
 package com.github.drinking_buddies.entities;
 
+//Bar POJO
 public class Bar {
     private int id;
     private String name;

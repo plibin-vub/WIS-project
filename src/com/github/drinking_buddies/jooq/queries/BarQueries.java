@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 
 import org.jooq.DSLContext;
 
+//Common bar queries that are used in different locations of the application
 public class BarQueries {
     public static BigDecimal getAvgScore(DSLContext dsl, int id) {
         return dsl.select(BAR_SCORE.SCORE.avg())

@@ -1,5 +1,6 @@
 package com.github.drinking_buddies.config;
 
+//class that represents the database configuration (which is defined in an XML config file)
 public class Database {
     private String jdbcUrl;
     private String userName;

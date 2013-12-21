@@ -1,19 +1,15 @@
 package com.github.drinking_buddies;
 
 
-import java.io.File;
-
 import com.github.drinking_buddies.config.Configuration;
-import com.github.drinking_buddies.config.Database;
-import com.github.drinking_buddies.config.Wt;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import eu.webtoolkit.jwt.WApplication;
 import eu.webtoolkit.jwt.WEnvironment;
 import eu.webtoolkit.jwt.WtServlet;
 import eu.webtoolkit.jwt.auth.AuthService;
 import eu.webtoolkit.jwt.auth.FacebookService;
+
+//Servlet configuration class
 public class Main extends WtServlet {
     private static final long serialVersionUID = 1L;
     
@@ -22,8 +18,10 @@ public class Main extends WtServlet {
     public Main() {
         super();
         
+        //load the XML configuration
         Configuration conf = Configuration.loadConfiguration();
 
+        //handle Facebook OAuth authentication
         {
             eu.webtoolkit.jwt.Configuration c = new eu.webtoolkit.jwt.Configuration();
             final String endPoint = "facebook-oauth2-redirect-endpoint";

@@ -1,5 +1,6 @@
 package com.github.drinking_buddies.webservices.facebook;
 
+//Facebook Friend POJO
 public class Friend {
 	private String name;
 	private String id;

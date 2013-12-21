@@ -5,6 +5,7 @@ import java.io.File;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
+//this class contains all the configuration settings of our application
 public class Configuration {
     private Database database;
     private Wt wt;
@@ -22,6 +23,8 @@ public class Configuration {
         return wt;
     }
     
+    //we load the Configuration object from an XML file 
+    //using XStream
     public static Configuration loadConfiguration() {
         XStream xstream = new XStream(new DomDriver()); 
         xstream.alias("configuration", Configuration.class);

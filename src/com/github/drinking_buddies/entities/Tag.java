@@ -1,5 +1,6 @@
 package com.github.drinking_buddies.entities;
 
+//Tag POJO
 public class Tag {
     private int id;
     private String text;

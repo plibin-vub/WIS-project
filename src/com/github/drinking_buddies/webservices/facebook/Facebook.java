@@ -11,6 +11,7 @@ import com.github.drinking_buddies.webservices.rest.RestRequest;
 import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 import com.google.gson.Gson;
 
+//set of functions to interact with the facebook web services
 public class Facebook {
 	public Facebook(String token){
 		this.token=token;

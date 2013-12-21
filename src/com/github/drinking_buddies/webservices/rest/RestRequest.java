@@ -15,6 +15,7 @@ import org.apache.http.util.EntityUtils;
 import com.github.drinking_buddies.webservices.rest.exceptions.RestException;
 
 
+//utility functions to do a REST request
 public class RestRequest {
 	
 	public static String makeRequest(String url) throws RestException {
