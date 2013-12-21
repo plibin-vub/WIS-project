@@ -68,14 +68,10 @@ public class Application extends WApplication {
     
     public Application(WEnvironment env, ServletContext servletContext) {
         super(env);
-        this.useStyleSheet(
-                new WLink("styles/app1.css"));
         this.servletContext = servletContext;
-        
+
+        this.useStyleSheet(new WLink("styles/app.css"));
         setTheme(new WBootstrapTheme());
-        
-        this.useStyleSheet(new WLink("styles/app2.css"));
-        
         WXmlLocalizedStrings resources = new WXmlLocalizedStrings();
         resources.use("/com/github/drinking_buddies/ui/templates");
         resources.use("/com/github/drinking_buddies/i18n/resources");
