@@ -15,11 +15,11 @@ Installation:
 * to be able to use Facebook OAuth, you need to register your instance of this application
  * register your application with Facebook: https://developers.facebook.com/apps
  * after registration, write down these values: App ID, App Secret, Site URL
- * NOTE: for development purposes you can use the settings as configured in the example configuration file ($WIS-project/drinking-buddies-config.xml) 
+ * NOTE: for development purposes you can use the settings as configured in the example configuration file ($WIS-project/config.xml) 
 * to be able to use the BreweryDB web services,
  * create an account at: http://www.brewerydb.com
  * after registration, write down your API key
- * NOTE: for development purposes you can use the settings as configured in the example configuration file ($WIS-project/drinking-buddies-config.xml)
+ * NOTE: for development purposes you can use the settings as configured in the example configuration file ($WIS-project/config.xml)
 * create a configuration file based on the example XML file $WIS-project/drinking-buddies-config.xml
 * move the newly created configuration file to 
  * C:\DrinkingBuddies\config.xml (on Windows)
