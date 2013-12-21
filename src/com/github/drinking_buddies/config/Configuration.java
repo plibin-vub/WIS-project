@@ -30,7 +30,16 @@ public class Configuration {
         xstream.alias("configuration", Configuration.class);
         xstream.alias("database", Database.class);
         xstream.alias("wt", Wt.class);
-        //TODO: allow for the configuration of this file location
-        return (Configuration) xstream.fromXML(new File("./drinking-buddies-config.xml"));
+        return (Configuration) xstream.fromXML(configFile());
     }
+    
+    private static File configFile() {
+        final String fn = "config.xml";
+        String osName = System.getProperty("os.name");
+        osName = osName.toLowerCase();
+        if(osName.startsWith("windows"))
+            return new File("C:\\DrinkingBuddies\\" + fn);
+        else
+            return new File("/etc/drinking_buddies/" + fn); 
+   }
 }
