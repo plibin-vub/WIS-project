@@ -26,6 +26,9 @@ import eu.webtoolkit.jwt.WObject;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WTemplate;
 
+//This dialog allows users to add a tag to a beer.
+//The user can specify a new tag, 
+//or choose a tag that is already in the database.
 public class AddTagDialog extends WDialog {
     enum Type {
         AddNew ("add-tag-dialog.add-new"),
@@ -111,6 +114,7 @@ public class AddTagDialog extends WDialog {
         }
     }
     
+    //Show a textfield or a combobox showing all tags that are already in the database.
     private void setVariableField(Type type, Beer beer, final WTemplate t) {
         if (type == Type.AddNew) {
             tagName = new WLineEdit();
@@ -140,6 +144,7 @@ public class AddTagDialog extends WDialog {
         }
     } 
     
+    //Query to fetch all tags that are in the database.
     private SelectConditionStep<Record1<String>> createTagListQuery(DSLContext dsl, Beer beer) {
        return dsl
                     .select(BEER_TAG.NAME)
@@ -150,6 +155,10 @@ public class AddTagDialog extends WDialog {
                             .where(BEER2_BEER_TAG.BEER_ID.equal(beer.getId()))));
     }
 
+    //If an existing tag is chosen, 
+    //just save a reference to this tag to the database.
+    //If a new tag is specified, first save this tag to the database,
+    //than save a reference to this tag to the database.
     private Tag save(Type type, Beer beer) {
         Application app = Application.getInstance();
         Connection conn = null;
@@ -204,6 +213,9 @@ public class AddTagDialog extends WDialog {
         return null;
     }
     
+    //Signal that is triggered when a tag is added.
+    //This allows for decoupling this dialog and the 
+    //code that calls this dialog.
     public Signal1<Tag> tagAdded() {
         return tagAdded;
     }

@@ -11,6 +11,11 @@ import eu.webtoolkit.jwt.Signal1;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WTemplate;
 
+//Abstract widget that represents a list of comments.
+//To use this widget, the user needs to implement the abstract method:
+//saveComment
+//This allows us to reuse this widget in different parts of our application;
+//namely for bars and beer reviews.
 public abstract class CommentsWidget extends WContainerWidget {
     private List<Comment> comments;
     
@@ -50,9 +55,13 @@ public abstract class CommentsWidget extends WContainerWidget {
         updateAllComments();
     }
     
+    //Update the comment counter.
     private void updateAllComments() {
         main.bindInt("number", comments.size());
     }
     
+    //This method should save the Comment to the database,
+    //and connect it to the appropriate database entity 
+    //(e.g.: bar, beer).
     protected abstract void saveComment(Comment comment);
 }

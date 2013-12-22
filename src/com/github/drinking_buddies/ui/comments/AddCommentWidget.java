@@ -14,6 +14,10 @@ import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WTemplate;
 import eu.webtoolkit.jwt.WTextArea;
 
+//A widget to add comments.
+//We use this widgets to add comments to:
+//-beer reviews
+//-bars
 public class AddCommentWidget extends WTemplate {
     private Signal1<Comment> addedComment = new Signal1<Comment>();
     
@@ -53,6 +57,10 @@ public class AddCommentWidget extends WTemplate {
         });
     }
     
+    //Signal that is triggered when a comment is added.
+    //This allows for decoupling this widget and the 
+    //code that shows this widget.
+    //This allows us to use the widget both for bars and beers.
     Signal1<Comment> addedComment() {
         return addedComment;
     }

@@ -44,10 +44,8 @@ import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WString;
 import eu.webtoolkit.jwt.WTemplate;
 
-/**
- * The user form UI component.
- * This form shows user information and location, favorite beers and favorite bars.
- */
+//The user form widget.
+//This form shows user information and location, favorite beers and favorite bars.
 public class UserForm extends WContainerWidget {
     private static int maxFavorites = 5;
     
@@ -68,6 +66,7 @@ public class UserForm extends WContainerWidget {
         main.bindString("first-name", user.getFirstName());
         main.bindString("last-name", user.getLastName());
         
+        //widgets that allow the user to share his/here location
         if (isLoggedInUser(user)) {
             share = new WPushButton(tr("user-form.share-location"));
             stopShare = new WPushButton(tr("user-form.stop-share-location"));
@@ -92,14 +91,13 @@ public class UserForm extends WContainerWidget {
                 }
             });
             
+            //button that allows for a user to import this friends
             WPushButton friendImport = new WPushButton(tr("user-form.friend-import"));
             main.bindWidget("friend-import", friendImport);
             friendImport.clicked().addListener(this, new Signal.Listener() {
                 public void trigger() {
                                 friendImport(); 
                         }
-                    
-                
             });
         } else {
             main.bindWidget("share-location", null);
@@ -115,6 +113,8 @@ public class UserForm extends WContainerWidget {
         main.bindWidget("find-nearby-bars", findBars);
     }
     
+    //Remove the user's current location.
+    //(Stop sharing was clicked)
     protected void removeUserBar() {
         Application app = Application.getInstance();
         Connection conn = app.getConnection();
@@ -131,6 +131,7 @@ public class UserForm extends WContainerWidget {
         }
     }
 
+    //Show the user's current bar location in the user interface.
     public void setDrinkingInBar(Bar currentBar){
         if (currentBar == null) {
             main.bindWidget("is-drinking-in", null);
@@ -155,6 +156,10 @@ public class UserForm extends WContainerWidget {
         }
     }
     
+    //Fetch the user's current location,
+    //look up with which bar this corresponds.
+    //If this corresponds with a bar,
+    //show this bar in the UI with setDrinkingInBar()
     protected void updateUserWithBar(Integer barId) {
         Application app = Application.getInstance();
         Connection conn = app.getConnection();
@@ -185,6 +190,7 @@ public class UserForm extends WContainerWidget {
         }
     }
 
+    //import Facebook friends as buddies into our database.
     protected void friendImport() {
         Application app = Application.getInstance();
         Connection conn = app.getConnection();
@@ -230,6 +236,7 @@ public class UserForm extends WContainerWidget {
         
     }
     
+    //create a unique URL for a user
     private String createUserURL(Person p) {
         //in order to be complete, 
         //we should check that this URL is not in the database yet:
@@ -237,6 +244,7 @@ public class UserForm extends WContainerWidget {
         return p.getFirst_name().toLowerCase().replace(" ", "_") + "." + p.getLast_name().toLowerCase().replace(" ", "_");
     }
 
+    //update the table of favorite beers/bars
     private void updateFavorites(WTemplate main) {
         Application app = Application.getInstance();
         
@@ -338,6 +346,8 @@ public class UserForm extends WContainerWidget {
             main.bindWidget("favorites", favorites);
     }
     
+    //Delete one of the user's favorite beers from the database,
+    //update the user interface.
     private void deleteFavoriteBeer(int beerId) {
         Application app = Application.getInstance();
         Connection conn = null;
@@ -359,6 +369,8 @@ public class UserForm extends WContainerWidget {
         }
     }
     
+    //Delete one of the user's favorite bars from the database,
+    //update the user interface.
     private void deleteFavoriteBar(int barId) {
         Application app = Application.getInstance();
         Connection conn = null;

@@ -6,9 +6,7 @@ import com.github.drinking_buddies.ui.utils.TemplateUtils;
 import eu.webtoolkit.jwt.WContainerWidget;
 import eu.webtoolkit.jwt.WTemplate;
 
-/**
- *  A widget that represent a tag.
- */
+//A widget that represent a beer tag.
 public class TagWidget extends WTemplate {
     public TagWidget(CharSequence text, WContainerWidget root) {
         super(tr("tag"), root);

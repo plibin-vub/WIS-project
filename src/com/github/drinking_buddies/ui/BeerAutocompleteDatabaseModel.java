@@ -15,12 +15,16 @@ import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.ui.autocompletion.AutocompleteDatabaseModel;
 
+//The database model for the Beer autocomplete widget.
 public class BeerAutocompleteDatabaseModel extends AutocompleteDatabaseModel {
     public BeerAutocompleteDatabaseModel(int limit) {
         super(limit);
     }
 
     @Override
+    //We query for all beers that start with the 's'.
+    //'s' is the string typed by the user in the auto-complete line edit.
+    //We store all the results in the specified list.
     public void filterQuery(String s, int limit, ArrayList<String> list) {
         Application app = Application.getInstance();
         Connection conn = null;
