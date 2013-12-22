@@ -246,19 +246,27 @@ public class BarForm extends WContainerWidget {
             main.bindWidget("photo", null);
         }
         
-        final WFileUpload fu = new WFileUpload();
-        fu.changed().addListener(this, new Signal.Listener() {
-            public void trigger() {
-                fu.upload();
-            }
-        });
-        fu.uploaded().addListener(this, new Signal.Listener() {
-            @Override
-            public void trigger() {
-                saveAndShowPhoto(new File(fu.getSpoolFileName()), fu.getClientFileName());
-            }
-        });
-        main.bindWidget("upload", fu);
+        if (Application.getInstance().getLoggedInUser() != null) {
+            WTemplate upload = new WTemplate(tr("bar-form-upload"));
+            TemplateUtils.configureDefault(Application.getInstance(), upload);
+            
+            final WFileUpload fu = new WFileUpload();
+            fu.changed().addListener(this, new Signal.Listener() {
+                public void trigger() {
+                    fu.upload();
+                }
+            });
+            fu.uploaded().addListener(this, new Signal.Listener() {
+                @Override
+                public void trigger() {
+                    saveAndShowPhoto(new File(fu.getSpoolFileName()), fu.getClientFileName());
+                }
+            });
+            upload.bindWidget("upload", fu);
+            main.bindWidget("upload", upload);
+        } else {
+            main.bindWidget("upload", null);
+        }
     }
     
     private void saveAndShowPhoto(File file, String clientFileName) {
