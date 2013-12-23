@@ -17,6 +17,7 @@ import com.github.drinking_buddies.ui.utils.DateUtils;
 
 import eu.webtoolkit.jwt.WContainerWidget;
 
+//CommentsWidget implementation for beer reviews.
 public class ReviewCommentsWidget extends CommentsWidget {
     private Review review;
     
@@ -30,6 +31,8 @@ public class ReviewCommentsWidget extends CommentsWidget {
     }
 
     @Override
+    //In this method we save the comment to the database as 
+    //a REVIEW_COMMENT.
     protected void saveComment(Comment comment) {
         Application app = Application.getInstance();
         Connection conn = null;

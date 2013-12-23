@@ -1,0 +1,72 @@
+<div>
+<p>Dependencies:</p>
+<ul>
+<li>Java version &gt;=1.6</li>
+<li>Servlet 3.0 API compatible servlet container (Apache Tomcat, Jetty, ...)</li>
+<li>ant (only to build the software)</li>
+<li>sqlite database </li>
+</ul>
+<p>References:</p>
+
+<ul>
+<li>$WIS-project: refers to this project's directory</li>
+<li>$sqlite: refers to your sqlite binary </li>
+</ul><p>Installation:</p>
+
+<ul>
+<li>initiate the database (/favorite_location/ can be any directory where you want to setup the database)
+
+<ul>
+<li>$sqlite /favorite_location/DrinkingBuddies.db &lt; $WIS-project/db/db-schema.sql </li>
+<li>$sqlite /favorite_location/DrinkingBuddies.db &lt; $WIS-project/db/beers.sql</li>
+</ul>
+</li>
+<li>to be able to use Facebook OAuth, you need to register your instance of this application
+
+<ul>
+<li>register your application with Facebook: <a href="https://developers.facebook.com/apps">https://developers.facebook.com/apps</a>
+</li>
+<li>after registration, write down these values: App ID, App Secret, Site URL</li>
+<li>NOTE: for development purposes (only if you test on http://localhost:8080/db !) you can use the settings as configured in the example configuration file ($WIS-project/config.xml) </li>
+</ul>
+</li>
+<li>to be able to use the BreweryDB web services,
+
+<ul>
+<li>create an account at: <a href="http://www.brewerydb.com">http://www.brewerydb.com</a>
+</li>
+<li>after registration, write down your API key</li>
+<li>NOTE: for development purposes you can use the settings as configured in the example configuration file ($WIS-project/config.xml)</li>
+</ul>
+</li>
+<li>create a configuration file based on the example XML file $WIS-project/drinking-buddies-config.xml</li>
+<li>move the newly created configuration file to 
+
+<ul>
+<li>C:\DrinkingBuddies\config.xml (on Windows)</li>
+<li>/etc/drinking_buddies/config.xml (on MacOS X, Linux or other Unix-based systems)</li>
+</ul>
+</li>
+<li>build the war file
+
+<ul>
+<li>cd $WIS-project</li>
+<li>ant </li>
+<li>after a succesful build, the drinking-buddies.war can be found in $WIS-project/dist</li>
+</ul>
+</li>
+<li>install drinking-buddies.war in your servlet container
+
+<ul>
+<li>for this, consult you servlet container manual</li>
+</ul>
+</li>
+<li>you should now be able to access the application on the URL where you installed the war file on
+
+<ul>
+<li>NOTE 1: the context of the application is /db, so to run the application you should use the url <a href="http://mydomain.com/install-url/db/">http://mydomain.com/install-url/db/</a> </li>
+<li>NOTE 2: You can change the default context (/db) in $WIS-project/WebRoot/WEB-INF/web.xml; to do this, you should change the servlet mappings </li>
+</ul>
+</li>
+</ul>
+</div>

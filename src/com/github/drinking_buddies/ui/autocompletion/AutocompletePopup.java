@@ -53,6 +53,7 @@ public class AutocompletePopup extends WSuggestionPopup {
                                 + "1" + ");");
     }
     
+    //the WSuggestionPopup's configuration
     private static Options createOptions() {
         Options o = new Options();
         o.highlightBeginTag = "<b>";
