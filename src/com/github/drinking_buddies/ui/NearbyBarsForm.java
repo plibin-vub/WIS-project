@@ -47,6 +47,7 @@ import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WTemplate;
 
+//This form allows the user to search for nearby bars .These bars are shown on a map.
 public class NearbyBarsForm extends WContainerWidget{
 
     private WContainerWidget ResultsContainer = new WContainerWidget();
@@ -54,8 +55,6 @@ public class NearbyBarsForm extends WContainerWidget{
     
     
     public NearbyBarsForm(String lat, String len,String beerName) {
-        // the main template for the user form
-        // (a WTemplate constructor accepts the template text and its parent)
         final WTemplate main = new WTemplate(tr("nearby-bars-form"), this);
         TemplateUtils.configureDefault(Application.getInstance(), main);
         // we bind to some of the template's variables
@@ -129,7 +128,7 @@ public class NearbyBarsForm extends WContainerWidget{
                 querryBars(map ,Double.valueOf(coordinates.lat), Double.valueOf(coordinates.lng),radius.getValue(),beerId);
             }
 
-
+            //Show an error dialog
             private void giveError() {
                 final WMessageBox messageBox = new WMessageBox(
                         "Error",
@@ -156,9 +155,10 @@ public class NearbyBarsForm extends WContainerWidget{
     }
     
     
-    
+  //This method will query for all the bars within the radius. That have the beer available.
     private void querryBars(DBGoogleMap map,double lat,double lng,double radius, Integer BeerId) {        
         GeoLocation location=GeoLocation.fromDegrees(lat, lng);
+        //Calculate the bounding coordinates(the coordinates of the corners of the bounding box around the circle we want to search)
         GeoLocation[] boundingCoordinates=location.boundingCoordinates(radius, GeoLocation.RADIUS_EARTH);
         Coordinate center=new Coordinate(lat, lng);
         map.setCenter(center);
@@ -169,9 +169,7 @@ public class NearbyBarsForm extends WContainerWidget{
         try {
             conn = app.getConnection();
             DSLContext dsl = DBUtils.createDSLContext(conn);
-//            "SELECT * FROM Places WHERE (Lat >= ? AND Lat <= ?) AND (Lon >= ? " +
-//            (meridian180WithinDistance ? "OR" : "AND") + " Lon <= ?) AND " +
-//            "acos(sin(?) * sin(Lat) + cos(?) * cos(Lat) * cos(Lon - ?)) <= ?");
+            //Condition 1 and 2 check if the location is within the bounding box for this part of the query an index can be used
             Condition condition1=BAR.LOCATION_X.ge(new Float(boundingCoordinates[0].getLatitudeInRadians())).and(BAR.LOCATION_X.le(new Float(boundingCoordinates[1].getLatitudeInRadians())));
             Condition condition2;
             if(boundingCoordinates[0].getLongitudeInRadians() >
@@ -180,11 +178,13 @@ public class NearbyBarsForm extends WContainerWidget{
             }else{
                 condition2=BAR.LOCATION_Y.ge(new Float(boundingCoordinates[0].getLongitudeInRadians())).and(BAR.LOCATION_Y.le(new Float(boundingCoordinates[1].getLongitudeInRadians())));
             }
+            //Condition 3 checks if the location is within the circle we want to query.
             Condition condition3=BAR.LOCATION_X.sin().multiply(Math.sin(location.getLatitudeInRadians()))
                     .plus(BAR.LOCATION_X.cos().multiply(Math.cos(location.getLatitudeInRadians())).
                             multiply(BAR.LOCATION_Y.subtract(location.getLongitudeInRadians()).cos())).le(new BigDecimal(Math.cos(radius / GeoLocation.RADIUS_EARTH)));
             Result<Record9<String, String, Float, Float, String, String, String, String, String>> r;
             if(BeerId!=null){
+                //the query where we add conditions 1,2 and 3 and a condition that the beer is available
                 r=dsl.select(BAR.NAME,BAR.URL,BAR.LOCATION_X,BAR.LOCATION_Y,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY)
                         .from(BAR).join(ADDRESS).on(BAR.ADDRESS_ID.eq(ADDRESS.ID)).join(BEER2_BAR).on(BEER2_BAR.BAR_ID.eq(BAR.ID))
                         .where(condition1.and(condition2).and(condition3).and(BEER2_BAR.BEER_ID.eq(BeerId)))
@@ -196,7 +196,7 @@ public class NearbyBarsForm extends WContainerWidget{
                         .where(condition1.and(condition2).and(condition3))
                         .fetch();
             }
-
+            //Add the results to the page and show the markers
             for (Record record : r) {
                 GeoLocation loc = GeoLocation.fromRadians(record.getValue(BAR.LOCATION_X),record.getValue(BAR.LOCATION_Y));
                 addBarToMap(map,loc.getLatitudeInDegrees(),loc.getLongitudeInDegrees(),record.getValue(BAR.NAME));
@@ -213,12 +213,15 @@ public class NearbyBarsForm extends WContainerWidget{
         
     }
 
+    //Add a marker to the map
     private void addBarToMap(DBGoogleMap map, double lat,
             double lng,String barName) {
        map.addMarker(new Coordinate(lat, lng), "<b>"+barName+"</b>");
       
     }
 
+    
+    //center the map and set the correct zoom.
     private void setMapCenter(DBGoogleMap map,double lat,double lng, double radius) {
         if(lat!=0 && lng!=0){
             GeoLocation geoLocation=GeoLocation.fromDegrees(lat, lng);

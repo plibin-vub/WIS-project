@@ -448,4 +448,9 @@ public class Application extends WApplication {
     public void closeConnection(Connection conn) {
         DBUtils.closeConnection(conn);
     }
+
+    public void logout() {
+        loggedInUser=null;
+        
+    }
 }

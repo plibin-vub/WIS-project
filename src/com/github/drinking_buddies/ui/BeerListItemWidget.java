@@ -9,8 +9,8 @@ import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WTemplate;
 import eu.webtoolkit.jwt.WText;
 
+//A beer item in the list of beers in the bar form.
 public class BeerListItemWidget extends WTemplate{
-
     public BeerListItemWidget(final Beer beer) {
         super(tr("beer-list-item"), null);
         TemplateUtils.configureDefault(Application.getInstance(), this);
@@ -23,5 +23,4 @@ public class BeerListItemWidget extends WTemplate{
             }
         });
     }
-
 }

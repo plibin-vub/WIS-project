@@ -18,6 +18,7 @@ import com.github.drinking_buddies.ui.utils.DateUtils;
 
 import eu.webtoolkit.jwt.WContainerWidget;
 
+//Widget for comments on a bar.
 public class BarCommentsWidget extends CommentsWidget {
 
     private Bar bar;
@@ -28,6 +29,7 @@ public class BarCommentsWidget extends CommentsWidget {
         this.bar=bar;
     }
 
+    //Save the comment to the database
     @Override
     protected void saveComment(Comment comment) {
         Application app = Application.getInstance();

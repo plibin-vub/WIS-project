@@ -1,6 +1,5 @@
 package com.github.drinking_buddies.ui;
 
-import static com.github.drinking_buddies.jooq.Tables.ADDRESS;
 import static com.github.drinking_buddies.jooq.Tables.BEER;
 import static com.github.drinking_buddies.jooq.Tables.BEER2_BAR;
 
@@ -8,19 +7,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.jooq.DSLContext;
-import org.jooq.Record1;
 import org.jooq.Record3;
 import org.jooq.exception.InvalidResultException;
 
 import com.github.drinking_buddies.Application;
 import com.github.drinking_buddies.db.DBUtils;
 import com.github.drinking_buddies.entities.Beer;
-
-
-import com.github.drinking_buddies.entities.Tag;
-import com.github.drinking_buddies.jooq.tables.records.AddressRecord;
 import com.github.drinking_buddies.jooq.tables.records.Beer2BarRecord;
-import com.github.drinking_buddies.jooq.utils.SearchUtils;
 import com.github.drinking_buddies.ui.autocompletion.AutocompletePopup;
 
 import eu.webtoolkit.jwt.Signal;
@@ -31,6 +24,7 @@ import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WTemplate;
 
+//This dialog is used to add a beer to the beerlist of a bar
 public class AddBeerListItemDialog extends WDialog{
 
     private Signal1<Beer> beerAdded = new Signal1<Beer>();
@@ -40,6 +34,7 @@ public class AddBeerListItemDialog extends WDialog{
         
         final WTemplate main = new WTemplate(tr("add-beer-dialog"), this.getContents());
         final WLineEdit beerSearch = new WLineEdit();
+        //the autocomplete for the beer input box
         final AutocompletePopup beerPopup = new AutocompletePopup(new BeerAutocompleteDatabaseModel(10), beerSearch, main);
         main.bindWidget("field", beerSearch);
         
@@ -68,7 +63,9 @@ public class AddBeerListItemDialog extends WDialog{
             }
         });
     }
-        
+    
+    
+    //This method will add the beer to the beerlist of the bar.
     protected Beer saveBeer(String beerName,int barId) {
         Application app = Application.getInstance();
         Connection conn = app.getConnection();
@@ -99,9 +96,9 @@ public class AddBeerListItemDialog extends WDialog{
         }
     }
 
-    
-    
-    
+    //Signal that is triggered when the beer is added to the bar.
+    //This allows for decoupling this dialog and the 
+    //code that calls this dialog.
     public Signal1<Beer> beerAdded() {
         return beerAdded;
     }

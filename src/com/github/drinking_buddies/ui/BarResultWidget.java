@@ -16,12 +16,16 @@ import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WTemplate;
 import eu.webtoolkit.jwt.WText;
 
+//This widget will show a bar result for the find nearby bars page.
+//The name and address of a bar are shown.
+//Optionally a list of users can be shown.
 public class BarResultWidget extends WTemplate {
 
     
     public BarResultWidget(final Bar bar,List<User> friends, WContainerWidget root) {
         super(tr("bar-result"), root);
         TemplateUtils.configureDefault(Application.getInstance(), this);
+        //bind the variables
         this.bindString("bar", bar.getName());
         String addressLine1 = bar.getAddress().getStreet() + " "
                 + bar.getAddress().getNumber();
@@ -31,6 +35,7 @@ public class BarResultWidget extends WTemplate {
         this.bindString("address2", addressLine2);
         String addressLine3 = bar.getAddress().getCountry();
         this.bindString("address3", addressLine3);
+        //make it possible to click a bar to go too the bar page
         this.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
             public void trigger(WMouseEvent arg) {
                 Application app = Application.getInstance();
@@ -44,6 +49,7 @@ public class BarResultWidget extends WTemplate {
         }
     }
     
+    //Add a users to the list of users shown.
     private void addFriends(List<User> friends) {
         StringBuilder friendsText=new StringBuilder();
         for (User user : friends) {

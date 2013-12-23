@@ -44,6 +44,7 @@ import eu.webtoolkit.jwt.WMouseEvent;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WTemplate;
 
+//This form allows the user to search for nearby bars with friends.These bars are shown on a map.
 public class FriendsBarsForm extends WContainerWidget {
 
     private WContainerWidget ResultsContainer = new WContainerWidget();
@@ -51,14 +52,14 @@ public class FriendsBarsForm extends WContainerWidget {
     
     
     public FriendsBarsForm(String lat, String len) {
-        // the main template for the user form
-        // (a WTemplate constructor accepts the template text and its parent)
         final WTemplate main = new WTemplate(tr("friends-bars-form"), this);
         TemplateUtils.configureDefault(Application.getInstance(), main);
         // we bind to some of the template's variables
         
         String location=null;
         try {
+            //Use Google's geocoding web service to get the address of the current location
+            //This address is shown in the input box location.
             location = Geocoding.locationToAddress(lat, len);
         } catch (RestException e) {
         }
@@ -81,6 +82,7 @@ public class FriendsBarsForm extends WContainerWidget {
         main.bindWidget("map",map);
         map.setHeight(new WLength(400));
         map.setWidth(new WLength(400));
+        //Show the map and center on the current location
         setMapCenter(map, Double.parseDouble(lat), Double.parseDouble(len), radius.getValue());
         WPushButton search = new WPushButton(tr("friends-bars-form.search"));
         main.bindWidget("search", search);
@@ -94,6 +96,7 @@ public class FriendsBarsForm extends WContainerWidget {
                 String location=edit.getText();
                 com.github.drinking_buddies.webservices.google.Geocoding.GoogleGeoCodeResponse.location coordinates;
                 try {
+                    //we get the coordinates from the address entered
                     coordinates = Geocoding.addressToLocation(location);
                 } catch (RestException e) {
                     giveError();
@@ -108,7 +111,7 @@ public class FriendsBarsForm extends WContainerWidget {
                 querryBars(map ,Double.valueOf(coordinates.lat), Double.valueOf(coordinates.lng),radius.getValue(),app.getLoggedInUser().getId());
             }
 
-
+            //Show an error dialog.
             private void giveError() {
                 final WMessageBox messageBox = new WMessageBox(
                         "Status",
@@ -135,9 +138,10 @@ public class FriendsBarsForm extends WContainerWidget {
     }
     
     
-    
+    //This method will query for all the bars within the radius. That have friends of the current user.
     private void querryBars(DBGoogleMap map,double lat,double lng,double radius, Integer userId) {        
         GeoLocation location=GeoLocation.fromDegrees(lat, lng);
+        //Calculate the bounding coordinates(the coordinates of the corners of the bounding box around the circle we want to search)
         GeoLocation[] boundingCoordinates=location.boundingCoordinates(radius, GeoLocation.RADIUS_EARTH);
         Coordinate center=new Coordinate(lat, lng);
         map.setCenter(center);
@@ -148,9 +152,7 @@ public class FriendsBarsForm extends WContainerWidget {
         try {
             conn = app.getConnection();
             DSLContext dsl = DBUtils.createDSLContext(conn);
-//            "SELECT * FROM Places WHERE (Lat >= ? AND Lat <= ?) AND (Lon >= ? " +
-//            (meridian180WithinDistance ? "OR" : "AND") + " Lon <= ?) AND " +
-//            "acos(sin(?) * sin(Lat) + cos(?) * cos(Lat) * cos(Lon - ?)) <= ?");
+            //Condition 1 and 2 check if the location is within the bounding box for this part of the query an index can be used
             Condition condition1=BAR.LOCATION_X.ge(new Float(boundingCoordinates[0].getLatitudeInRadians())).and(BAR.LOCATION_X.le(new Float(boundingCoordinates[1].getLatitudeInRadians())));
             Condition condition2;
             if(boundingCoordinates[0].getLongitudeInRadians() >
@@ -159,9 +161,11 @@ public class FriendsBarsForm extends WContainerWidget {
             }else{
                 condition2=BAR.LOCATION_Y.ge(new Float(boundingCoordinates[0].getLongitudeInRadians())).and(BAR.LOCATION_Y.le(new Float(boundingCoordinates[1].getLongitudeInRadians())));
             }
+            //Condition 3 checks if the location is within the circle we want to query.
             Condition condition3=BAR.LOCATION_X.sin().multiply(Math.sin(location.getLatitudeInRadians()))
                     .plus(BAR.LOCATION_X.cos().multiply(Math.cos(location.getLatitudeInRadians())).
                             multiply(BAR.LOCATION_Y.subtract(location.getLongitudeInRadians()).cos())).le(new BigDecimal(Math.cos(radius / GeoLocation.RADIUS_EARTH)));
+            //the query where we add conditions 1,2 and 3 and a condition that a friend of the user is in the bar
             Result<Record15<Integer, String, String, String, Float, Float, String, String, String, String, String, Integer, String, String, String>> r;
                 r=dsl.selectDistinct(BAR.ID,BAR.NAME,BAR.WEBSITE,BAR.URL,BAR.LOCATION_X,BAR.LOCATION_Y,ADDRESS.STREET,ADDRESS.NUMBER,ADDRESS.ZIPCODE,ADDRESS.CITY,ADDRESS.COUNTRY,BUDDY.BUDDY_ID,USER.FIRST_NAME,USER.LAST_NAME,USER.URL)
                         .from(BAR).join(ADDRESS).on(BAR.ADDRESS_ID.eq(ADDRESS.ID)).join(USER).on(USER.BAR_ID.eq(BAR.ID)).join(BUDDY).on(BUDDY.BUDDY_ID.eq(USER.ID))
@@ -171,6 +175,7 @@ public class FriendsBarsForm extends WContainerWidget {
             ArrayList<User> friends=null;
             Bar bar = null;
             GeoLocation loc = null;
+            //Group the results from the same bar.
             for (Record record : r) {
                 if(record.getValue(BAR.ID)==currentBar){
                     friends.add(new User(record.getValue(USER.FIRST_NAME),record.getValue(USER.LAST_NAME),record.getValue(USER.URL)));
@@ -199,13 +204,15 @@ public class FriendsBarsForm extends WContainerWidget {
         }
         
     }
-
+    
+    //Add a marker to the map
     private void addBarToMap(DBGoogleMap map, double lat,
             double lng,String barName) {
        map.addMarker(new Coordinate(lat, lng), "<b>"+barName+"</b>");
       
     }
 
+    //center the map and set the correct zoom.
     private void setMapCenter(DBGoogleMap map,double lat,double lng, double radius) {
         if(lat!=0 && lng!=0){
             GeoLocation geoLocation=GeoLocation.fromDegrees(lat, lng);

@@ -61,27 +61,27 @@ import eu.webtoolkit.jwt.chart.ChartType;
 import eu.webtoolkit.jwt.chart.SeriesType;
 import eu.webtoolkit.jwt.chart.WCartesianChart;
 import eu.webtoolkit.jwt.chart.WDataSeries;
-
+//The bar form shows all the information of a bar:
+//the name and address, an image, a list of beers available and comments about the bar.
 public class BarForm extends WContainerWidget {
     private WTemplate main;
     
     private Bar bar;
     private Application app;
     private int row;
-
     private boolean showChart=true;
+    
     public BarForm(final Bar bar, List<Comment> comments, List<Beer> beers) {
         this.bar = bar;
         
-        // the main template for the user form
         app=Application.getInstance();
-        // (a WTemplate constructor accepts the template text and its parent)
         main = new WTemplate(tr("bar-form"), this);
         TemplateUtils.configureDefault(Application.getInstance(), main);
         
         showPhoto(bar.getPicture());
         
         // we bind to some of the template's variables
+        //Here we bind the url of the facebook like and share button.
         main.bindString("facebook","http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fdrinking_buddies.github.com%2Fdb%2Fbars%2F"+bar.getUrl()+"&width&layout=button_count&action=like&show_faces=true&share=true&height=80&appId=620305514675365");
         main.bindString("bar", bar.getName());
         String addressLine1 = bar.getAddress().getStreet() + " "
@@ -94,6 +94,7 @@ public class BarForm extends WContainerWidget {
         main.bindString("address3", addressLine3);
         main.bindString("favored-by", String.valueOf(bar.getFavoredBy()));
         main.bindString("url", "aa1");
+        //The spinbox to show the score
         final WDoubleSpinBox sb = new WDoubleSpinBox();
         sb.setRange(0, 10);
         sb.setDecimals(2);
@@ -137,6 +138,7 @@ public class BarForm extends WContainerWidget {
             beerList.getElementAt(row, 0).addWidget(beerListItem);
             row++;
         }
+        //Adding the beers to the list
         if (Application.getInstance().getLoggedInUser() != null) {
             final WPushButton addBeer = new WPushButton(tr("bar-form.add-beer"));
             beerList.getElementAt(row, 0).addWidget(addBeer);
@@ -146,10 +148,14 @@ public class BarForm extends WContainerWidget {
                     dialog.beerAdded().addListener(BarForm.this, new Signal1.Listener<Beer>() {
                         public void trigger(Beer beer) {
                             BeerListItemWidget beerListItem = new BeerListItemWidget(beer);
+                            //We make sure that the addBeer button is the last button in the list
+                            //First remove the addbeer button
                             beerList.getElementAt(row, 0).removeWidget(addBeer);
                             beerList.getElementAt(row, 0).refresh();
+                            //Add the new beer to the list
                             beerList.getElementAt(row, 0).addWidget(beerListItem);
                             row++;
+                            //Add the addBeer button to the list
                             beerList.getElementAt(row, 0).addWidget(addBeer);
                         }
                     });
@@ -158,10 +164,11 @@ public class BarForm extends WContainerWidget {
             });
         }
         main.bindWidget("beer-list", beerList);
+        //Add the comments widget
         main.bindWidget("comments", new BarCommentsWidget(bar,comments, app.getLoggedInUser(),null));
         if (Application.getInstance().getLoggedInUser() != null) {
             WPushButton addToFavorites = new WPushButton(tr("bar-form.add-to-favorites"));
-            //connect a listener to the button
+            //connect a listener to the button to add the bar to favorites
             addToFavorites.clicked().addListener(this, new Signal1.Listener<WMouseEvent>() {
                 public void trigger(WMouseEvent arg) {
                     boolean added = addToFavorites(bar);
@@ -196,6 +203,7 @@ public class BarForm extends WContainerWidget {
         }
     }
     
+    //This method is used to save the bar as a favorite of the current user to the database
     private boolean addToFavorites(Bar bar) {
         Application app = Application.getInstance();
         Connection conn = null;
@@ -235,6 +243,7 @@ public class BarForm extends WContainerWidget {
         }
     }
     
+    //This method will add the photo of the bar to the page.
     private void showPhoto(Image image) {
         if (image != null) {
             WImage i = new WImage();
@@ -246,21 +255,30 @@ public class BarForm extends WContainerWidget {
             main.bindWidget("photo", null);
         }
         
-        final WFileUpload fu = new WFileUpload();
-        fu.changed().addListener(this, new Signal.Listener() {
-            public void trigger() {
-                fu.upload();
-            }
-        });
-        fu.uploaded().addListener(this, new Signal.Listener() {
-            @Override
-            public void trigger() {
-                saveAndShowPhoto(new File(fu.getSpoolFileName()), fu.getClientFileName());
-            }
-        });
-        main.bindWidget("upload", fu);
+        if (Application.getInstance().getLoggedInUser() != null) {
+            WTemplate upload = new WTemplate(tr("bar-form-upload"));
+            TemplateUtils.configureDefault(Application.getInstance(), upload);
+            
+            final WFileUpload fu = new WFileUpload();
+            fu.changed().addListener(this, new Signal.Listener() {
+                public void trigger() {
+                    fu.upload();
+                }
+            });
+            fu.uploaded().addListener(this, new Signal.Listener() {
+                @Override
+                public void trigger() {
+                    saveAndShowPhoto(new File(fu.getSpoolFileName()), fu.getClientFileName());
+                }
+            });
+            upload.bindWidget("upload", fu);
+            main.bindWidget("upload", upload);
+        } else {
+            main.bindWidget("upload", null);
+        }
     }
     
+    //This method adds the photo to the database and shows the new photo on the page.
     private void saveAndShowPhoto(File file, String clientFileName) {
         try {
             byte[] data = FileUtils.readFileToByteArray(file);
@@ -274,6 +292,7 @@ public class BarForm extends WContainerWidget {
         }
     }
 
+    //This method will return a model containing the data needed for the score chart.
     private WStandardItemModel getModel(int id ) {
         
         WStandardItemModel model = new WStandardItemModel(10,2);
@@ -284,12 +303,14 @@ public class BarForm extends WContainerWidget {
         try {
             conn = app.getConnection();
             DSLContext dsl = DBUtils.createDSLContext(conn);
+            //The bar score is queried. the average score given in a month is returned by this query.
             Result<Record2<BigDecimal, String>> r=dsl.select(BAR_SCORE.SCORE.avg(),BAR_SCORE.POST_TIME.substring(0,8))
                     .from(BAR_SCORE)
                     .join(BAR2_BAR_SCORE)
                     .on(BAR2_BAR_SCORE.BAR_SCORE_ID.equal(BAR_SCORE.ID))
                     .where(BAR2_BAR_SCORE.BAR_ID.eq(id))
                     .groupBy(BAR_SCORE.POST_TIME.substring(0,8)).orderBy(BAR_SCORE.POST_TIME.substring(0,8).asc()).fetch();
+            //If not enough results the chart is not shown
             if(r.size()<=1){
                 showChart=false;
             }else{
@@ -297,13 +318,17 @@ public class BarForm extends WContainerWidget {
             }
             BigDecimal sum=new BigDecimal(0);
             int index=0;
+            //loop over the results
             for (int i = 0; i < r.size(); i++) {
+                //a sum of all the results is made to calculate the correct total average score for a month
                 sum=sum.add(r.get(i).getValue(BAR_SCORE.SCORE.avg()));
                 
-               
+               //The last 10 months are added to the data to display
                 if(i>r.size()-10){
+                    //the month is added
                     WDate date=WDate.fromString(r.get(i).getValue(BAR_SCORE.POST_TIME.substring(0,8)),"yyyy-MM");
                     model.setData(index,0,  date);
+                    //the score for that month is added
                     model.setData(index,1, sum.divide(BigDecimal.valueOf(i+1),BigDecimal.ROUND_HALF_EVEN));
                     index++;
                 }
@@ -321,6 +346,7 @@ public class BarForm extends WContainerWidget {
         return model;
     }
     
+    //This method will update the photo in the database
     private void updatePhoto(Image image, int id) {
         Application app = Application.getInstance();
         Connection conn = null;
@@ -342,6 +368,7 @@ public class BarForm extends WContainerWidget {
         } 
     }
     
+    //This method will add a score to the database
     private void setScore(double value,int id) {
         Application app = Application.getInstance();
         Connection conn = null;
@@ -362,7 +389,7 @@ public class BarForm extends WContainerWidget {
         
     }
    
-
+    //this method makes and returns the score Chart
     private WCartesianChart getChart(int id) {
         WContainerWidget container = new WContainerWidget();
         WCartesianChart chart = new WCartesianChart(container);
@@ -373,7 +400,6 @@ public class BarForm extends WContainerWidget {
         chart.addSeries(s);
         chart.getAxis(Axis.XAxis).setScale(AxisScale.DateScale);
         chart.resize(350, 150);
-        //chart.resize(new WLength(350), new WLength(100));
         return chart;
     }
 }

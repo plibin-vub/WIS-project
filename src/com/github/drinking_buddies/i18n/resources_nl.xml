@@ -76,6 +76,7 @@
 	<message id="user-form.share-location">Locatie delen</message>
 	<message id="user-form.stop-share-location">Locatie niet langer delen</message>
 	<message id="user-form.friend-import">Laad je Facebook vrienden in</message>
+	<message id="user-form.logout">afmelden</message>
 	
 	<message id="new-bar-form.title">Voeg een café toe</message>
 	<message id="new-bar-form.name">Café naam</message>

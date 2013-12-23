@@ -36,6 +36,10 @@ import eu.webtoolkit.jwt.WTemplate;
 import eu.webtoolkit.jwt.WValidator;
 import eu.webtoolkit.jwt.WValidator.State;
 
+
+//This dialog is used to add a new bar.
+//It contains a from where the name and address of the bar can be added.
+//Using the address and Google's geocoding web sevice we get the coordinates of the bar.
 public class AddBarDialog extends WDialog {
     public AddBarDialog(WObject parent) {
         super(tr("new-bar-form.title").arg("Add new Bar"), parent);
@@ -98,25 +102,24 @@ public class AddBarDialog extends WDialog {
         });
 
     }
-
+    
+    //This validator is used for the manditory fields.
     private WValidator createManditoryValidator() {
         WValidator v = new WValidator();
         v.setMandatory(true);
         return v;
     }
     
-    private WValidator createWebsiteValidator() {
-        WRegExpValidator v = new WRegExpValidator(
-                "\b(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]*[-A-Za-z0-9+&@#/%=~_|]");
-        return v;
-    }
     
+    //This method will save the bar to the database.
     private String saveBar(String street, String number, String zipcode,
             String city, String country, String name, String website) {
         Application app = Application.getInstance();
         Connection conn = null;
         location location;
         try {
+            //Here Google's geocoding web sevice is used to get the coordinates of the bar.
+            //We need the coordinates to be able to search for the bar on location.
             location = Geocoding.addressToLocation(new Address(0, street,
                     number, zipcode, city, country));
         } catch (RestException e1) {
@@ -128,6 +131,7 @@ public class AddBarDialog extends WDialog {
             showError("Unable to locate address");
             return null;
         }
+        //we store the coordinates as radians in the database
         GeoLocation geoLocation = GeoLocation.fromDegrees(
                 Double.parseDouble(location.lat),
                 Double.parseDouble(location.lng));
@@ -140,12 +144,13 @@ public class AddBarDialog extends WDialog {
             if (r.size() != 0) {
                 url = url + (r.size() + 1);
             }
+            //first create the address
             AddressRecord rr = dsl
                     .insertInto(ADDRESS, ADDRESS.STREET, ADDRESS.NUMBER,
                             ADDRESS.ZIPCODE, ADDRESS.CITY, ADDRESS.COUNTRY)
                     .values(street, number, zipcode, city, country).returning()
                     .fetchOne();
-
+            //then the bar can be added
             dsl.insertInto(BAR, BAR.ADDRESS_ID, BAR.NAME, BAR.WEBSITE, BAR.URL,
                     BAR.LOCATION_X, BAR.LOCATION_Y)
                     .values(rr.getId(), name, website, url,
@@ -162,6 +167,7 @@ public class AddBarDialog extends WDialog {
         }
     }
 
+    //Show a popup with an error message.
     private void showError(String string) {
         final WMessageBox messageBox = new WMessageBox("Error",string,Icon.Warning, EnumSet.of(StandardButton.Ok));
                 messageBox.setModal(false);

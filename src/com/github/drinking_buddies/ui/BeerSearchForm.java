@@ -25,6 +25,7 @@ import eu.webtoolkit.jwt.WLink;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WTemplate;
 
+//This form allows the user to search for a beer and view the results.
 public class BeerSearchForm extends WContainerWidget {
     public BeerSearchForm() {
         this(null, null);
@@ -53,12 +54,15 @@ public class BeerSearchForm extends WContainerWidget {
         main.bindWidget("results", null);
         
         beerFindButton.clicked().addListener(this, new Signal.Listener() {
+            //Search the beer
             public void trigger() {
                 try {
                     String url = SearchUtils.getBeerURL(beerSearch.getText());
                     if (url != null) {
+                        //if only one beer is found redirect to the beer page
                         Application.getInstance().internalRedirect("/" + Application.BEERS_URL + "/" + url);
                     } else {
+                        //if none of more are found show the results
                         showResults(beerSearch.getText(), main);
                     }
                 } catch (SQLException e) {
@@ -77,6 +81,7 @@ public class BeerSearchForm extends WContainerWidget {
         }
     }
     
+    //show a list of all matching beers
     private void showResults(String needle, WTemplate main) throws SQLException {
         List<BeerUrl> beers = findMatchingBeers(needle);
         
@@ -99,6 +104,7 @@ public class BeerSearchForm extends WContainerWidget {
         }
     }
     
+    //Class to represent beerUrl and name
     class BeerUrl {
         public BeerUrl(Record r) {
             this.name = r.getValue(BEER.NAME);
@@ -107,6 +113,7 @@ public class BeerSearchForm extends WContainerWidget {
         String name;
         String url;
     }
+    //Query the database for beers that match the search
     private List<BeerUrl> findMatchingBeers(String beerName) throws SQLException {
         Application app = Application.getInstance();
         Connection conn = null;

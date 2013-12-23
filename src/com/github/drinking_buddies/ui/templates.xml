@@ -178,6 +178,7 @@
 			<div class="row-fluid padding5"><div>${is-drinking-in}</div></div>
 			<div class="row-fluid padding5"><div>${share-location}${stop-share-location}</div></div>
 			<div class="row-fluid padding5"><div>${friend-import}</div></div>
+			<div class="row-fluid padding5"><div>${logout}</div></div>
 		</div>
 			
 		</div>

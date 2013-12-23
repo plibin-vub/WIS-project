@@ -76,6 +76,7 @@
 	<message id="user-form.share-location">Share location</message>
 	<message id="user-form.stop-share-location">Stop sharing location</message>
 	<message id="user-form.friend-import">Import your friends from facebook</message>
+	<message id="user-form.logout">logout</message>
 	
 	<message id="new-bar-form.title">Add a new bar</message>
 	<message id="new-bar-form.name">Name of the bar</message>

@@ -24,7 +24,7 @@ import eu.webtoolkit.jwt.WLineEdit;
 import eu.webtoolkit.jwt.WLink;
 import eu.webtoolkit.jwt.WPushButton;
 import eu.webtoolkit.jwt.WTemplate;
-
+//This form lets the user search for a bar.
 public class BarSearchForm extends WContainerWidget {
     public BarSearchForm() {
         this(null, null);
@@ -57,8 +57,10 @@ public class BarSearchForm extends WContainerWidget {
                 try {
                     String url = SearchUtils.getBarURL(barSearch.getText());
                     if (url != null) {
+                        //only on bar is found redirect to this bar
                         Application.getInstance().internalRedirect("/" + Application.BARS_URL + "/" + url);
                     } else {
+                        //none or more bars are found show the results
                         showResults(barSearch.getText(), main);
                     }
                 } catch (SQLException e) {
@@ -90,6 +92,7 @@ public class BarSearchForm extends WContainerWidget {
         }
     }
     
+    //Show a list of bars found
     private void showResults(String needle, WTemplate main) throws SQLException {
         List<BarUrl> bars = findMatchingBars(needle);
         
@@ -110,6 +113,7 @@ public class BarSearchForm extends WContainerWidget {
         }
     }
     
+    //Class representing the barUrl and name
     class BarUrl {
         public BarUrl(Record r) {
             this.name = r.getValue(BAR.NAME);
@@ -118,6 +122,8 @@ public class BarSearchForm extends WContainerWidget {
         String name;
         String url;
     }
+    
+    //Query the database for bars matching the search.
     private List<BarUrl> findMatchingBars(String barName) throws SQLException {
         Application app = Application.getInstance();
         Connection conn = null;

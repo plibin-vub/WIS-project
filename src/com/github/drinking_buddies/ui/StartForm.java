@@ -108,6 +108,7 @@ public class StartForm extends WContainerWidget {
         }
     }
     
+    //Get the user from the database if the user doesn't exists add the user.
     private void authenticated(Identity id, OAuthAccessToken token) throws SQLException, RestException {
         Application app = Application.getInstance();
         Connection conn = app.getConnection();
@@ -164,6 +165,7 @@ public class StartForm extends WContainerWidget {
         }
     }
     
+    //Generate a url for a user
     private String createUserURL(Person p) {
         //in order to be complete, 
         //we should check that this URL is not in the database yet:
